@@ -1,24 +1,30 @@
-import LocalizedStrings from 'react-localization'
-import * as langHelper from '../common/langHelper'
+import LocalizedStrings from "react-localization";
+import * as langHelper from "../common/langHelper";
 
 const COPYRIGHT_PART1 = `Copyright © ${new Date().getFullYear()} BookCars`
 
 const strings = new LocalizedStrings({
   fr: {
-    DROP_OFF: 'Restituer au même endroit',
+    DROP_OFF: "Restituer au même endroit",
     COPYRIGHT_PART1,
     COPYRIGHT_PART2: '®',
     COPYRIGHT_PART3: '. Tous droits réservés.',
     COVER: 'Les meilleurs agences de location de voitures',
   },
   en: {
-    DROP_OFF: 'Return to same location',
+    DROP_OFF: "Return to same location",
     COPYRIGHT_PART1,
-    COPYRIGHT_PART2: '®',
-    COPYRIGHT_PART3: '. All rights reserved.',
+    COPYRIGHT_PART2: "®",
+    COPYRIGHT_PART3: ". All rights reserved.",
+  },
+  de: {
+    DROP_OFF: "An denselben Ort zurückbringen",
+    COPYRIGHT_PART1,
+    COPYRIGHT_PART2: "®",
+    COPYRIGHT_PART3: ". Alle Rechte vorbehalten.",
     COVER: 'All the top car rental companies',
   },
-})
+});
 
-langHelper.setLanguage(strings)
-export { strings }
+langHelper.setLanguage(strings);
+export { strings };

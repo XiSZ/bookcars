@@ -1,16 +1,20 @@
-import LocalizedStrings from 'react-localization'
-import * as langHelper from '../common/langHelper'
+import LocalizedStrings from "react-localization";
+import * as langHelper from "../common/langHelper";
 
 const strings = new LocalizedStrings({
   fr: {
-    PICK_UP_LOCATION: 'Lieu de prise en charge',
-    DROP_OFF_LOCATION: 'Lieu de restitution',
+    PICK_UP_LOCATION: "Lieu de prise en charge",
+    DROP_OFF_LOCATION: "Lieu de restitution",
   },
   en: {
-    PICK_UP_LOCATION: 'Pickup location',
-    DROP_OFF_LOCATION: 'Drop-off location',
+    PICK_UP_LOCATION: "Pickup location",
+    DROP_OFF_LOCATION: "Drop-off location",
   },
-})
+  de: {
+    PICKUP_LOCATION: "Abholort",
+    DROP_OFF_LOCATION: "Abgabeort",
+  },
+});
 
-langHelper.setLanguage(strings)
-export { strings }
+langHelper.setLanguage(strings);
+export { strings };
