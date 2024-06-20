@@ -24,7 +24,7 @@ const strings = new LocalizedStrings({
     ERROR_IN_SIGN_IN: "Falsche E-Mail oder Passwort.",
     IS_BLACKLISTED: "Ihr Konto ist gesperrt.",
     RESET_PASSWORD: "Passwort vergessen?",
-    STAY_CONNECTED: "Verbunden bleiben",
+    STAY_CONNECTED: "Eingeloggt bleiben",
   },
 });
 
