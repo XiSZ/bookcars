@@ -11,7 +11,7 @@ const strings = new LocalizedStrings({
     DROP_OFF_LOCATION: "Drop-off location",
   },
   de: {
-    PICKUP_LOCATION: "Abholort",
+    PICK_UP_LOCATION: "Abholort",
     DROP_OFF_LOCATION: "Abgabeort",
   },
 });

@@ -220,7 +220,7 @@ const strings = new LocalizedStrings({
     RESEND_ACTIVATION_LINK: "Kontoaktivierungslink erneut senden",
     ACTIVATION_EMAIL_SENT: "Aktivierungs-E-Mail gesendet.",
     EMAIL_NOT_VALID: "Ungültige E-Mail-Adresse",
-    PICKUP_LOCATION: "Abholort",
+    PICK_UP_LOCATION: "Abholort",
     DROP_OFF_LOCATION: "Rückgabeort",
     PHONE_NOT_VALID: "Ungültige Telefonnummer",
     ALL: "Alle",
