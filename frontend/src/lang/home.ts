@@ -27,7 +27,7 @@ const strings = new LocalizedStrings({
     DROP_OFF_DATE: "Rückgabedatum",
     DROP_OFF: "Zurück zum selben Ort",
     COVER: "Top Autovermietungen",
-    SUPPLIERS_TITLE: "Verbindung zu den größten Marken herstellen",
+    SUPPLIERS_TITLE: "Bei den besten buchen",
     MAP_TITLE: "Karte der Autovermietungsstandorte",
     MAP_PICK_UP_SELECTED: "Abholort ausgewählt",
     MAP_DROP_OFF_SELECTED: "Rückgabeort ausgewählt",
