@@ -8,10 +8,12 @@ const strings = new LocalizedStrings({
     BOOKINGS: "Réservations",
     ABOUT: "À propos",
     TOS: "Conditions d'utilisation",
-    CONTACT: "Contact",
-    LANGUAGE: "Langue",
-    SETTINGS: "Paramètres",
-    SIGN_OUT: "Déconnexion",
+    CONTACT: 'Contact',
+    LANGUAGE: 'Langue',
+    SETTINGS: 'Paramètres',
+    SIGN_OUT: 'Déconnexion',
+    SUPPLIERS: 'Fournisseurs',
+    LOCATIONS: 'Lieux',
   },
   en: {
     SIGN_IN: "Sign in",
@@ -34,6 +36,8 @@ const strings = new LocalizedStrings({
     LANGUAGE: "Sprache",
     SETTINGS: "Einstellungen",
     SIGN_OUT: "Ausloggen",
+    SUPPLIERS: 'Mietwagenanbieter',
+    LOCATIONS: 'Standorte',
   },
 });
 

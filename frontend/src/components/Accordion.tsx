@@ -38,11 +38,17 @@ const Accordion = ({
 
   useEffect(() => {
     if (collapse && accordionRef.current) {
-      const panel = accordionRef.current.nextElementSibling as HTMLDivElement
       accordionRef.current.classList.toggle('accordion-active')
+    }
+  }, [collapse])
+
+  useEffect(() => {
+    if (collapse && accordionRef.current) {
+      const panel = accordionRef.current.nextElementSibling as HTMLDivElement
       panel.style.maxHeight = `${panel.scrollHeight + offsetHeight}px`
     }
-  }, [collapse, offsetHeight])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [offsetHeight])
 
   return (
     <div className={`${className ? `${className} ` : ''}accordion-container`}>

@@ -33,7 +33,7 @@ export const __env__ = (
  *
  * @type {string[]}
  */
-export const LANGUAGES = ["en", "fr", "el", "de"];
+export const LANGUAGES = ["en", "fr", "de"];
 
 /**
  * Server Port. Default is 4002.
