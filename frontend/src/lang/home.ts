@@ -1,30 +1,37 @@
 import LocalizedStrings from "react-localization";
 import * as langHelper from "../common/langHelper";
 
-const COPYRIGHT_PART1 = `Copyright © ${new Date().getFullYear()} BookCars`
-
 const strings = new LocalizedStrings({
   fr: {
+    PICK_UP_DATE: "Date de prise en charge",
+    DROP_OFF_DATE: "Date de retour",
     DROP_OFF: "Restituer au même endroit",
-    COPYRIGHT_PART1,
-    COPYRIGHT_PART2: '®',
-    COPYRIGHT_PART3: '. Tous droits réservés.',
-    COVER: 'Les meilleurs agences de location de voitures',
+    COVER: "Les meilleurs agences de location de voitures",
+    SUPPLIERS_TITLE: "Vous Connecter aux plus Grandes Enseignes",
+    MAP_TITLE: "Carte des Agences de Location de Voitures",
+    MAP_PICK_UP_SELECTED: "Lieu de prise en charge sélectionné",
+    MAP_DROP_OFF_SELECTED: "Lieu de restitution sélectionné",
   },
   en: {
+    PICK_UP_DATE: "Pick-up Date",
+    DROP_OFF_DATE: "Drop-off Date",
     DROP_OFF: "Return to same location",
-    COPYRIGHT_PART1,
-    COPYRIGHT_PART2: "®",
-    COPYRIGHT_PART3: ". All rights reserved.",
+    COVER: "Top Car Rental Companies",
+    SUPPLIERS_TITLE: "Connecting you to the Biggest Brands",
+    MAP_TITLE: "Map of Car Rental Locations",
+    MAP_PICK_UP_SELECTED: "Pick-up Location selected",
+    MAP_DROP_OFF_SELECTED: "Drop-off Location selected",
   },
   de: {
-    DROP_OFF: "An denselben Ort zurückbringen",
-    COPYRIGHT_PART1,
-    COPYRIGHT_PART2: "®",
-    COPYRIGHT_PART3: ". Alle Rechte vorbehalten.",
-    COVER: 'All the top car rental companies',
+    PICK_UP_DATE: "Abholdatum",
+    DROP_OFF_DATE: "Rückgabedatum",
+    DROP_OFF: "Zurück zum selben Ort",
+    COVER: "Top Autovermietungen",
+    SUPPLIERS_TITLE: "Verbindung zu den größten Marken herstellen",
+    MAP_TITLE: "Karte der Autovermietungsstandorte",
+    MAP_PICK_UP_SELECTED: "Abholort ausgewählt",
+    MAP_DROP_OFF_SELECTED: "Rückgabeort ausgewählt",
   },
 });
-
 langHelper.setLanguage(strings);
 export { strings };

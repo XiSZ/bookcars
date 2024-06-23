@@ -397,19 +397,40 @@ export const getCars = async (req: Request, res: Response) => {
     const { body }: { body: bookcarsTypes.GetCarsPayload } = req
     const page = Number.parseInt(req.params.page, 10)
     const size = Number.parseInt(req.params.size, 10)
-    const suppliers = body.suppliers.map((id) => new mongoose.Types.ObjectId(id))
+    const suppliers = body.suppliers!.map((id) => new mongoose.Types.ObjectId(id))
     const {
       carType,
       gearbox,
       mileage,
       deposit,
       availability,
+      fuelPolicy,
+      carSpecs,
     } = body
     const keyword = escapeStringRegexp(String(req.query.s || ''))
     const options = 'i'
 
     const $match: mongoose.FilterQuery<any> = {
-      $and: [{ name: { $regex: keyword, $options: options } }, { supplier: { $in: suppliers } }],
+      $and: [
+        { name: { $regex: keyword, $options: options } },
+        { supplier: { $in: suppliers } },
+      ],
+    }
+
+    if (fuelPolicy) {
+      $match.$and!.push({ fuelPolicy: { $in: fuelPolicy } })
+    }
+
+    if (carSpecs) {
+      if (typeof carSpecs.aircon !== 'undefined') {
+        $match.$and!.push({ aircon: carSpecs.aircon })
+      }
+      if (typeof carSpecs.moreThanFourDoors !== 'undefined') {
+        $match.$and!.push({ doors: { $gt: 4 } })
+      }
+      if (typeof carSpecs.moreThanFiveSeats !== 'undefined') {
+        $match.$and!.push({ seats: { $gt: 5 } })
+      }
     }
 
     if (carType) {
@@ -463,23 +484,24 @@ export const getCars = async (req: Request, res: Response) => {
           },
         },
         { $unwind: { path: '$supplier', preserveNullAndEmptyArrays: false } },
-        {
-          $lookup: {
-            from: 'Location',
-            let: { locations: '$locations' },
-            pipeline: [
-              {
-                $match: {
-                  $expr: { $in: ['$_id', '$$locations'] },
-                },
-              },
-            ],
-            as: 'locations',
-          },
-        },
+        // {
+        //   $lookup: {
+        //     from: 'Location',
+        //     let: { locations: '$locations' },
+        //     pipeline: [
+        //       {
+        //         $match: {
+        //           $expr: { $in: ['$_id', '$$locations'] },
+        //         },
+        //       },
+        //     ],
+        //     as: 'locations',
+        //   },
+        // },
         {
           $facet: {
             resultData: [{ $sort: { updatedAt: -1, _id: 1 } }, { $skip: (page - 1) * size }, { $limit: size }],
+            // resultData: [{ $sort: { price: 1, _id: 1 } }, { $skip: (page - 1) * size }, { $limit: size }],
             pageInfo: [
               {
                 $count: 'totalRecords',
@@ -561,13 +583,15 @@ export const getFrontendCars = async (req: Request, res: Response) => {
     const { body }: { body: bookcarsTypes.GetCarsPayload } = req
     const page = Number.parseInt(req.params.page, 10)
     const size = Number.parseInt(req.params.size, 10)
-    const suppliers = body.suppliers.map((id) => new mongoose.Types.ObjectId(id))
+    const suppliers = body.suppliers!.map((id) => new mongoose.Types.ObjectId(id))
     const pickupLocation = new mongoose.Types.ObjectId(body.pickupLocation)
     const {
       carType,
       gearbox,
       mileage,
+      fuelPolicy,
       deposit,
+      carSpecs,
     } = body
 
     const $match: mongoose.FilterQuery<any> = {
@@ -577,6 +601,22 @@ export const getFrontendCars = async (req: Request, res: Response) => {
         { available: true }, { type: { $in: carType } },
         { gearbox: { $in: gearbox } },
       ],
+    }
+
+    if (fuelPolicy) {
+      $match.$and!.push({ fuelPolicy: { $in: fuelPolicy } })
+    }
+
+    if (carSpecs) {
+      if (typeof carSpecs.aircon !== 'undefined') {
+        $match.$and!.push({ aircon: carSpecs.aircon })
+      }
+      if (typeof carSpecs.moreThanFourDoors !== 'undefined') {
+        $match.$and!.push({ doors: { $gt: 4 } })
+      }
+      if (typeof carSpecs.moreThanFiveSeats !== 'undefined') {
+        $match.$and!.push({ seats: { $gt: 5 } })
+      }
     }
 
     if (mileage) {
@@ -611,23 +651,23 @@ export const getFrontendCars = async (req: Request, res: Response) => {
           },
         },
         { $unwind: { path: '$supplier', preserveNullAndEmptyArrays: false } },
-        {
-          $lookup: {
-            from: 'Location',
-            let: { locations: '$locations' },
-            pipeline: [
-              {
-                $match: {
-                  $expr: { $in: ['$_id', '$$locations'] },
-                },
-              },
-            ],
-            as: 'locations',
-          },
-        },
+        // {
+        //   $lookup: {
+        //     from: 'Location',
+        //     let: { locations: '$locations' },
+        //     pipeline: [
+        //       {
+        //         $match: {
+        //           $expr: { $in: ['$_id', '$$locations'] },
+        //         },
+        //       },
+        //     ],
+        //     as: 'locations',
+        //   },
+        // },
         {
           $facet: {
-            resultData: [{ $sort: { price: 1, name: 1, _id: 1 } }, { $skip: (page - 1) * size }, { $limit: size }],
+            resultData: [{ $sort: { price: 1, _id: 1 } }, { $skip: (page - 1) * size }, { $limit: size }],
             pageInfo: [
               {
                 $count: 'totalRecords',
