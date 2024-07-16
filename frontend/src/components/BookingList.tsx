@@ -35,6 +35,7 @@ import { strings } from '../lang/booking-list'
 import { strings as csStrings } from '../lang/cars'
 import { strings as commonStrings } from '../lang/common'
 import env from '../config/env.config'
+import BookingStatus from './BookingStatus'
 
 import '../assets/css/booking-list.css'
 
@@ -43,9 +44,7 @@ interface BookingListProps {
   statuses?: string[]
   filter?: bookcarsTypes.Filter | null
   car?: string
-  offset?: number
   user?: bookcarsTypes.User
-  containerClassName?: string
   hideDates?: boolean
   hideCarColumn?: boolean
   hideSupplierColumn?: boolean
@@ -60,10 +59,8 @@ const BookingList = ({
   statuses: bookingStatuses,
   filter: bookingFilter,
   car: bookingCar,
-  offset: bookingOffset,
   user: bookingUser,
   loading: bookingLoading,
-  containerClassName,
   hideDates,
   hideCarColumn,
   hideSupplierColumn,
@@ -83,7 +80,6 @@ const BookingList = ({
   const [statuses, setStatuses] = useState<string[] | undefined>(bookingStatuses)
   const [filter, setFilter] = useState<bookcarsTypes.Filter | undefined | null>(bookingFilter)
   const [car, setCar] = useState<string>(bookingCar || '')
-  const [offset, setOffset] = useState(0)
   const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
     pageSize: env.BOOKINGS_PAGE_SIZE,
     page: 0,
@@ -175,10 +171,6 @@ const BookingList = ({
   }, [bookingCar])
 
   useEffect(() => {
-    setOffset(bookingOffset || 0)
-  }, [bookingOffset])
-
-  useEffect(() => {
     setUser(bookingUser)
   }, [bookingUser])
 
@@ -234,7 +226,7 @@ const BookingList = ({
         field: 'status',
         headerName: strings.STATUS,
         flex: 1,
-        renderCell: ({ value }: GridRenderCellParams<bookcarsTypes.Booking, bookcarsTypes.BookingStatus>) => <span className={`bs bs-${value?.toLowerCase()}`}>{helper.getBookingStatus(value)}</span>,
+        renderCell: ({ value }: GridRenderCellParams<bookcarsTypes.Booking, bookcarsTypes.BookingStatus>) => <BookingStatus value={value!} showIcon />,
         valueGetter: (value: string) => value,
       },
       {
@@ -325,24 +317,21 @@ const BookingList = ({
 
   useEffect(() => {
     if (env.isMobile()) {
-      const element: HTMLDivElement | null = (containerClassName
-        ? document.querySelector(`.${containerClassName}`)
-        : document.querySelector('div.bookings'))
+      const element = document.querySelector('body')
 
       if (element) {
-        element.onscroll = (event) => {
-          const target = event.target as HTMLDivElement
+        element.onscroll = () => {
           if (fetch
             && !loading
-            && target.scrollTop > 0
-            && target.offsetHeight + target.scrollTop + env.INFINITE_SCROLL_OFFSET >= target.scrollHeight) {
+            && window.scrollY > 0
+            && window.scrollY + window.innerHeight + env.INFINITE_SCROLL_OFFSET >= document.body.scrollHeight) {
             setLoading(true)
             setPage(page + 1)
           }
         }
       }
     }
-  }, [containerClassName, page, fetch, loading, offset])
+  }, [page, fetch, loading])
 
   const handleCloseCancelBooking = () => {
     setOpenCancelDialog(false)
