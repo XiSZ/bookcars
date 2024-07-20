@@ -53,4 +53,8 @@ export const de = {
     "einen Antrag auf Stornierung der Buchung gestellt hat",
   BOOKING_UPDATED_NOTIFICATION_PART1: "Der Status der Buchung",
   BOOKING_UPDATED_NOTIFICATION_PART2: "wurde aktualisiert.",
-};
+  CONTACT_SUBJECT: "Neue Nachricht vom Kontaktformular",
+  SUBJECT: "Betreff",
+  FROM: "Von",
+  MESSAGE: "Nachricht",
+}
