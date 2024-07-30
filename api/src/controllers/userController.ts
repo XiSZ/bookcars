@@ -94,6 +94,7 @@ const _signup = async (req: Request, res: Response, userType: bookcarsTypes.User
     // Send email
     i18n.locale = user.language
 
+    const activationURL = `http${env.HTTPS ? 's' : ''}://${req.headers.host}/api/confirm-email/${user.email}/${token.token}`
     const mailOptions: nodemailer.SendMailOptions = {
       from: env.SMTP_FROM,
       to: user.email,
@@ -102,7 +103,7 @@ const _signup = async (req: Request, res: Response, userType: bookcarsTypes.User
         `<p>
     ${i18n.t('HELLO')}${user.fullName},<br><br>
     ${i18n.t('ACCOUNT_ACTIVATION_LINK')}<br><br>
-    http${env.HTTPS ? 's' : ''}://${req.headers.host}/api/confirm-email/${user.email}/${token.token}<br><br>
+    <a href="${activationURL}">${activationURL}</a><br><br>
     ${i18n.t('REGARDS')}<br>
     </p>`,
     }
@@ -196,6 +197,7 @@ export const create = async (req: Request, res: Response) => {
     // Send email
     i18n.locale = user.language
 
+    const activationURL = `${helper.joinURL(user.type === bookcarsTypes.UserType.User ? env.FRONTEND_HOST : env.BACKEND_HOST,'activate')}/?u=${encodeURIComponent(user.id)}&e=${encodeURIComponent(user.email)}&t=${encodeURIComponent(token.token)}`
     const mailOptions: nodemailer.SendMailOptions = {
       from: env.SMTP_FROM,
       to: user.email,
@@ -204,10 +206,7 @@ export const create = async (req: Request, res: Response) => {
         `<p>
         ${i18n.t('HELLO')}${user.fullName},<br><br>
         ${i18n.t('ACCOUNT_ACTIVATION_LINK')}<br><br>
-        ${helper.joinURL(
-          user.type === bookcarsTypes.UserType.User ? env.FRONTEND_HOST : env.BACKEND_HOST,
-          'activate',
-        )}/?u=${encodeURIComponent(user.id)}&e=${encodeURIComponent(user.email)}&t=${encodeURIComponent(token.token)}<br><br>
+        <a href=${activationURL}>${activationURL}</a><br><br>
         ${i18n.t('REGARDS')}<br>
         </p>`,
     }
@@ -337,6 +336,7 @@ export const resend = async (req: Request, res: Response) => {
 
       const reset = req.params.reset === 'true'
 
+      const resetPasswordURL = `${helper.joinURL(user.type === bookcarsTypes.UserType.User ? env.FRONTEND_HOST : env.BACKEND_HOST, reset ? 'reset-password' : 'activate')}/?u=${encodeURIComponent(user.id)}&e=${encodeURIComponent(user.email)}&t=${encodeURIComponent(token.token)}`
       const mailOptions: nodemailer.SendMailOptions = {
         from: env.SMTP_FROM,
         to: user.email,
@@ -345,10 +345,7 @@ export const resend = async (req: Request, res: Response) => {
           `<p>
           ${i18n.t('HELLO')}${user.fullName},<br><br>  
           ${reset ? i18n.t('PASSWORD_RESET_LINK') : i18n.t('ACCOUNT_ACTIVATION_LINK')}<br><br>  
-          ${helper.joinURL(
-            user.type === bookcarsTypes.UserType.User ? env.FRONTEND_HOST : env.BACKEND_HOST,
-            reset ? 'reset-password' : 'activate',
-          )}/?u=${encodeURIComponent(user.id)}&e=${encodeURIComponent(user.email)}&t=${encodeURIComponent(token.token)}<br><br>
+          <a href=${resetPasswordURL}>${resetPasswordURL}</a><br><br>
           ${i18n.t('REGARDS')}<br>
           </p>`,
       }
@@ -755,6 +752,7 @@ export const resendLink = async (req: Request, res: Response) => {
 
     // Send email
     i18n.locale = user.language
+    const activationURL = `http${env.HTTPS ? 's' : ''}://${req.headers.host}/api/confirm-email/${user.email}/${token.token}`
     const mailOptions: nodemailer.SendMailOptions = {
       from: env.SMTP_FROM,
       to: user.email,
@@ -763,7 +761,7 @@ export const resendLink = async (req: Request, res: Response) => {
         `<p>
         ${i18n.t('HELLO')}${user.fullName},<br><br>
         ${i18n.t('ACCOUNT_ACTIVATION_LINK')}<br><br>
-        http${env.HTTPS ? 's' : ''}://${req.headers.host}/api/confirm-email/${user.email}/${token.token}<br><br>
+        <a href="${activationURL}">${activationURL}</a><br><br>
         ${i18n.t('REGARDS')}<br>
         </p>`,
     }
