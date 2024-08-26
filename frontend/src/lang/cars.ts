@@ -75,6 +75,13 @@ const strings = new LocalizedStrings({
     LESS_THAN_VALUE_1: `Moins de ${isUS ? env.CURRENCY : ''}${env.DEPOSIT_FILTER_VALUE_1}${!isUS ? (` ${env.CURRENCY}`) : ''}`,
     LESS_THAN_VALUE_2: `Moins de ${isUS ? env.CURRENCY : ''}${env.DEPOSIT_FILTER_VALUE_2}${!isUS ? (` ${env.CURRENCY}`) : ''}`,
     LESS_THAN_VALUE_3: `Moins de ${isUS ? env.CURRENCY : ''}${env.DEPOSIT_FILTER_VALUE_3}${!isUS ? (` ${env.CURRENCY}`) : ''}`,
+    TRIPS: 'locations',
+    CO2: 'Effet C02',
+    FROM_YOU: ' de vous',
+    TITLE_1: 'Auto ',
+    TITLE_2: ' pour vous',
+    TITLE_CAR_AVAILABLE: 'voiture disponoble',
+    TITLE_CARS_AVAILABLE: 'voitures disponobles',
   },
   en: {
     NEW_CAR: 'New car',
@@ -144,6 +151,13 @@ const strings = new LocalizedStrings({
     LESS_THAN_VALUE_1: `Less than ${isUS ? env.CURRENCY : ''}${env.DEPOSIT_FILTER_VALUE_1}${!isUS ? (` ${env.CURRENCY}`) : ''}`,
     LESS_THAN_VALUE_2: `Less than ${isUS ? env.CURRENCY : ''}${env.DEPOSIT_FILTER_VALUE_2}${!isUS ? (` ${env.CURRENCY}`) : ''}`,
     LESS_THAN_VALUE_3: `Less than ${isUS ? env.CURRENCY : ''}${env.DEPOSIT_FILTER_VALUE_3}${!isUS ? (` ${env.CURRENCY}`) : ''}`,
+    TRIPS: 'trips',
+    CO2: 'C02 effect',
+    FROM_YOU: ' from you',
+    TITLE_1: 'Auto ',
+    TITLE_2: ' for you',
+    TITLE_CAR_AVAILABLE: 'car available',
+    TITLE_CARS_AVAILABLE: 'cars available',
   },
 })
 
