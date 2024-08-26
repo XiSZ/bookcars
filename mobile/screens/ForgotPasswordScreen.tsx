@@ -53,9 +53,9 @@ const ForgotPasswordScreen = ({ navigation, route }: NativeStackScreenProps<Stac
             setEmailValid(true)
             return false
           }
-          setEmailError(false)
-          setEmailValid(true)
-          return true
+            setEmailError(false)
+            setEmailValid(true)
+            return true
         } catch {
           helper.toast(i18n.t('GENERIC_ERROR'))
           setEmailError(false)
@@ -108,10 +108,7 @@ const ForgotPasswordScreen = ({ navigation, route }: NativeStackScreenProps<Stac
     <View style={styles.master}>
       <Header title={i18n.t('FORGOT_PASSWORD')} hideTitle={false} loggedIn={false} />
 
-      <ScrollView
-        contentContainerStyle={styles.container}
-        keyboardShouldPersistTaps={helper.android() ? 'handled' : 'always'}
-      >
+      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled" nestedScrollEnabled>
         {sent && (
           <View style={styles.contentContainer}>
             <Text style={styles.text}>{i18n.t('RESET_EMAIL_SENT')}</Text>
@@ -156,7 +153,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexGrow: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#f5f5f5',
   },
   contentContainer: {
     width: '100%',
@@ -165,9 +162,7 @@ const styles = StyleSheet.create({
   },
   component: {
     alignSelf: 'stretch',
-    marginTop: 10,
-    marginRight: 10,
-    marginLeft: 10,
+    margin: 10,
   },
 })
 

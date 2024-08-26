@@ -88,8 +88,7 @@ const Header = ({ title,
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#f37022',
-    zIndex: 40,
-    elevation: 40,
+    elevation: 5,
     height: 50,
     display: 'flex',
     flexDirection: 'row',

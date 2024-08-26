@@ -180,11 +180,7 @@ const NotificationList = ({ user, locale, navigation }: NotificationListProps) =
               )}
             </View>
           </View>
-          <ScrollView
-            ref={notificationsListRef}
-            contentContainerStyle={styles.list}
-            keyboardShouldPersistTaps={helper.android() ? 'handled' : 'always'}
-          >
+          <ScrollView ref={notificationsListRef} contentContainerStyle={styles.list} keyboardShouldPersistTaps="handled" nestedScrollEnabled>
             {loading && <ActivityIndicator size="large" color="#f37022" />}
             {rows.map((row) => (
               <View key={row._id} style={styles.notificationContainer}>

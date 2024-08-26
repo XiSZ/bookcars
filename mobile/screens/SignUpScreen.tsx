@@ -321,10 +321,7 @@ const SignUpScreen = ({ navigation, route }: NativeStackScreenProps<StackParams,
       <Header title={i18n.t('SIGN_UP_TITLE')} hideTitle={false} loggedIn={false} />
 
       {language && (
-        <ScrollView
-          contentContainerStyle={styles.container}
-          keyboardShouldPersistTaps={helper.android() ? 'handled' : 'always'}
-        >
+        <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled" nestedScrollEnabled>
           <View style={styles.contentContainer}>
             <TextInput
               ref={fullNameRef}

@@ -136,32 +136,25 @@ const Cars = () => {
   const onLoad = async (_user?: bookcarsTypes.User) => {
     setUser(_user)
     setLanguage(_user?.language as string)
-    const _isAdmin = helper.admin(_user)
-    setAdmin(_isAdmin)
+    setAdmin(helper.admin(_user))
 
-    if (_isAdmin) {
-      const payload: bookcarsTypes.GetCarsPayload = {
-        carSpecs,
-        carType,
-        gearbox,
-        mileage,
-        fuelPolicy,
-        deposit,
-        availability,
-        ranges,
-        multimedia,
-        rating,
-        seats,
-      }
-      const _allSuppliers = await SupplierService.getBackendSuppliers(payload)
-      const _suppliers = bookcarsHelper.flattenSuppliers(_allSuppliers)
-      setAllSuppliers(_allSuppliers)
-      setSuppliers(_suppliers)
-    } else {
-      const supplierId = (_user && _user._id) as string
-      setSuppliers([supplierId])
+    const payload: bookcarsTypes.GetCarsPayload = {
+      carSpecs,
+      carType,
+      gearbox,
+      mileage,
+      fuelPolicy,
+      deposit,
+      availability,
+      ranges,
+      multimedia,
+      rating,
+      seats,
     }
-
+    const _allSuppliers = await SupplierService.getBackendSuppliers(payload)
+    const _suppliers = bookcarsHelper.flattenSuppliers(_allSuppliers)
+    setAllSuppliers(_allSuppliers)
+    setSuppliers(_suppliers)
     setLoading(false)
   }
 

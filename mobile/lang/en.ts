@@ -245,7 +245,4 @@ export const en = {
   RATING_2: '2/5 and up',
   RATING_3: '3/5 and up',
   RATING_4: '4/5 and up',
-
-  TRIPS: 'trips',
-  CO2: 'C02 effect',
 }

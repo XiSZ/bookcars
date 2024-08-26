@@ -4,7 +4,6 @@ import * as langHelper from '../common/langHelper'
 
 const strings = new LocalizedStrings({
   fr: {
-    BOOKCARS: 'BookCars',
     GENERIC_ERROR: "Une erreur non gérée s'est produite.",
     CHANGE_LANGUAGE_ERROR: "Une erreur s'est produite lors du changement de langue.",
     UPDATED: 'Modifications effectuées avec succès.',
@@ -88,7 +87,6 @@ const strings = new LocalizedStrings({
     OR: 'ou',
   },
   en: {
-    BOOKCARS: 'BookCars',
     GENERIC_ERROR: 'An unhandled error occurred.',
     CHANGE_LANGUAGE_ERROR: 'An error occurred while changing language.',
     UPDATED: 'Changes made successfully.',

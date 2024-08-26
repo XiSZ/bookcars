@@ -19,13 +19,13 @@ const ChangePasswordScreen = ({ navigation, route }: NativeStackScreenProps<Stac
   const [currentPassword, setCurrentPassword] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+
   const [currentPasswordRequired, setCurrentPasswordRequired] = useState(false)
   const [currentPasswordError, setCurrentPasswordError] = useState(false)
   const [passwordRequired, setPasswordRequired] = useState(false)
   const [confirmPasswordRequired, setConfirmPasswordRequired] = useState(false)
   const [passwordLengthError, setPasswordLengthError] = useState(false)
   const [confirmPasswordError, setConfirmPasswordError] = useState(false)
-  const [hasPassword, setHasPassword] = useState(false)
 
   const currentPasswordRef = useRef<ReactTextInput>(null)
   const passwordRef = useRef<ReactTextInput>(null)
@@ -45,13 +45,6 @@ const ChangePasswordScreen = ({ navigation, route }: NativeStackScreenProps<Stac
     if (confirmPasswordRef.current) {
       confirmPasswordRef.current.clear()
     }
-
-    setCurrentPasswordRequired(false)
-    setCurrentPasswordError(false)
-    setPasswordRequired(false)
-    setConfirmPasswordRequired(false)
-    setPasswordLengthError(false)
-    setConfirmPasswordError(false)
   }
 
   const _init = async () => {
@@ -74,9 +67,6 @@ const ChangePasswordScreen = ({ navigation, route }: NativeStackScreenProps<Stac
         await UserService.signout(navigation, false, true)
         return
       }
-
-      const status = await UserService.hasPassword(_user!._id!)
-      setHasPassword(status === 200)
 
       setUser(_user)
       setVisible(true)
@@ -101,16 +91,13 @@ const ChangePasswordScreen = ({ navigation, route }: NativeStackScreenProps<Stac
   const validatePassword = async () => {
     try {
       if (user && user._id) {
-        if (hasPassword && !currentPassword) {
+        if (!currentPassword) {
           setCurrentPasswordRequired(true)
           setCurrentPasswordError(false)
           return false
         }
 
-        let status = 200
-        if (hasPassword) {
-          status = await UserService.checkPassword(user._id, currentPassword)
-        }
+        const status = await UserService.checkPassword(user._id, currentPassword)
 
         if (status !== 200) {
           setCurrentPasswordRequired(false)
@@ -185,13 +172,12 @@ const ChangePasswordScreen = ({ navigation, route }: NativeStackScreenProps<Stac
         _id: user._id,
         password: currentPassword,
         newPassword: password,
-        strict: hasPassword,
+        strict: true,
       }
 
       const status = await UserService.changePassword(data)
 
       if (status === 200) {
-        setHasPassword(true)
         clear()
         helper.toast(i18n.t('PASSWORD_UPDATE'))
       } else {
@@ -205,27 +191,22 @@ const ChangePasswordScreen = ({ navigation, route }: NativeStackScreenProps<Stac
   return (
     <Layout style={styles.master} navigation={navigation} route={route} onLoad={onLoad} reload={reload} strict>
       {visible && (
-        <ScrollView
-          contentContainerStyle={styles.container}
-          keyboardShouldPersistTaps={helper.android() ? 'handled' : 'always'}
-        >
+        <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled" nestedScrollEnabled>
           <View style={styles.contentContainer}>
-            {hasPassword && (
-              <TextInput
-                ref={currentPasswordRef}
-                style={styles.component}
-                secureTextEntry
-                label={i18n.t('CURRENT_PASSWORD')}
-                value={currentPassword}
-                error={currentPasswordRequired || currentPasswordError}
-                helperText={
-                  (currentPasswordRequired && i18n.t('REQUIRED'))
-                  || (currentPasswordError && i18n.t('PASSWORD_ERROR'))
-                  || ''
-                }
-                onChangeText={onChangeCurrentPassword}
-              />
-            )}
+            <TextInput
+              ref={currentPasswordRef}
+              style={styles.component}
+              secureTextEntry
+              label={i18n.t('CURRENT_PASSWORD')}
+              value={currentPassword}
+              error={currentPasswordRequired || currentPasswordError}
+              helperText={
+                (currentPasswordRequired && i18n.t('REQUIRED'))
+                || (currentPasswordError && i18n.t('PASSWORD_ERROR'))
+                || ''
+              }
+              onChangeText={onChangeCurrentPassword}
+            />
 
             <TextInput
               ref={passwordRef}

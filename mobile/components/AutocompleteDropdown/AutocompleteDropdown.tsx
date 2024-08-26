@@ -1,5 +1,5 @@
 import React, { forwardRef, memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
-import { Dimensions, Keyboard, Platform, Pressable, View, TextInput, ScrollView } from 'react-native'
+import { Dimensions, Keyboard, Platform, ScrollView, Pressable, View, TextInput } from 'react-native'
 import { moderateScale, ScaledSheet } from 'react-native-size-matters'
 import debounce from 'lodash.debounce'
 import PropTypes from 'prop-types'
@@ -7,7 +7,8 @@ import { withFadeAnimation } from './HOC/withFadeAnimation'
 import { NothingFound } from './NothingFound'
 import { RightButton } from './RightButton'
 import { ScrollViewListItem } from './ScrollViewListItem'
-import * as helper from '../../common/helper'
+
+// TODO Complete rewrite to TypeScript
 
 export interface AutocompleteOption {
   id: string
@@ -126,14 +127,14 @@ export const AutocompleteDropdown: any = memo(
      */
     useEffect(() => {
       if (props.blur) {
-        inputRef.current?.blur()
+        inputRef.current.blur()
       }
     }, [props.blur])
 
     const _onSelectItem = useCallback((item: any) => {
       setSelectedItem(item)
 
-      inputRef.current?.blur()
+      inputRef.current.blur()
       setIsOpened(false)
     }, [])
 
@@ -262,11 +263,11 @@ export const AutocompleteDropdown: any = memo(
       setSearchText('')
       setSelectedItem(null)
       // setIsOpened(false)
-      // inputRef.current?.blur()
+      // inputRef.current.blur()
       setIsOpened(false)
       setIsCleared(true)
       if (!isKeyboardVisible) {
-        inputRef.current?.focus()
+        inputRef.current.focus()
       }
       if (typeof props.onClear === 'function') {
         props.onClear()
@@ -333,7 +334,7 @@ export const AutocompleteDropdown: any = memo(
 
     const onSubmit = useCallback(
       (e: any) => {
-        inputRef.current?.blur()
+        inputRef.current.blur()
         if (props.closeOnSubmit) {
           close()
         }
@@ -346,11 +347,8 @@ export const AutocompleteDropdown: any = memo(
     )
 
     return (
-      <View style={[
-        styles.container,
-        props.containerStyle,
-        Platform.select({ ios: { zIndex: 1 } }),
-      ]}>
+      <View style={[styles.container, props.containerStyle, Platform.select({ ios: { zIndex: 1 } })]}>
+        {/* it's necessary use onLayout here for Androd (bug?) */}
         <View ref={containerRef} onLayout={() => { }} style={[styles.inputContainerStyle, props.inputContainerStyle]}>
           <InputComponent
             ref={inputRef}
@@ -365,7 +363,7 @@ export const AutocompleteDropdown: any = memo(
             style={{
               ...(styles.Input as object),
               height: inputHeight,
-              ...(props.textInputProps || {}).style,
+              ...(props.textInputProps ?? {}).style,
             }}
           />
           <RightButton
@@ -384,34 +382,28 @@ export const AutocompleteDropdown: any = memo(
 
         {isOpened && searchText !== '' && Array.isArray(dataSet) && (
           <View
-            style={[{
+            style={{
               ...(styles.listContainer as object),
+              position,
+              ...(position === 'relative'
+                ? { marginTop: 5 }
+                : {
+                  [direction === 'down' ? 'top' : 'bottom']: inputHeight + 5,
+                }),
               ...props.suggestionsListContainerStyle,
               flex: 1,
-            },
-            Platform.select({
-              android: {
-                position,
-                ...(position === 'relative'
-                  ? { marginTop: 5 }
-                  : {
-                    [direction === 'down' ? 'top' : 'bottom']: inputHeight + 5,
-                  }),
-              }
-            })
-            ]}
+            }}
           >
+            {/* <ScrollViewComponent
+              keyboardDismissMode="on-drag"
+              keyboardShouldPersistTaps="handled"
+              style={{ maxHeight: suggestionsListMaxHeight }}
+              nestedScrollEnabled={true}
+              onScrollBeginDrag={Keyboard.dismiss}
+            > */}
             <ScrollViewComponent
-              keyboardShouldPersistTaps={helper.android() ? 'handled' : 'always'}
-              automaticallyAdjustKeyboardInsets
+              keyboardShouldPersistTaps="handled"
               nestedScrollEnabled
-
-              // extraHeight={135}
-              // extraScrollHeight={70}
-              // scrollEnabled
-              // enabledOnAndroid
-              // automaticallyAdjustContentInsets
-
               style={{
                 maxHeight: suggestionsListMaxHeight,
                 zIndex: 999,
@@ -482,8 +474,7 @@ const styles = ScaledSheet.create({
     flexGrow: 1,
     flexShrink: 1,
     overflow: 'hidden',
-    paddingHorizontal: 15,
-    // marginHorizontal: 15,
+    paddingHorizontal: 13,
     fontSize: 16,
   },
   listContainer: {

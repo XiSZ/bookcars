@@ -12,7 +12,6 @@ import TextInput from './TextInput'
 interface BookingFilterProps {
   visible?: boolean
   style?: object
-  backgroundColor?: string
   language?: string
   onSubmit: (filter: bookcarsTypes.Filter) => void
 }
@@ -20,7 +19,6 @@ interface BookingFilterProps {
 const BookingFilter = ({
   visible,
   style,
-  backgroundColor = '#F5F5F5',
   language,
   onSubmit
 }: BookingFilterProps) => {
@@ -87,7 +85,7 @@ const BookingFilter = ({
         <Accordion style={styles.accordion} title={i18n.t('SEARCH')}>
           <DateTimePicker
             mode="date"
-            backgroundColor={backgroundColor}
+            backgroundColor="#fff"
             locale={language}
             style={styles.component}
             size="small"
@@ -115,7 +113,7 @@ const BookingFilter = ({
 
           <DateTimePicker
             mode="date"
-            backgroundColor={backgroundColor}
+            backgroundColor="#fff"
             locale={language}
             style={styles.component}
             size="small"
@@ -132,8 +130,7 @@ const BookingFilter = ({
           />
 
           <LocationSelectList
-            backgroundColor={backgroundColor}
-            placeholderTextColor="#a3a3a3"
+            backgroundColor="#fff"
             label={i18n.t('PICKUP_LOCATION')}
             style={styles.component}
             size="small"
@@ -151,8 +148,7 @@ const BookingFilter = ({
           />
 
           <LocationSelectList
-            backgroundColor={backgroundColor}
-            placeholderTextColor="#a3a3a3"
+            backgroundColor="#fff"
             label={i18n.t('DROP_OFF_LOCATION')}
             style={styles.component}
             size="small"
@@ -169,16 +165,7 @@ const BookingFilter = ({
             blur={blur}
           />
 
-          <TextInput
-            ref={searchRef}
-            backgroundColor={backgroundColor}
-            style={styles.component}
-            size="small"
-            hideLabel
-            label={i18n.t('SEARCH_PLACEHOLDER')}
-            value={keyword}
-            onChangeText={setKeyword}
-          />
+          <TextInput ref={searchRef} backgroundColor="#fff" style={styles.component} size="small" hideLabel label={i18n.t('SEARCH_PLACEHOLDER')} value={keyword} onChangeText={setKeyword} />
 
           <Button style={styles.component} size="small" label={i18n.t('SEARCH')} onPress={onPressSearch} />
         </Accordion>

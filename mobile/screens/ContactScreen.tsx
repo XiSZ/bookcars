@@ -6,7 +6,6 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import i18n from '../lang/i18n'
 import * as UserService from '../services/UserService'
 import Layout from '../components/Layout'
-import * as helper from '../common/helper'
 
 const ContactScreen = ({ navigation, route }: NativeStackScreenProps<StackParams, 'Contact'>) => {
   const isFocused = useIsFocused()
@@ -36,10 +35,7 @@ const ContactScreen = ({ navigation, route }: NativeStackScreenProps<StackParams
   return (
     <Layout style={styles.master} navigation={navigation} route={route} onLoad={onLoad} reload={reload}>
       {visible && (
-        <ScrollView
-          contentContainerStyle={styles.container}
-          keyboardShouldPersistTaps={helper.android() ? 'handled' : 'always'}
-        >
+        <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled" nestedScrollEnabled>
           <Text style={{ fontSize: 16 }}>Contact!</Text>
         </ScrollView>
       )}

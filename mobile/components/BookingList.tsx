@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { ActivityIndicator, StyleSheet, View, Text, RefreshControl } from 'react-native'
-import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view'
+import { ActivityIndicator, FlatList, StyleSheet, View, Text } from 'react-native'
 import { Paragraph, Dialog, Portal, Button as NativeButton } from 'react-native-paper'
 import { enUS, fr } from 'date-fns/locale'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { CommonActions } from '@react-navigation/native'
 import * as bookcarsTypes from ':bookcars-types'
 import * as env from '../config/env.config'
 import i18n from '../lang/i18n'
@@ -13,7 +10,6 @@ import * as BookingService from '../services/BookingService'
 import Booking from './Booking'
 
 interface BookingListProps {
-  navigation: NativeStackNavigationProp<StackParams, keyof StackParams>
   suppliers?: string[]
   statuses?: string[]
   filter?: bookcarsTypes.Filter
@@ -24,7 +20,6 @@ interface BookingListProps {
 }
 
 const BookingList = ({
-  navigation,
   suppliers,
   statuses,
   filter,
@@ -45,7 +40,6 @@ const BookingList = ({
   const [cancelRequestSent, setCancelRequestSent] = useState(false)
   const [deleted, setDeleted] = useState(false)
   const [locale, setLoacle] = useState(fr)
-  const [refreshing, setRefreshing] = useState(false)
 
   const fetchData = async (reset = false) => {
     try {
@@ -143,17 +137,12 @@ const BookingList = ({
 
   return (
     <View style={styles.container}>
-      <KeyboardAwareFlatList
-        automaticallyAdjustKeyboardInsets
-        keyboardShouldPersistTaps={helper.android() ? 'handled' : 'always'}
-
-        extraHeight={20}
-        extraScrollHeight={20}
-        enableOnAndroid
-
+      <FlatList
+        keyboardShouldPersistTaps="handled"
         initialNumToRender={numToRender}
         maxToRenderPerBatch={numToRender}
         removeClippedSubviews
+        nestedScrollEnabled
         contentContainerStyle={styles.contentContainer}
         style={styles.flatList}
         data={rows}
@@ -191,30 +180,6 @@ const BookingList = ({
             : <></>
         }
         refreshing={loading}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={() => {
-            setRefreshing(true)
-
-            navigation.dispatch((state) => {
-              const { routes } = state
-              const index = routes.findIndex((r) => r.name === 'Bookings')
-              routes.splice(index, 1)
-              const now = Date.now()
-              routes.push({
-                name: 'Bookings',
-                key: `Bookings-${now}`,
-                params: {},
-              })
-
-              return CommonActions.reset({
-                ...state,
-                routes,
-                index: routes.length - 1,
-              })
-            })
-          }}
-          />
-        }
       />
 
       <Portal>
@@ -299,7 +264,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   contentContainer: {
-    flexGrow: 1,
     alignSelf: 'stretch',
     paddingTop: 10,
     paddingBottom: 10,

@@ -31,17 +31,16 @@ const Accordion = ({
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      // borderTopWidth: 1,
-      // borderRightWidth: 1,
-      // borderBottomWidth: open ? 1 : 0,
-      // borderLeftWidth: 1,
-      // borderColor: '#d9d8d9',
-      // borderRadius: 5,
-      // backgroundColor: '#fff',
+      borderTopWidth: 1,
+      borderRightWidth: 1,
+      borderBottomWidth: open ? 1 : 0,
+      borderLeftWidth: 1,
+      borderColor: '#d9d8d9',
+      borderRadius: 5,
+      backgroundColor: '#fff',
     },
     title: {
       flex: 1,
-      backgroundColor: '#fff',
     },
     titleTouchable: {
       flex: 1,
@@ -57,14 +56,9 @@ const Accordion = ({
       alignItems: 'center',
       alignSelf: 'stretch',
       paddingRight: 5,
-
-      borderColor: '#d9d8d9',
       borderBottomWidth: 1,
-      // borderTopWidth: 1,
-      // borderRightWidth: 1,
-      // borderLeftWidth: 1,
-      // borderRadius: open ? 0 : 4,
-
+      borderColor: '#d9d8d9',
+      borderRadius: open ? 0 : 4,
       paddingTop: 5,
       paddingBottom: 5,
     },
@@ -85,8 +79,7 @@ const Accordion = ({
       justifyContent: 'center',
       paddingTop: open ? 7 : 0,
       paddingBottom: open ? 7 : 0,
-      // opacity: open ? 1 : 0,
-      // display: open ? 'flex' : 'none',
+      opacity: open ? 1 : 0,
       height: open ? 'auto' : 0,
       width: open ? 'auto' : 0,
     },
@@ -126,7 +119,7 @@ const Accordion = ({
           </View>
         </TouchableWithoutFeedback>
       </View>
-      {open && <View style={styles.bodyContainer}>{children}</View>}
+      <View style={styles.bodyContainer}>{children}</View>
     </View>
   )
 }

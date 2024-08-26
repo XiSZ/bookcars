@@ -12,57 +12,42 @@ interface BookingStatusProps {
 const BookingStatus = ({
   style,
   status
-}: BookingStatusProps) => {
-  const styles = StyleSheet.create({
-    container: {
-      height: 28,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 18,
-    },
-    text: {
-      color: status === bookcarsTypes.BookingStatus.Void
-        ? '#6E7C86'
-        : status === bookcarsTypes.BookingStatus.Pending
-          ? '#EF6C00'
-          : status === bookcarsTypes.BookingStatus.Deposit
-            ? '#3CB371'
-            : status === bookcarsTypes.BookingStatus.Paid
-              ? '#77BC23'
-              : status === bookcarsTypes.BookingStatus.Reserved
-                ? '#1E88E5'
-                : status === bookcarsTypes.BookingStatus.Cancelled
-                  ? '#E53935'
-                  : 'transparent',
-      fontSize: 13,
-      fontWeight: '400',
-    },
-  })
-
-  return (
+}: BookingStatusProps) => (
     <View
       style={{
         ...styles.container,
         ...style,
         backgroundColor:
           status === bookcarsTypes.BookingStatus.Void
-            ? '#D9D9D9'
+            ? '#999'
             : status === bookcarsTypes.BookingStatus.Pending
-              ? '#FBDCC2'
+              ? '#e98003'
               : status === bookcarsTypes.BookingStatus.Deposit
-                ? '#CDECDA'
+                ? '#22bba7'
                 : status === bookcarsTypes.BookingStatus.Paid
-                  ? '#D1F9D1'
+                  ? '#77bc23'
                   : status === bookcarsTypes.BookingStatus.Reserved
-                    ? '#D9E7F4'
+                    ? '#188ace'
                     : status === bookcarsTypes.BookingStatus.Cancelled
-                      ? '#FBDFDE'
+                      ? '#bc2143'
                       : 'transparent',
       }}
     >
       <Text style={styles.text}>{helper.getBookingStatus(status)}</Text>
     </View>
   )
-}
+
+const styles = StyleSheet.create({
+  container: {
+    height: 28,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    color: '#fff',
+    fontSize: 13,
+    fontWeight: '400',
+  },
+})
 
 export default BookingStatus
