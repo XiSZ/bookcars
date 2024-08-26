@@ -159,7 +159,88 @@ const strings = new LocalizedStrings({
     TITLE_CAR_AVAILABLE: 'car available',
     TITLE_CARS_AVAILABLE: 'cars available',
   },
-})
+  de: {
+    NEW_CAR: "Neues Auto",
+    DELETE_CAR: "Möchten Sie dieses Auto wirklich löschen?",
+    FUEL_POLICY: "Kraftstoffpolitik",
+    DIESEL: "Diesel",
+    GASOLINE: "Benzin",
+    ELECTRIC: "Elektrisch",
+    HYBRID: "Hybrid",
+    PLUG_IN_HYBRID: "Plug-in-Hybrid",
+    UNKNOWN: "Nicht spezifiziert",
+    DIESEL_SHORT: "D",
+    GASOLINE_SHORT: "B",
+    ELECTRIC_SHORT: "E",
+    HYBRID_SHORT: "H",
+    PLUG_IN_HYBRID_SHORT: "PH",
+    GEARBOX_MANUAL: "Manuell",
+    GEARBOX_AUTOMATIC: "Automatisch",
+    GEARBOX_MANUAL_SHORT: "M",
+    GEARBOX_AUTOMATIC_SHORT: "A",
+    FUEL_POLICY_LIKE_FOR_LIKE: "Gleich für Gleich",
+    FUEL_POLICY_FREE_TANK: "Freier Tank",
+    DIESEL_TOOLTIP: "Dieses Auto hat einen Dieselmotor",
+    GASOLINE_TOOLTIP: "Dieses Auto hat einen Benzinmotor",
+    ELECTRIC_TOOLTIP: "Dieses Auto ist elektrisch",
+    HYBRID_TOOLTIP: "Dieses Auto ist ein Hybrid",
+    PLUG_IN_HYBRID_TOOLTIP: "Dieses Auto ist ein Plug-in-Hybrid",
+    GEARBOX_MANUAL_TOOLTIP: "Dieses Auto hat ein manuelles Getriebe",
+    GEARBOX_AUTOMATIC_TOOLTIP: "Dieses Auto hat ein automatisches Getriebe",
+    SEATS_TOOLTIP_1: "Dieses Auto hat ",
+    SEATS_TOOLTIP_2: "Sitze",
+    DOORS_TOOLTIP_1: "Dieses Auto hat ",
+    DOORS_TOOLTIP_2: "Türen",
+    AIRCON_TOOLTIP: "Dieses Auto hat eine Klimaanlage",
+    FUEL_POLICY_LIKE_FOR_LIKE_TOOLTIP:
+      "Dieses Auto wird mit Kraftstoff geliefert und muss mit derselben Menge Kraftstoff zurückgegeben werden.",
+    FUEL_POLICY_FREE_TANK_TOOLTIP:
+      "Der Preis beinhaltet einen vollen Tank Kraftstoff.",
+    MILEAGE: "Kilometerstand",
+    MILEAGE_UNIT: "KM/Tag",
+    UNLIMITED: "Unbegrenzt",
+    LIMITED: "Begrenzt",
+    CANCELLATION: "Stornierung",
+    CANCELLATION_TOOLTIP:
+      "Die Buchung kann vor dem Mietbeginndatum storniert werden.",
+    AMENDMENTS: "Änderungen",
+    AMENDMENTS_TOOLTIP:
+      "Die Buchung kann vor dem Mietbeginndatum geändert werden.",
+    THEFT_PROTECTION: "Diebstahlschutz",
+    THEFT_PROTECTION_TOOLTIP: "Die Miete kann Diebstahlschutz enthalten.",
+    COLLISION_DAMAGE_WAVER: "Kollisionsschadensverzicht",
+    COLLISION_DAMAGE_WAVER_TOOLTIP:
+      "Die Miete kann einen Kollisionsschadensverzicht enthalten.",
+    FULL_INSURANCE: "Vollkaskoversicherung",
+    FULL_INSURANCE_TOOLTIP:
+      "Die Miete kann einen Kollisionsschadensverzicht und Diebstahlschutz des Fahrzeugs enthalten.",
+    ADDITIONAL_DRIVER: "Zusätzlicher Fahrer",
+    INCLUDED: "Inklusive",
+    UNAVAILABLE: "Nicht verfügbar",
+    CAR_AVAILABLE: "Verfügbar zur Miete",
+    CAR_AVAILABLE_TOOLTIP: "Dieses Auto ist verfügbar zur Miete.",
+    CAR_UNAVAILABLE: "Nicht verfügbar zur Miete",
+    CAR_UNAVAILABLE_TOOLTIP: "Dieses Auto ist nicht verfügbar zur Miete.",
+    VIEW_CAR: "Dieses Auto ansehen",
+    EMPTY_LIST: "Keine Autos.",
+    BOOK: "Dieses Auto wählen",
+    PRICE_DAYS_PART_1: "Preis für",
+    PRICE_DAYS_PART_2: "Tag",
+    PRICE_PER_DAY: "Preis pro Tag:",
+    GEARBOX: "Getriebe",
+    ENGINE: "Motor",
+    DEPOSIT: "Kaution bei Abholung",
+    LESS_THAN_VALUE_1: `Weniger als ${isUS ? env.CURRENCY : ""}${
+      env.DEPOSIT_FILTER_VALUE_1
+    }${!isUS ? ` ${env.CURRENCY}` : ""}`,
+    LESS_THAN_VALUE_2: `Weniger als ${isUS ? env.CURRENCY : ""}${
+      env.DEPOSIT_FILTER_VALUE_2
+    }${!isUS ? ` ${env.CURRENCY}` : ""}`,
+    LESS_THAN_VALUE_3: `Weniger als ${isUS ? env.CURRENCY : ""}${
+      env.DEPOSIT_FILTER_VALUE_3
+    }${!isUS ? ` ${env.CURRENCY}` : ""}`,
+  },
+});
 
-langHelper.setLanguage(strings)
-export { strings }
+langHelper.setLanguage(strings);
+export { strings };

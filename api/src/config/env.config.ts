@@ -1,8 +1,8 @@
-import process from 'node:process'
-import { Document, Types } from 'mongoose'
-import { CookieOptions } from 'express'
-import * as bookcarsTypes from ':bookcars-types'
-import * as helper from '../common/helper'
+import process from "node:process";
+import { Document, Types } from "mongoose";
+import { CookieOptions } from "express";
+import * as bookcarsTypes from ":bookcars-types";
+import * as helper from "../common/helper";
 
 /**
  * Get environment variable value.
@@ -12,16 +12,20 @@ import * as helper from '../common/helper'
  * @param {?string} [defaultValue]
  * @returns {string}
  */
-export const __env__ = (name: string, required?: boolean, defaultValue?: string): string => {
-  const value = process.env[name]
+export const __env__ = (
+  name: string,
+  required?: boolean,
+  defaultValue?: string
+): string => {
+  const value = process.env[name];
   if (required && !value) {
-    throw new Error(`'${name} not found`)
+    throw new Error(`'${name} not found`);
   }
   if (!value) {
-    return defaultValue || ''
+    return defaultValue || "";
   }
-  return String(value)
-}
+  return String(value);
+};
 
 /**
  * ISO 639-1 language codes supported
@@ -29,73 +33,78 @@ export const __env__ = (name: string, required?: boolean, defaultValue?: string)
  *
  * @type {string[]}
  */
-export const LANGUAGES = [
-  'en',
-  'fr',
-]
+export const LANGUAGES = ["en", "fr", "de"];
 
 /**
  * Server Port. Default is 4002.
  *
  * @type {number}
  */
-export const PORT = Number.parseInt(__env__('BC_PORT', false, '4002'), 10)
+export const PORT = Number.parseInt(__env__("BC_PORT", false, "4002"), 10);
 
 /**
  * Indicate whether HTTPS is enabled or not.
  *
  * @type {boolean}
  */
-export const HTTPS = helper.StringToBoolean(__env__('BC_HTTPS'))
+export const HTTPS = helper.StringToBoolean(__env__("BC_HTTPS"));
 
 /**
  * Private SSL key filepath.
  *
  * @type {string}
  */
-export const PRIVATE_KEY = __env__('BC_PRIVATE_KEY', HTTPS)
+export const PRIVATE_KEY = __env__("BC_PRIVATE_KEY", HTTPS);
 
 /**
  * Private SSL certificate filepath.
  *
  * @type {string}
  */
-export const CERTIFICATE = __env__('BC_CERTIFICATE', HTTPS)
+export const CERTIFICATE = __env__("BC_CERTIFICATE", HTTPS);
 
 /**
  * MongoDB database URI. Default is: mongodb://127.0.0.1:27017/bookcars?authSource=admin&appName=bookcars
  *
  * @type {string}
  */
-export const DB_URI = __env__('BC_DB_URI', false, 'mongodb://127.0.0.1:27017/bookcars?authSource=admin&appName=bookcars')
+export const DB_URI = __env__(
+  "BC_DB_URI",
+  false,
+  "mongodb://127.0.0.1:27017/bookcars?authSource=admin&appName=bookcars"
+);
 
 /**
  * Indicate whether MongoDB SSL is enabled or not.
  *
  * @type {boolean}
  */
-export const DB_SSL = helper.StringToBoolean(__env__('BC_DB_SSL', false, 'false'))
+export const DB_SSL = helper.StringToBoolean(
+  __env__("BC_DB_SSL", false, "false")
+);
 
 /**
  * MongoDB SSL certificate filepath.
  *
  * @type {string}
  */
-export const DB_SSL_CERT = __env__('BC_DB_SSL_CERT', DB_SSL)
+export const DB_SSL_CERT = __env__("BC_DB_SSL_CERT", DB_SSL);
 
 /**
  * MongoDB SSL CA certificate filepath.
  *
  * @type {string}
  */
-export const DB_SSL_CA = __env__('BC_DB_SSL_CA', DB_SSL)
+export const DB_SSL_CA = __env__("BC_DB_SSL_CA", DB_SSL);
 
 /**
  * Indicate whether MongoDB debug is enabled or not.
  *
  * @type {boolean}
  */
-export const DB_DEBUG = helper.StringToBoolean(__env__('BC_DB_DEBUG', false, 'false'))
+export const DB_DEBUG = helper.StringToBoolean(
+  __env__("BC_DB_DEBUG", false, "false")
+);
 
 /**
  * Cookie secret. It should at least be 32 characters long, but the longer the better.
@@ -110,7 +119,11 @@ export const COOKIE_SECRET = __env__('BC_COOKIE_SECRET', false, 'bookcars')
  *
  * @type {string}
  */
-export const AUTH_COOKIE_DOMAIN = __env__('BC_AUTH_COOKIE_DOMAIN', false, 'localhost')
+export const AUTH_COOKIE_DOMAIN = __env__(
+  "BC_AUTH_COOKIE_DOMAIN",
+  false,
+  "localhost"
+);
 
 /**
  * Cookie options.
@@ -123,28 +136,34 @@ export const AUTH_COOKIE_DOMAIN = __env__('BC_AUTH_COOKIE_DOMAIN', false, 'local
  *
  * @type {CookieOptions}
  */
-export const COOKIE_OPTIONS: CookieOptions = { httpOnly: true, secure: HTTPS, signed: true, sameSite: 'strict', domain: AUTH_COOKIE_DOMAIN }
+export const COOKIE_OPTIONS: CookieOptions = {
+  httpOnly: true,
+  secure: HTTPS,
+  signed: true,
+  sameSite: "strict",
+  domain: AUTH_COOKIE_DOMAIN,
+};
 
 /**
  * frontend authentication cookie name.
  *
  * @type {"bc-x-access-token-frontend"}
  */
-export const FRONTEND_AUTH_COOKIE_NAME = 'bc-x-access-token-frontend'
+export const FRONTEND_AUTH_COOKIE_NAME = "bc-x-access-token-frontend";
 
 /**
  * Backend authentication cookie name.
  *
  * @type {"bc-x-access-token-frontend"}
  */
-export const BACKEND_AUTH_COOKIE_NAME = 'bc-x-access-token-backend'
+export const BACKEND_AUTH_COOKIE_NAME = "bc-x-access-token-backend";
 
 /**
  * Mobile App and unit tests authentication header name.
  *
  * @type {"x-access-token"}
  */
-export const X_ACCESS_TOKEN = 'x-access-token'
+export const X_ACCESS_TOKEN = "x-access-token";
 
 /**
  * JWT secret. It should at least be 32 characters long, but the longer the better.
@@ -158,77 +177,83 @@ export const JWT_SECRET = __env__('BC_JWT_SECRET', false, 'bookcars')
  *
  * @type {number}
  */
-export const JWT_EXPIRE_AT = Number.parseInt(__env__('BC_JWT_EXPIRE_AT', false, '86400'), 10)
+export const JWT_EXPIRE_AT = Number.parseInt(
+  __env__("BC_JWT_EXPIRE_AT", false, "86400"),
+  10
+);
 
 /**
  * Validation Token expiration in seconds. Default is 86400 seconds (1 day).
  *
  * @type {number}
  */
-export const TOKEN_EXPIRE_AT = Number.parseInt(__env__('BC_TOKEN_EXPIRE_AT', false, '86400'), 10)
+export const TOKEN_EXPIRE_AT = Number.parseInt(
+  __env__("BC_TOKEN_EXPIRE_AT", false, "86400"),
+  10
+);
 
 /**
  * SMTP host.
  *
  * @type {string}
  */
-export const SMTP_HOST = __env__('BC_SMTP_HOST', true)
+export const SMTP_HOST = __env__("BC_SMTP_HOST", true);
 
 /**
  * SMTP port.
  *
  * @type {number}
  */
-export const SMTP_PORT = Number.parseInt(__env__('BC_SMTP_PORT', true), 10)
+export const SMTP_PORT = Number.parseInt(__env__("BC_SMTP_PORT", true), 10);
 
 /**
  * SMTP username.
  *
  * @type {string}
  */
-export const SMTP_USER = __env__('BC_SMTP_USER', true)
+export const SMTP_USER = __env__("BC_SMTP_USER", true);
 
 /**
  * SMTP password.
  *
  * @type {string}
  */
-export const SMTP_PASS = __env__('BC_SMTP_PASS', true)
+export const SMTP_PASS = __env__("BC_SMTP_PASS", true);
 
 /**
  * SMTP from email.
  *
  * @type {string}
  */
-export const SMTP_FROM = __env__('BC_SMTP_FROM', true)
+export const SMTP_FROM = __env__("BC_SMTP_FROM", true);
 
 /**
  * Users' cdn folder path.
  *
  * @type {string}
  */
-export const CDN_USERS = __env__('BC_CDN_USERS', true)
+export const CDN_USERS = __env__("BC_CDN_USERS", true);
 
 /**
  * Users' temp cdn folder path.
  *
  * @type {string}
  */
-export const CDN_TEMP_USERS = __env__('BC_CDN_TEMP_USERS', true)
+export const CDN_TEMP_USERS = __env__("BC_CDN_TEMP_USERS", true);
 
 /**
  * Cars' cdn folder path.
  *
  * @type {string}
  */
-export const CDN_CARS = __env__('BC_CDN_CARS', true)
+export const CDN_CARS = __env__("BC_CDN_CARS", true);
 
 /**
  * Cars' temp cdn folder path.
  *
  * @type {string}
  */
-export const CDN_TEMP_CARS = __env__('BC_CDN_TEMP_CARS', true)
+export const CDN_TEMP_CARS = __env__("BC_CDN_TEMP_CARS", true);
 
 /**
  * Locations' cdn folder path.
@@ -249,46 +274,58 @@ export const CDN_TEMP_LOCATIONS = __env__('BC_CDN_TEMP_LOCATIONS', true)
  *
  * @type {string}
  */
-export const BACKEND_HOST = __env__('BC_BACKEND_HOST', true)
+export const BACKEND_HOST = __env__("BC_BACKEND_HOST", true);
 
 /**
  * Frontend host.
  *
  * @type {string}
  */
-export const FRONTEND_HOST = __env__('BC_FRONTEND_HOST', true)
+export const FRONTEND_HOST = __env__("BC_FRONTEND_HOST", true);
 
 /**
  * Default language. Default is en. Available options: en, fr.
  *
  * @type {string}
  */
-export const DEFAULT_LANGUAGE = __env__('BC_DEFAULT_LANGUAGE', false, 'en')
+export const DEFAULT_LANGUAGE = __env__("BC_DEFAULT_LANGUAGE", false, "en");
 
 /**
  * Default Minimum age for rental. Default is 21 years.
  *
  * @type {number}
  */
-export const MINIMUM_AGE = Number.parseInt(__env__('BC_MINIMUM_AGE', false, '21'), 10)
+export const MINIMUM_AGE = Number.parseInt(
+  __env__("BC_MINIMUM_AGE", false, "21"),
+  10
+);
 
 /**
  * Expo push access token.
  *
  * @type {string}
  */
-export const EXPO_ACCESS_TOKEN = __env__('BC_EXPO_ACCESS_TOKEN', false)
+export const EXPO_ACCESS_TOKEN = __env__("BC_EXPO_ACCESS_TOKEN", false);
 
 /**
  * Stripe secret key.
  *
  * @type {string}
  */
-export const STRIPE_SECRET_KEY = __env__('BC_STRIPE_SECRET_KEY', false, 'STRIPE_SECRET_KEY')
+export const STRIPE_SECRET_KEY = __env__(
+  "BC_STRIPE_SECRET_KEY",
+  false,
+  "STRIPE_SECRET_KEY"
+);
 
-let stripeSessionExpireAt = Number.parseInt(__env__('BC_STRIPE_SESSION_EXPIRE_AT', false, '82800'), 10)
-stripeSessionExpireAt = stripeSessionExpireAt < 1800 ? 1800 : stripeSessionExpireAt
-stripeSessionExpireAt = stripeSessionExpireAt <= 82800 ? stripeSessionExpireAt : 82800
+let stripeSessionExpireAt = Number.parseInt(
+  __env__("BC_STRIPE_SESSION_EXPIRE_AT", false, "82800"),
+  10
+);
+stripeSessionExpireAt =
+  stripeSessionExpireAt < 1800 ? 1800 : stripeSessionExpireAt;
+stripeSessionExpireAt =
+  stripeSessionExpireAt <= 82800 ? stripeSessionExpireAt : 82800;
 
 /**
  * Stripe Checkout Session expiration in seconds. Should be at least 1800 seconds (30min) and max 82800 seconds. Default is 82800 seconds (~23h).
@@ -297,7 +334,7 @@ stripeSessionExpireAt = stripeSessionExpireAt <= 82800 ? stripeSessionExpireAt :
  *
  * @type {number}
  */
-export const STRIPE_SESSION_EXPIRE_AT = stripeSessionExpireAt
+export const STRIPE_SESSION_EXPIRE_AT = stripeSessionExpireAt;
 
 /**
  * Booking expiration in seconds.
@@ -305,21 +342,21 @@ export const STRIPE_SESSION_EXPIRE_AT = stripeSessionExpireAt
  *
  * @type {number}
  */
-export const BOOKING_EXPIRE_AT = STRIPE_SESSION_EXPIRE_AT + (10 * 60)
+export const BOOKING_EXPIRE_AT = STRIPE_SESSION_EXPIRE_AT + 10 * 60;
 
 /**
  * Private SSL key filepath.
  *
  * @type {string}
  */
-export const ADMIN_EMAIL = __env__('BC_ADMIN_EMAIL', false)
+export const ADMIN_EMAIL = __env__("BC_ADMIN_EMAIL", false);
 
 /**
  * Google reCAPTCHA v3 secret key.
  *
  * @type {string}
  */
-export const RECAPTCHA_SECRET = __env__('BC_RECAPTCHA_SECRET', false)
+export const RECAPTCHA_SECRET = __env__("BC_RECAPTCHA_SECRET", false);
 
 /**
  * User Document.
@@ -330,24 +367,24 @@ export const RECAPTCHA_SECRET = __env__('BC_RECAPTCHA_SECRET', false)
  * @extends {Document}
  */
 export interface User extends Document {
-  supplier?: Types.ObjectId
-  fullName: string
-  email: string
-  phone?: string
-  password?: string
-  birthDate?: Date
-  verified?: boolean
-  verifiedAt?: Date
-  active?: boolean
-  language: string
-  enableEmailNotifications?: boolean
-  avatar?: string
-  bio?: string
-  location?: string
-  type?: bookcarsTypes.UserType
-  blacklisted?: boolean
-  payLater?: boolean
-  customerId?: string
+  supplier?: Types.ObjectId;
+  fullName: string;
+  email: string;
+  phone?: string;
+  password?: string;
+  birthDate?: Date;
+  verified?: boolean;
+  verifiedAt?: Date;
+  active?: boolean;
+  language: string;
+  enableEmailNotifications?: boolean;
+  avatar?: string;
+  bio?: string;
+  location?: string;
+  type?: bookcarsTypes.UserType;
+  blacklisted?: boolean;
+  payLater?: boolean;
+  customerId?: string;
 }
 
 /**
@@ -358,24 +395,24 @@ export interface User extends Document {
  * @typedef {UserInfo}
  */
 export interface UserInfo {
-  _id?: Types.ObjectId
-  supplier?: Types.ObjectId
-  fullName: string
-  email?: string
-  phone?: string
-  password?: string
-  birthDate?: Date
-  verified?: boolean
-  verifiedAt?: Date
-  active?: boolean
-  language?: string
-  enableEmailNotifications?: boolean
-  avatar?: string
-  bio?: string
-  location?: string
-  type?: string
-  blacklisted?: boolean
-  payLater?: boolean
+  _id?: Types.ObjectId;
+  supplier?: Types.ObjectId;
+  fullName: string;
+  email?: string;
+  phone?: string;
+  password?: string;
+  birthDate?: Date;
+  verified?: boolean;
+  verifiedAt?: Date;
+  active?: boolean;
+  language?: string;
+  enableEmailNotifications?: boolean;
+  avatar?: string;
+  bio?: string;
+  location?: string;
+  type?: string;
+  blacklisted?: boolean;
+  payLater?: boolean;
 }
 
 /**
@@ -386,10 +423,10 @@ export interface UserInfo {
  * @typedef {AdditionalDriver}
  */
 export interface AdditionalDriver {
-  fullName: string
-  email: string
-  phone: string
-  birthDate: Date
+  fullName: string;
+  email: string;
+  phone: string;
+  birthDate: Date;
 }
 
 /**
@@ -401,28 +438,28 @@ export interface AdditionalDriver {
  * @extends {Document}
  */
 export interface Booking extends Document {
-  _id: Types.ObjectId
-  supplier: Types.ObjectId
-  car: Types.ObjectId
-  driver: Types.ObjectId
-  pickupLocation: Types.ObjectId
-  dropOffLocation: Types.ObjectId
-  from: Date
-  to: Date
-  status: bookcarsTypes.BookingStatus
-  cancellation?: boolean
-  amendments?: boolean
-  theftProtection?: boolean
-  collisionDamageWaiver?: boolean
-  fullInsurance?: boolean
-  additionalDriver?: boolean
-  _additionalDriver?: Types.ObjectId
-  cancelRequest?: boolean
-  price: number
-  sessionId?: string
-  paymentIntentId?: string
-  customerId?: string
-  expireAt?: Date
+  _id: Types.ObjectId;
+  supplier: Types.ObjectId;
+  car: Types.ObjectId;
+  driver: Types.ObjectId;
+  pickupLocation: Types.ObjectId;
+  dropOffLocation: Types.ObjectId;
+  from: Date;
+  to: Date;
+  status: bookcarsTypes.BookingStatus;
+  cancellation?: boolean;
+  amendments?: boolean;
+  theftProtection?: boolean;
+  collisionDamageWaiver?: boolean;
+  fullInsurance?: boolean;
+  additionalDriver?: boolean;
+  _additionalDriver?: Types.ObjectId;
+  cancelRequest?: boolean;
+  price: number;
+  sessionId?: string;
+  paymentIntentId?: string;
+  customerId?: string;
+  expireAt?: Date;
 }
 
 /**
@@ -470,28 +507,28 @@ export interface Car extends Document {
  * @typedef {CarInfo}
  */
 export interface CarInfo {
-  _id?: Types.ObjectId
-  name: string
-  supplier: UserInfo
-  minimumAge: number
-  locations: Types.ObjectId[]
-  price: number
-  deposit: number
-  available: boolean
-  type: bookcarsTypes.CarType
-  gearbox: bookcarsTypes.GearboxType
-  aircon: boolean
-  image?: string
-  seats: number
-  doors: number
-  fuelPolicy: bookcarsTypes.FuelPolicy
-  mileage: number
-  cancellation: number
-  amendments: number
-  theftProtection: number
-  collisionDamageWaiver: number
-  fullInsurance: number
-  additionalDriver: number
+  _id?: Types.ObjectId;
+  name: string;
+  supplier: UserInfo;
+  minimumAge: number;
+  locations: Types.ObjectId[];
+  price: number;
+  deposit: number;
+  available: boolean;
+  type: bookcarsTypes.CarType;
+  gearbox: bookcarsTypes.GearboxType;
+  aircon: boolean;
+  image?: string;
+  seats: number;
+  doors: number;
+  fuelPolicy: bookcarsTypes.FuelPolicy;
+  mileage: number;
+  cancellation: number;
+  amendments: number;
+  theftProtection: number;
+  collisionDamageWaiver: number;
+  fullInsurance: number;
+  additionalDriver: number;
 }
 
 /**
@@ -502,24 +539,24 @@ export interface CarInfo {
  * @typedef {BookingInfo}
  */
 export interface BookingInfo {
-  _id?: Types.ObjectId
-  supplier: UserInfo
-  car: Car
-  driver: UserInfo
-  pickupLocation: Types.ObjectId
-  dropOffLocation: Types.ObjectId
-  from: Date
-  to: Date
-  status: bookcarsTypes.BookingStatus
-  cancellation?: boolean
-  amendments?: boolean
-  theftProtection?: boolean
-  collisionDamageWaiver?: boolean
-  fullInsurance?: boolean
-  additionalDriver?: boolean
-  _additionalDriver?: Types.ObjectId
-  cancelRequest?: boolean
-  price: number
+  _id?: Types.ObjectId;
+  supplier: UserInfo;
+  car: Car;
+  driver: UserInfo;
+  pickupLocation: Types.ObjectId;
+  dropOffLocation: Types.ObjectId;
+  from: Date;
+  to: Date;
+  status: bookcarsTypes.BookingStatus;
+  cancellation?: boolean;
+  amendments?: boolean;
+  theftProtection?: boolean;
+  collisionDamageWaiver?: boolean;
+  fullInsurance?: boolean;
+  additionalDriver?: boolean;
+  _additionalDriver?: Types.ObjectId;
+  cancelRequest?: boolean;
+  price: number;
 }
 
 /**
@@ -531,8 +568,8 @@ export interface BookingInfo {
  * @extends {Document}
  */
 export interface LocationValue extends Document {
-  language: string
-  value: string
+  language: string;
+  value: string;
 }
 
 /**
@@ -618,10 +655,10 @@ export interface ParkingSpot extends Document {
  * @extends {Document}
  */
 export interface Notification extends Document {
-  user: Types.ObjectId
-  message: string
-  booking: Types.ObjectId
-  isRead?: boolean
+  user: Types.ObjectId;
+  message: string;
+  booking: Types.ObjectId;
+  isRead?: boolean;
 }
 
 /**
@@ -633,8 +670,8 @@ export interface Notification extends Document {
  * @extends {Document}
  */
 export interface NotificationCounter extends Document {
-  user: Types.ObjectId
-  count?: number
+  user: Types.ObjectId;
+  count?: number;
 }
 
 /**
@@ -646,8 +683,8 @@ export interface NotificationCounter extends Document {
  * @extends {Document}
  */
 export interface PushToken extends Document {
-  user: Types.ObjectId
-  token: string
+  user: Types.ObjectId;
+  token: string;
 }
 
 /**
@@ -659,7 +696,7 @@ export interface PushToken extends Document {
  * @extends {Document}
  */
 export interface Token extends Document {
-  user: Types.ObjectId
-  token: string
-  expireAt?: Date
+  user: Types.ObjectId;
+  token: string;
+  expireAt?: Date;
 }

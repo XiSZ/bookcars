@@ -1,5 +1,5 @@
-import LocalizedStrings from 'react-localization'
-import * as langHelper from '../common/langHelper'
+import LocalizedStrings from "react-localization";
+import * as langHelper from "../common/langHelper";
 
 const strings = new LocalizedStrings({
   fr: {
@@ -36,7 +36,16 @@ const strings = new LocalizedStrings({
     MAXI: 'MAXI',
     SEARCH_FOR_CAR: 'Search for a car',
   },
-})
-
-langHelper.setLanguage(strings)
-export { strings }
+  de: {
+    PICK_UP_DATE: "Abholdatum",
+    DROP_OFF_DATE: "Rückgabedatum",
+    DROP_OFF: "Zurück zum selben Ort",
+    COVER: "Top Autovermietungen",
+    SUPPLIERS_TITLE: "Bei den besten buchen",
+    MAP_TITLE: "Karte der Autovermietungsstandorte",
+    MAP_PICK_UP_SELECTED: "Abholort ausgewählt",
+    MAP_DROP_OFF_SELECTED: "Rückgabeort ausgewählt",
+  },
+});
+langHelper.setLanguage(strings);
+export { strings };

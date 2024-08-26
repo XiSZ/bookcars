@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   api:
-    build: 
+    build:
       context: .
       dockerfile: ./api/Dockerfile
     env_file: ./api/.env.docker
@@ -23,9 +23,11 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: PASSWORD
     ports:
       - 27017:27017
+    volumes:
+      - db:/data/db # save db to a volume
 
   backend:
-    build: 
+    build:
       context: .
       dockerfile: ./backend/Dockerfile
     depends_on:
@@ -34,7 +36,7 @@ services:
       - 3001:3001
 
   frontend:
-    build: 
+    build:
       context: .
       dockerfile: ./frontend/Dockerfile
     depends_on:
@@ -43,6 +45,16 @@ services:
       - 80:80
     volumes:
       - cdn:/var/www/cdn/bookcars
+      
+  mailhog:
+    image: mailhog/mailhog
+    restart: always
+    # the HTTP server starts on port 8025
+    # the SMTP server starts on port 1025
+    ports:
+      - 8025:8025
+    # in-memory message storage
 
 volumes:
   cdn:
+  db:

@@ -1,14 +1,17 @@
-import LocalizedStrings from 'react-localization'
-import * as langHelper from '../common/langHelper'
+import LocalizedStrings from "react-localization";
+import * as langHelper from "../common/langHelper";
 
 const strings = new LocalizedStrings({
   fr: {
-    UNAUTHORIZED: 'Accès non autorisé',
+    UNAUTHORIZED: "Accès non autorisé",
   },
   en: {
-    UNAUTHORIZED: 'Unauthorized access',
+    UNAUTHORIZED: "Unauthorized access",
   },
-})
+  de: {
+    UNAUTHORIZED: "Unbefugter Zugriff",
+  },
+});
 
-langHelper.setLanguage(strings)
-export { strings }
+langHelper.setLanguage(strings);
+export { strings };

@@ -3,3 +3,7 @@
 /**/*.pem
 /**/*.pem-chain
 /**/*.ca.pem
+
+# custom
+/**/.vscode
+/**/.idea

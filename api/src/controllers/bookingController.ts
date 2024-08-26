@@ -80,6 +80,7 @@ export const notify = async (driver: env.User, bookingId: string, user: env.User
   }
 
   // mail
+  const notificationURL = helper.joinURL(env.BACKEND_HOST, `update-booking?b=${bookingId}`);
   if (user.enableEmailNotifications) {
     const mailOptions: nodemailer.SendMailOptions = {
       from: env.SMTP_FROM,
@@ -88,7 +89,7 @@ export const notify = async (driver: env.User, bookingId: string, user: env.User
       html: `<p>
     ${i18n.t('HELLO')}${user.fullName},<br><br>
     ${message}<br><br>
-    ${helper.joinURL(env.BACKEND_HOST, `update-booking?b=${bookingId}`)}<br><br>
+    <a href="${notificationURL}">${notificationURL}</a><br><br>
     ${i18n.t('REGARDS')}<br>
     </p>`,
     }
@@ -230,6 +231,7 @@ export const checkout = async (req: Request, res: Response) => {
 
       i18n.locale = user.language
 
+      const activationURL = `${helper.joinURL(env.FRONTEND_HOST, 'activate')}/?u=${encodeURIComponent(user.id)}&e=${encodeURIComponent(user.email)}&t=${encodeURIComponent(token.token)}`;
       const mailOptions: nodemailer.SendMailOptions = {
         from: env.SMTP_FROM,
         to: user.email,
@@ -237,7 +239,7 @@ export const checkout = async (req: Request, res: Response) => {
         html: `<p>
         ${i18n.t('HELLO')}${user.fullName},<br><br>
         ${i18n.t('ACCOUNT_ACTIVATION_LINK')}<br><br>
-        ${helper.joinURL(env.FRONTEND_HOST, 'activate')}/?u=${encodeURIComponent(user.id)}&e=${encodeURIComponent(user.email)}&t=${encodeURIComponent(token.token)}<br><br>
+        <a href="${activationURL}">${activationURL}</a><br><br>
         ${i18n.t('REGARDS')}<br>
         </p>`,
       }
@@ -353,6 +355,7 @@ const notifyDriver = async (booking: env.Booking) => {
   }
 
   // mail
+  const notificationURL = helper.joinURL(env.FRONTEND_HOST, `booking?b=${booking._id}`)
   if (driver.enableEmailNotifications) {
     const mailOptions: nodemailer.SendMailOptions = {
       from: env.SMTP_FROM,
@@ -361,7 +364,7 @@ const notifyDriver = async (booking: env.Booking) => {
       html: `<p>
     ${i18n.t('HELLO')}${driver.fullName},<br><br>
     ${message}<br><br>
-    ${helper.joinURL(env.FRONTEND_HOST, `booking?b=${booking._id}`)}<br><br>
+    <a href="${notificationURL}">${notificationURL}</a><br><br>
     ${i18n.t('REGARDS')}<br>
     </p>`,
     }
