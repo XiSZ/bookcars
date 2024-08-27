@@ -1,14 +1,17 @@
-import LocalizedStrings from 'react-localization'
-import * as langHelper from '../common/langHelper'
+import LocalizedStrings from "react-localization";
+import * as langHelper from "../common/langHelper";
 
 const strings = new LocalizedStrings({
   fr: {
-    NEW_PARKING_SPOT: 'Nouvelle place de parking',
+    NEW_PARKING_SPOT: "Nouvelle place de parking",
   },
   en: {
-    NEW_PARKING_SPOT: 'New parking spot',
+    NEW_PARKING_SPOT: "New parking spot",
   },
-})
+  de: {
+    NEW_PARKING_SPOT: "Neuer Parkplatz",
+  },
+});
 
-langHelper.setLanguage(strings)
-export { strings }
+langHelper.setLanguage(strings);
+export { strings };

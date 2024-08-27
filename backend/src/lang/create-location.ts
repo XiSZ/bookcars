@@ -23,6 +23,8 @@ const strings = new LocalizedStrings({
     LOCATION_NAME: "Ort",
     INVALID_LOCATION: "Dieser Standort existiert bereits.",
     LOCATION_CREATED: "Standort erfolgreich erstellt.",
+    COUNTRY: "Land",
+    PARKING_SPOTS: "Parkplätze",
   },
 });
 
