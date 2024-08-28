@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, Text, Dimensions } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 import * as env from '../config/env.config'
-// import { AutocompleteDropdown, AutocompleteOption } from './AutocompleteDropdown/AutocompleteDropdown'
 import * as LocationService from '../services/LocationService'
 import * as helper from '../common/helper'
 import { AutocompleteDropdown, AutocompleteDropdownItem } from './AutocompleteDropdown-v4'
@@ -188,6 +187,8 @@ const LocationSelectList = ({
         clearOnFocus={false}
         closeOnSubmit
         EmptyResultComponent={<></>}
+        debounce={200}
+        suggestionsListMaxHeight={Dimensions.get('window').height * 0.3}
       />
     </View>
   )
