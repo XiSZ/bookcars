@@ -1,8 +1,8 @@
-import process from "node:process";
-import { Document, Types } from "mongoose";
-import { CookieOptions } from "express";
-import * as bookcarsTypes from ":bookcars-types";
-import * as helper from "../common/helper";
+import process from 'node:process'
+import { Document, Types } from 'mongoose'
+import { CookieOptions } from 'express'
+import * as bookcarsTypes from ':bookcars-types'
+import * as helper from '@/common/helper'
 
 /**
  * Get environment variable value.
