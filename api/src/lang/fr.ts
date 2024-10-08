@@ -55,4 +55,5 @@ export const fr = {
   SUBJECT: "Objet",
   FROM: "De",
   MESSAGE: "Message",
-}
+  LOCATION_IMAGE_NOT_FOUND: "Image de lieu introuvable",
+};

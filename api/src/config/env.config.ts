@@ -345,6 +345,15 @@ export const STRIPE_SESSION_EXPIRE_AT = stripeSessionExpireAt;
 export const BOOKING_EXPIRE_AT = STRIPE_SESSION_EXPIRE_AT + 10 * 60;
 
 /**
+ * User expiration in seconds.
+ * Non verified and active users created from checkout with Stripe are temporary and are automatically deleted if the payment checkout session expires.
+ *
+ *
+ * @type {number}
+ */
+export const USER_EXPIRE_AT = BOOKING_EXPIRE_AT
+
+/**
  * Admin email.
  *
  * @type {string}
@@ -367,24 +376,25 @@ export const RECAPTCHA_SECRET = __env__("BC_RECAPTCHA_SECRET", false);
  * @extends {Document}
  */
 export interface User extends Document {
-  supplier?: Types.ObjectId;
-  fullName: string;
-  email: string;
-  phone?: string;
-  password?: string;
-  birthDate?: Date;
-  verified?: boolean;
-  verifiedAt?: Date;
-  active?: boolean;
-  language: string;
-  enableEmailNotifications?: boolean;
-  avatar?: string;
-  bio?: string;
-  location?: string;
-  type?: bookcarsTypes.UserType;
-  blacklisted?: boolean;
-  payLater?: boolean;
-  customerId?: string;
+  supplier?: Types.ObjectId
+  fullName: string
+  email: string
+  phone?: string
+  password?: string
+  birthDate?: Date
+  verified?: boolean
+  verifiedAt?: Date
+  active?: boolean
+  language: string
+  enableEmailNotifications?: boolean
+  avatar?: string
+  bio?: string
+  location?: string
+  type?: bookcarsTypes.UserType
+  blacklisted?: boolean
+  payLater?: boolean
+  customerId?: string
+  expireAt?: Date
 }
 
 /**
