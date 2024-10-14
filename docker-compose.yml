@@ -54,8 +54,6 @@ services:
     # in-memory message storage
     ports:
       - 8025:8025
-    # trying to configure networks so vpn -> docker -> component can work.
-    # https://docs.docker.com/reference/compose-file/networks/
 
 volumes:
   cdn:
