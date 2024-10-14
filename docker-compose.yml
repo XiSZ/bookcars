@@ -12,11 +12,6 @@ services:
       - mongo
     volumes:
       - cdn:/var/www/cdn/bookcars
-    networks:
-      - mailhog
-      - mongo
-      - frontend
-      - backend
 
   mongo:
     image: mongo:latest
@@ -30,11 +25,6 @@ services:
       - 27017:27017
     volumes:
       - db:/data/db # save db to a volume
-    networks:
-      - api
-      - mailhog
-      - frontend
-      - backend
 
   backend:
     build:
@@ -44,11 +34,6 @@ services:
       - api
     ports:
       - 3001:3001
-    networks:
-      - api
-      - mongo
-      - mailhog
-      - frontend
 
   frontend:
     build:
@@ -60,11 +45,6 @@ services:
       - 80:80
     volumes:
       - cdn:/var/www/cdn/bookcars
-    networks:
-      - api
-      - mongo
-      - mailhog
-      - backend
 
   mailhog:
     image: mailhog/mailhog
@@ -76,11 +56,6 @@ services:
       - 8025:8025
     # trying to configure networks so vpn -> docker -> component can work.
     # https://docs.docker.com/reference/compose-file/networks/
-    networks:
-      - api
-      - mongo
-      - frontend
-      - backend
 
 volumes:
   cdn:
