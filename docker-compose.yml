@@ -12,6 +12,11 @@ services:
       - mongo
     volumes:
       - cdn:/var/www/cdn/bookcars
+    networks:
+      - mailhog
+      - mongo
+      - frontend
+      - backend
 
   mongo:
     image: mongo:latest
@@ -25,6 +30,11 @@ services:
       - 27017:27017
     volumes:
       - db:/data/db # save db to a volume
+    networks:
+      - api
+      - mailhog
+      - frontend
+      - backend
 
   backend:
     build:
@@ -34,6 +44,11 @@ services:
       - api
     ports:
       - 3001:3001
+    networks:
+      - api
+      - mongo
+      - mailhog
+      - frontend
 
   frontend:
     build:
@@ -45,15 +60,27 @@ services:
       - 80:80
     volumes:
       - cdn:/var/www/cdn/bookcars
-      
+    networks:
+      - api
+      - mongo
+      - mailhog
+      - backend
+
   mailhog:
     image: mailhog/mailhog
     restart: always
     # the HTTP server starts on port 8025
     # the SMTP server starts on port 1025
+    # in-memory message storage
     ports:
       - 8025:8025
-    # in-memory message storage
+    # trying to configure networks so vpn -> docker -> component can work.
+    # https://docs.docker.com/reference/compose-file/networks/
+    networks:
+      - api
+      - mongo
+      - frontend
+      - backend
 
 volumes:
   cdn:
