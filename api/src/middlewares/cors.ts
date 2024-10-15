@@ -19,6 +19,7 @@ const CORS_CONFIG: cors.CorsOptions = {
   origin: "*",
   methods: "*",
   allowedHeaders: "*",
+  credentials: true,
 };
 
 /**
