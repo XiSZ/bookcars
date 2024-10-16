@@ -1,5 +1,5 @@
-import LocalizedStrings from 'react-localization'
-import * as langHelper from '@/common/langHelper'
+import LocalizedStrings from "react-localization";
+import * as langHelper from "@/common/langHelper";
 
 const strings = new LocalizedStrings({
   fr: {
@@ -22,6 +22,14 @@ const strings = new LocalizedStrings({
     RATING_2: "(2 und höher)",
     RATING_3: "(3 und höher)",
     RATING_4: "(4 und höher)",
+  },
+
+  es: {
+    RATING: "Clasificación",
+    RATING_1: "(1 y más)",
+    RATING_2: "(2 y más)",
+    RATING_3: "(3 y más)",
+    RATING_4: "(4 y más)",
   },
 });
 

@@ -1,5 +1,5 @@
-import LocalizedStrings from 'react-localization'
-import * as langHelper from '@/common/langHelper'
+import LocalizedStrings from "react-localization";
+import * as langHelper from "@/common/langHelper";
 
 const strings = new LocalizedStrings({
   fr: {
@@ -18,6 +18,14 @@ const strings = new LocalizedStrings({
   },
   de: {
     RANGE: "Reihe",
+    MINI: "Mini",
+    MIDI: "Midi",
+    MAXI: "Maxi",
+    SCOOTER: "Scooter",
+  },
+
+  es: {
+    RANGE: "Gama",
     MINI: "Mini",
     MIDI: "Midi",
     MAXI: "Maxi",

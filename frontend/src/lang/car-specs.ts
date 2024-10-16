@@ -1,5 +1,5 @@
-import LocalizedStrings from 'react-localization'
-import * as langHelper from '@/common/langHelper'
+import LocalizedStrings from "react-localization";
+import * as langHelper from "@/common/langHelper";
 
 const strings = new LocalizedStrings({
   fr: {
@@ -19,6 +19,13 @@ const strings = new LocalizedStrings({
     AIRCON: "Klimaanlage",
     MORE_THAN_FOOR_DOORS: "4+ Türen",
     MORE_THAN_FIVE_SEATS: "5+ Sitze",
+  },
+
+  es: {
+    CAR_SPECS: "Especificaciones del vehículo",
+    AIRCON: "Aire acondicionado",
+    MORE_THAN_FOOR_DOORS: "4+ puertas",
+    MORE_THAN_FIVE_SEATS: "5+ asientos",
   },
 });
 

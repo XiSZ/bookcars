@@ -1,5 +1,5 @@
-import LocalizedStrings from 'react-localization'
-import * as langHelper from '@/common/langHelper'
+import LocalizedStrings from "react-localization";
+import * as langHelper from "@/common/langHelper";
 
 const strings = new LocalizedStrings({
   fr: {
@@ -29,6 +29,15 @@ const strings = new LocalizedStrings({
     NEW_PASSWORD_ERROR: "Bitte wählen Sie ein neues Passwort",
     PASSWORD_UPDATE_ERROR: "Fehler beim Aktualisieren des Passworts.",
     PASSWORD_UPDATE: "Passwort erfolgreich geändert.",
+  },
+  es: {
+    CHANGE_PASSWORD_HEADING: "Cambio de contraseña",
+    CURRENT_PASSWORD: "Contraseña actual",
+    CURRENT_PASSWORD_ERROR: "Contraseña incorrecta",
+    NEW_PASSWORD: "Nueva contraseña",
+    NEW_PASSWORD_ERROR: "Por favor, elija una nueva contraseña",
+    PASSWORD_UPDATE_ERROR: "Ocurrió un error al actualizar la contraseña.",
+    PASSWORD_UPDATE: "Contraseña modificada con éxito.",
   },
 });
 

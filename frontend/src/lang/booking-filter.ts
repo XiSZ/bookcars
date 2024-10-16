@@ -1,5 +1,5 @@
-import LocalizedStrings from 'react-localization'
-import * as langHelper from '@/common/langHelper'
+import LocalizedStrings from "react-localization";
+import * as langHelper from "@/common/langHelper";
 
 const strings = new LocalizedStrings({
   fr: {
@@ -13,6 +13,11 @@ const strings = new LocalizedStrings({
   de: {
     PICK_UP_LOCATION: "Abholort",
     DROP_OFF_LOCATION: "Abgabeort",
+  },
+
+  es: {
+    PICK_UP_LOCATION: "Lugar de recogida",
+    DROP_OFF_LOCATION: "Lugar de devolución",
   },
 });
 

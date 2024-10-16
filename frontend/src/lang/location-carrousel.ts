@@ -1,5 +1,5 @@
-import LocalizedStrings from 'react-localization'
-import * as langHelper from '@/common/langHelper'
+import LocalizedStrings from "react-localization";
+import * as langHelper from "@/common/langHelper";
 
 const strings = new LocalizedStrings({
   fr: {
@@ -16,6 +16,11 @@ const strings = new LocalizedStrings({
     SELECT_LOCATION: "Standort auswählen",
     AVALIABLE_LOCATION: "verfügbarer Standort",
     AVALIABLE_LOCATIONS: "verfügbare Standorte",
+  },
+  es: {
+    SELECT_LOCATION: "Seleccionar ubicación",
+    AVALIABLE_LOCATION: "ubicación disponible",
+    AVALIABLE_LOCATIONS: "ubicaciones disponibles",
   },
 });
 

@@ -1,5 +1,5 @@
-import LocalizedStrings from 'react-localization'
-import * as langHelper from '@/common/langHelper'
+import LocalizedStrings from "react-localization";
+import * as langHelper from "@/common/langHelper";
 
 const strings = new LocalizedStrings({
   fr: {
@@ -22,6 +22,13 @@ const strings = new LocalizedStrings({
     FOUR: "4 Sitze",
     FIVE: "5 Sitze",
     FIVE_PLUS: "5+ Sitze",
+  },
+  es: {
+    SEATS: "Asientos",
+    TWO: "2 asientos",
+    FOUR: "4 asientos",
+    FIVE: "5 asientos",
+    FIVE_PLUS: "5+ asientos",
   },
 });
 

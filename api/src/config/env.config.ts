@@ -1,8 +1,8 @@
-import process from 'node:process'
-import { Document, Types } from 'mongoose'
-import { CookieOptions } from 'express'
-import * as bookcarsTypes from ':bookcars-types'
-import * as helper from '../common/helper'
+import process from "node:process";
+import { Document, Types } from "mongoose";
+import { CookieOptions } from "express";
+import * as bookcarsTypes from ":bookcars-types";
+import * as helper from "../common/helper";
 
 /**
  * Get environment variable value.
@@ -33,7 +33,7 @@ export const __env__ = (
  *
  * @type {string[]}
  */
-export const LANGUAGES = ["en", "fr", "de"];
+export const LANGUAGES = ["en", "fr", "es", "de"];
 
 /**
  * Server Port. Default is 4002.
@@ -111,7 +111,7 @@ export const DB_DEBUG = helper.StringToBoolean(
  *
  * @type {string}
  */
-export const COOKIE_SECRET = __env__('BC_COOKIE_SECRET', false, 'bookcars')
+export const COOKIE_SECRET = __env__("BC_COOKIE_SECRET", false, "bookcars");
 
 /**
  * Authentication cookie domain.
@@ -170,7 +170,7 @@ export const X_ACCESS_TOKEN = "x-access-token";
  *
  * @type {string}
  */
-export const JWT_SECRET = __env__('BC_JWT_SECRET', false, 'bookcars')
+export const JWT_SECRET = __env__("BC_JWT_SECRET", false, "bookcars");
 
 /**
  * JWT expiration in seconds. Default is 86400 seconds (1 day).
@@ -260,14 +260,14 @@ export const CDN_TEMP_CARS = __env__("BC_CDN_TEMP_CARS", true);
  *
  * @type {string}
  */
-export const CDN_LOCATIONS = __env__('BC_CDN_LOCATIONS', true)
+export const CDN_LOCATIONS = __env__("BC_CDN_LOCATIONS", true);
 
 /**
  * Locations' temp cdn folder path.
  *
  * @type {string}
  */
-export const CDN_TEMP_LOCATIONS = __env__('BC_CDN_TEMP_LOCATIONS', true)
+export const CDN_TEMP_LOCATIONS = __env__("BC_CDN_TEMP_LOCATIONS", true);
 
 /**
  * Backend host.
@@ -284,7 +284,7 @@ export const BACKEND_HOST = __env__("BC_BACKEND_HOST", true);
 export const FRONTEND_HOST = __env__("BC_FRONTEND_HOST", true);
 
 /**
- * Default language. Default is en. Available options: en, fr.
+ * Default language. Default is en. Available options: en, fr, es.
  *
  * @type {string}
  */
@@ -351,7 +351,7 @@ export const BOOKING_EXPIRE_AT = STRIPE_SESSION_EXPIRE_AT + 10 * 60;
  *
  * @type {number}
  */
-export const USER_EXPIRE_AT = BOOKING_EXPIRE_AT
+export const USER_EXPIRE_AT = BOOKING_EXPIRE_AT;
 
 /**
  * Admin email.
@@ -376,25 +376,25 @@ export const RECAPTCHA_SECRET = __env__("BC_RECAPTCHA_SECRET", false);
  * @extends {Document}
  */
 export interface User extends Document {
-  supplier?: Types.ObjectId
-  fullName: string
-  email: string
-  phone?: string
-  password?: string
-  birthDate?: Date
-  verified?: boolean
-  verifiedAt?: Date
-  active?: boolean
-  language: string
-  enableEmailNotifications?: boolean
-  avatar?: string
-  bio?: string
-  location?: string
-  type?: bookcarsTypes.UserType
-  blacklisted?: boolean
-  payLater?: boolean
-  customerId?: string
-  expireAt?: Date
+  supplier?: Types.ObjectId;
+  fullName: string;
+  email: string;
+  phone?: string;
+  password?: string;
+  birthDate?: Date;
+  verified?: boolean;
+  verifiedAt?: Date;
+  active?: boolean;
+  language: string;
+  enableEmailNotifications?: boolean;
+  avatar?: string;
+  bio?: string;
+  location?: string;
+  type?: bookcarsTypes.UserType;
+  blacklisted?: boolean;
+  payLater?: boolean;
+  customerId?: string;
+  expireAt?: Date;
 }
 
 /**
@@ -481,32 +481,32 @@ export interface Booking extends Document {
  * @extends {Document}
  */
 export interface Car extends Document {
-  name: string
-  supplier: Types.ObjectId
-  minimumAge: number
-  locations: Types.ObjectId[]
-  price: number
-  deposit: number
-  available: boolean
-  type: bookcarsTypes.CarType
-  gearbox: bookcarsTypes.GearboxType
-  aircon: boolean
-  image: string | null
-  seats: number
-  doors: number
-  fuelPolicy: bookcarsTypes.FuelPolicy
-  mileage: number
-  cancellation: number
-  amendments: number
-  theftProtection: number
-  collisionDamageWaiver: number
-  fullInsurance: number
-  additionalDriver: number
-  range: string
-  multimedia: string[]
-  rating?: number
-  trips: number
-  co2?: number
+  name: string;
+  supplier: Types.ObjectId;
+  minimumAge: number;
+  locations: Types.ObjectId[];
+  price: number;
+  deposit: number;
+  available: boolean;
+  type: bookcarsTypes.CarType;
+  gearbox: bookcarsTypes.GearboxType;
+  aircon: boolean;
+  image: string | null;
+  seats: number;
+  doors: number;
+  fuelPolicy: bookcarsTypes.FuelPolicy;
+  mileage: number;
+  cancellation: number;
+  amendments: number;
+  theftProtection: number;
+  collisionDamageWaiver: number;
+  fullInsurance: number;
+  additionalDriver: number;
+  range: string;
+  multimedia: string[];
+  rating?: number;
+  trips: number;
+  co2?: number;
 }
 
 /**
@@ -591,8 +591,8 @@ export interface LocationValue extends Document {
  * @extends {Document}
  */
 export interface Country extends Document {
-  values: Types.ObjectId[]
-  name?: string
+  values: Types.ObjectId[];
+  name?: string;
 }
 
 /**
@@ -603,9 +603,9 @@ export interface Country extends Document {
  * @typedef {CountryInfo}
  */
 export interface CountryInfo {
-  _id?: Types.ObjectId
-  name?: string
-  values: LocationValue[]
+  _id?: Types.ObjectId;
+  name?: string;
+  values: LocationValue[];
 }
 
 /**
@@ -617,13 +617,13 @@ export interface CountryInfo {
  * @extends {Document}
  */
 export interface Location extends Document {
-  country: Types.ObjectId
-  longitude?: number
-  latitude?: number
-  values: Types.ObjectId[]
-  name?: string
-  image?: string | null
-  parkingSpots?: Types.ObjectId[] | null
+  country: Types.ObjectId;
+  longitude?: number;
+  latitude?: number;
+  values: Types.ObjectId[];
+  name?: string;
+  image?: string | null;
+  parkingSpots?: Types.ObjectId[] | null;
 }
 
 /**
@@ -634,12 +634,12 @@ export interface Location extends Document {
  * @typedef {LocationInfo}
  */
 export interface LocationInfo {
-  _id?: Types.ObjectId
-  longitude: number
-  latitude: number
-  name?: string
-  image?: string | null
-  values: LocationValue[]
+  _id?: Types.ObjectId;
+  longitude: number;
+  latitude: number;
+  name?: string;
+  image?: string | null;
+  values: LocationValue[];
 }
 
 /**
@@ -651,10 +651,10 @@ export interface LocationInfo {
  * @extends {Document}
  */
 export interface ParkingSpot extends Document {
-  longitude: number
-  latitude: number
-  values: (Types.ObjectId | LocationValue)[]
-  name?: string
+  longitude: number;
+  latitude: number;
+  values: (Types.ObjectId | LocationValue)[];
+  name?: string;
 }
 
 /**

@@ -19,7 +19,7 @@ import {
   BC_DEPOSIT_FILTER_VALUE_1,
   BC_DEPOSIT_FILTER_VALUE_2,
   BC_DEPOSIT_FILTER_VALUE_3,
-} from '@env'
+} from "@env";
 
 /**
  * ISO 639-1 languages and their labels.
@@ -39,6 +39,10 @@ export const LANGUAGES = [
   {
     code: "de",
     label: "Deutsch",
+  },
+  {
+    code: "es",
+    label: "Español",
   },
 ];
 
@@ -201,32 +205,32 @@ export const STRIPE_CURRENCY_CODE: string = BC_STRIPE_CURRENCY_CODE;
  *
  * @type {string}
  */
-export const CURRENCY: string = BC_CURRENCY
+export const CURRENCY: string = BC_CURRENCY;
 
 /**
  * Deposit filter first value.
  *
  * @type {number}
  */
-export const DEPOSIT_FILTER_VALUE_1: number = Number(BC_DEPOSIT_FILTER_VALUE_1)
+export const DEPOSIT_FILTER_VALUE_1: number = Number(BC_DEPOSIT_FILTER_VALUE_1);
 
 /**
  * Deposit filter second value.
  *
  * @type {number}
  */
-export const DEPOSIT_FILTER_VALUE_2: number = Number(BC_DEPOSIT_FILTER_VALUE_2)
+export const DEPOSIT_FILTER_VALUE_2: number = Number(BC_DEPOSIT_FILTER_VALUE_2);
 
 /**
  * Deposit filter third value.
  *
  * @type {number}
  */
-export const DEPOSIT_FILTER_VALUE_3: number = Number(BC_DEPOSIT_FILTER_VALUE_3)
+export const DEPOSIT_FILTER_VALUE_3: number = Number(BC_DEPOSIT_FILTER_VALUE_3);
 
 /**
  * Check if locale is US.
  *
  * @type {boolean}
  */
-export const isUS = CURRENCY === '$'
+export const isUS = CURRENCY === "$";

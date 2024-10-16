@@ -15,6 +15,10 @@ const LANGUAGES = [
     label: "Français",
   },
   {
+    code: "es",
+    label: "Español",
+  },
+  {
     code: "de",
     label: "Deutsch",
   },
@@ -22,7 +26,7 @@ const LANGUAGES = [
 
 const env = {
   isMobile: () => window.innerWidth <= 960,
-  isProduction: import.meta.env.VITE_NODE_ENV === 'production',
+  isProduction: import.meta.env.VITE_NODE_ENV === "production",
 
   APP_TYPE: bookcarsTypes.AppType.Frontend,
   API_HOST: String(import.meta.env.VITE_BC_API_HOST),
@@ -86,22 +90,39 @@ const env = {
    * The three-letter ISO 4217 alphabetic currency code, e.g. "USD" or "EUR". Required for Stripe payments. Default is "USD".
    * Must be a supported currency: https://docs.stripe.com/currencies
    * */
-  STRIPE_CURRENCY_CODE: String(import.meta.env.VITE_BC_STRIPE_CURRENCY_CODE || 'USD'),
-  CURRENCY: import.meta.env.VITE_BC_CURRENCY || '$',
-  SET_LANGUAGE_FROM_IP: (import.meta.env.VITE_BC_SET_LANGUAGE_FROM_IP && import.meta.env.VITE_BC_SET_LANGUAGE_FROM_IP.toLowerCase()) === 'true',
-  GOOGLE_ANALYTICS_ENABLED: (import.meta.env.VITE_BC_GOOGLE_ANALYTICS_ENABLED && import.meta.env.VITE_BC_GOOGLE_ANALYTICS_ENABLED.toLowerCase()) === 'true',
+  STRIPE_CURRENCY_CODE: String(
+    import.meta.env.VITE_BC_STRIPE_CURRENCY_CODE || "USD"
+  ),
+  CURRENCY: import.meta.env.VITE_BC_CURRENCY || "$",
+  SET_LANGUAGE_FROM_IP:
+    (import.meta.env.VITE_BC_SET_LANGUAGE_FROM_IP &&
+      import.meta.env.VITE_BC_SET_LANGUAGE_FROM_IP.toLowerCase()) === "true",
+  GOOGLE_ANALYTICS_ENABLED:
+    (import.meta.env.VITE_BC_GOOGLE_ANALYTICS_ENABLED &&
+      import.meta.env.VITE_BC_GOOGLE_ANALYTICS_ENABLED.toLowerCase()) ===
+    "true",
   GOOGLE_ANALYTICS_ID: String(import.meta.env.VITE_BC_GOOGLE_ANALYTICS_ID),
   CONTACT_EMAIL: import.meta.env.VITE_BC_CONTACT_EMAIL,
-  DEPOSIT_FILTER_VALUE_1: Number.parseInt(String(import.meta.env.VITE_BC_DEPOSIT_FILTER_VALUE_1), 10),
-  DEPOSIT_FILTER_VALUE_2: Number.parseInt(String(import.meta.env.VITE_BC_DEPOSIT_FILTER_VALUE_2), 10),
-  DEPOSIT_FILTER_VALUE_3: Number.parseInt(String(import.meta.env.VITE_BC_DEPOSIT_FILTER_VALUE_3), 10),
+  DEPOSIT_FILTER_VALUE_1: Number.parseInt(
+    String(import.meta.env.VITE_BC_DEPOSIT_FILTER_VALUE_1),
+    10
+  ),
+  DEPOSIT_FILTER_VALUE_2: Number.parseInt(
+    String(import.meta.env.VITE_BC_DEPOSIT_FILTER_VALUE_2),
+    10
+  ),
+  DEPOSIT_FILTER_VALUE_3: Number.parseInt(
+    String(import.meta.env.VITE_BC_DEPOSIT_FILTER_VALUE_3),
+    10
+  ),
   FB_APP_ID: String(import.meta.env.VITE_BC_FB_APP_ID),
   APPLE_ID: String(import.meta.env.VITE_BC_APPLE_ID),
   GG_APP_ID: String(import.meta.env.VITE_BC_GG_APP_ID),
   /**
    * Minimum number of locations required for country tabs in homepage.
    */
-  MIN_LOCATIONS: Number.parseInt(String(import.meta.env.VITE_BC_MIN_LOCATIONS), 10) || 4,
-}
+  MIN_LOCATIONS:
+    Number.parseInt(String(import.meta.env.VITE_BC_MIN_LOCATIONS), 10) || 4,
+};
 
 export default env;

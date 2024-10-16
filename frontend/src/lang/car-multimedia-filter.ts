@@ -1,5 +1,5 @@
-import LocalizedStrings from 'react-localization'
-import * as langHelper from '@/common/langHelper'
+import LocalizedStrings from "react-localization";
+import * as langHelper from "@/common/langHelper";
 
 const strings = new LocalizedStrings({
   fr: {
@@ -19,6 +19,14 @@ const strings = new LocalizedStrings({
   de: {
     MULTIMEDIA: "Multimedia",
     TOUCHSCREEN: "Touchscreen",
+    BLUETOOTH: "Bluetooth",
+    ANDROID_AUTO: "Android Auto",
+    APPLE_CAR_PLAY: "Apple Car Play",
+  },
+
+  es: {
+    MULTIMEDIA: "Multimedia",
+    TOUCHSCREEN: "Pantalla táctil",
     BLUETOOTH: "Bluetooth",
     ANDROID_AUTO: "Android Auto",
     APPLE_CAR_PLAY: "Apple Car Play",

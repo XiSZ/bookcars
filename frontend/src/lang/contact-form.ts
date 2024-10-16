@@ -1,5 +1,5 @@
-import LocalizedStrings from 'react-localization'
-import * as langHelper from '@/common/langHelper'
+import LocalizedStrings from "react-localization";
+import * as langHelper from "@/common/langHelper";
 
 const strings = new LocalizedStrings({
   fr: {
@@ -22,6 +22,13 @@ const strings = new LocalizedStrings({
     MESSAGE: "Nachricht",
     SEND: "Senden",
     MESSAGE_SENT: "Nachricht gesendet",
+  },
+  es: {
+    CONTACT_HEADING: "Contacto",
+    SUBJECT: "Asunto",
+    MESSAGE: "Mensaje",
+    SEND: "Enviar",
+    MESSAGE_SENT: "Mensaje enviado",
   },
 });
 

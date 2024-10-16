@@ -1,5 +1,5 @@
-import LocalizedStrings from 'react-localization'
-import * as langHelper from '@/common/langHelper'
+import LocalizedStrings from "react-localization";
+import * as langHelper from "@/common/langHelper";
 
 const strings = new LocalizedStrings({
   fr: {
@@ -16,6 +16,11 @@ const strings = new LocalizedStrings({
     ACTIVATE_HEADING: "Kontoaktivierung",
     TOKEN_EXPIRED: "Ihr Kontoaktivierungslink ist abgelaufen.",
     ACTIVATE: "Aktivieren",
+  },
+  es: {
+    ACTIVATE_HEADING: "Activación de la cuenta",
+    TOKEN_EXPIRED: "El enlace de activación de su cuenta ha expirado.",
+    ACTIVATE: "Activar",
   },
 });
 

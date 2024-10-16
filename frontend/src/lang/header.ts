@@ -1,5 +1,5 @@
-import LocalizedStrings from 'react-localization'
-import * as langHelper from '@/common/langHelper'
+import LocalizedStrings from "react-localization";
+import * as langHelper from "@/common/langHelper";
 
 const strings = new LocalizedStrings({
   fr: {
@@ -40,6 +40,19 @@ const strings = new LocalizedStrings({
     SIGN_OUT: "Ausloggen",
     SUPPLIERS: "Mietwagenanbieter",
     LOCATIONS: "Standorte",
+  },
+  es: {
+    SIGN_IN: "Iniciar sesión",
+    HOME: "Inicio",
+    BOOKINGS: "Reservas",
+    ABOUT: "Acerca de",
+    TOS: "Términos de Servicio",
+    CONTACT: "Contacto",
+    LANGUAGE: "Idioma",
+    SETTINGS: "Configuración",
+    SIGN_OUT: "Cerrar sesión",
+    SUPPLIERS: "Proveedores",
+    LOCATIONS: "Ubicaciones",
   },
 });
 
