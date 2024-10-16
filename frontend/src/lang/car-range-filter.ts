@@ -23,7 +23,6 @@ const strings = new LocalizedStrings({
     MAXI: "Maxi",
     SCOOTER: "Scooter",
   },
-
   es: {
     RANGE: "Gama",
     MINI: "Mini",

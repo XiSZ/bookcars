@@ -23,7 +23,6 @@ const strings = new LocalizedStrings({
     RATING_3: "(3 und höher)",
     RATING_4: "(4 und höher)",
   },
-
   es: {
     RATING: "Clasificación",
     RATING_1: "(1 y más)",
