@@ -6,10 +6,8 @@ import cors from "cors";
  * @type {cors.CorsOptions}
  */
 const CORS_CONFIG: cors.CorsOptions = {
-  origin: "*", // Allow any origin
-  allowedHeaders: "*", // Allow any headers
-  methods: "*", // Allow any methods
-  credentials: true, // Set to true to pass the header, otherwise it is omitted.
+  origin: true,
+  credentials: true,
 };
 
 /**
