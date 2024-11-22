@@ -270,6 +270,20 @@ export const CDN_LOCATIONS = __env__("BC_CDN_LOCATIONS", true);
 export const CDN_TEMP_LOCATIONS = __env__("BC_CDN_TEMP_LOCATIONS", true);
 
 /**
+ * Contracts' cdn folder path.
+ *
+ * @type {string}
+ */
+export const CDN_CONTRACTS = __env__('BC_CDN_CONTRACTS', true)
+
+/**
+ * Contracts' temp cdn folder path.
+ *
+ * @type {string}
+ */
+export const CDN_TEMP_CONTRACTS = __env__('BC_CDN_TEMP_CONTRACTS', true)
+
+/**
  * Backend host.
  *
  * @type {string}
@@ -376,25 +390,26 @@ export const RECAPTCHA_SECRET = __env__("BC_RECAPTCHA_SECRET", false);
  * @extends {Document}
  */
 export interface User extends Document {
-  supplier?: Types.ObjectId;
-  fullName: string;
-  email: string;
-  phone?: string;
-  password?: string;
-  birthDate?: Date;
-  verified?: boolean;
-  verifiedAt?: Date;
-  active?: boolean;
-  language: string;
-  enableEmailNotifications?: boolean;
-  avatar?: string;
-  bio?: string;
-  location?: string;
-  type?: bookcarsTypes.UserType;
-  blacklisted?: boolean;
-  payLater?: boolean;
-  customerId?: string;
-  expireAt?: Date;
+  supplier?: Types.ObjectId
+  fullName: string
+  email: string
+  phone?: string
+  password?: string
+  birthDate?: Date
+  verified?: boolean
+  verifiedAt?: Date
+  active?: boolean
+  language: string
+  enableEmailNotifications?: boolean
+  avatar?: string
+  bio?: string
+  location?: string
+  type?: bookcarsTypes.UserType
+  blacklisted?: boolean
+  payLater?: boolean
+  customerId?: string
+  contracts?: bookcarsTypes.Contract[]
+  expireAt?: Date
 }
 
 /**
@@ -481,32 +496,41 @@ export interface Booking extends Document {
  * @extends {Document}
  */
 export interface Car extends Document {
-  name: string;
-  supplier: Types.ObjectId;
-  minimumAge: number;
-  locations: Types.ObjectId[];
-  price: number;
-  deposit: number;
-  available: boolean;
-  type: bookcarsTypes.CarType;
-  gearbox: bookcarsTypes.GearboxType;
-  aircon: boolean;
-  image: string | null;
-  seats: number;
-  doors: number;
-  fuelPolicy: bookcarsTypes.FuelPolicy;
-  mileage: number;
-  cancellation: number;
-  amendments: number;
-  theftProtection: number;
-  collisionDamageWaiver: number;
-  fullInsurance: number;
-  additionalDriver: number;
-  range: string;
-  multimedia: string[];
-  rating?: number;
-  trips: number;
-  co2?: number;
+  name: string
+  supplier: Types.ObjectId
+  minimumAge: number
+  locations: Types.ObjectId[]
+
+  dailyPrice: number
+  discountedDailyPrice: number | null
+  biWeeklyPrice: number | null
+  discountedBiWeeklyPrice: number | null
+  weeklyPrice: number | null
+  discountedWeeklyPrice: number | null
+  monthlyPrice: number | null
+  discountedMonthlyPrice: number | null
+
+  deposit: number
+  available: boolean
+  type: bookcarsTypes.CarType
+  gearbox: bookcarsTypes.GearboxType
+  aircon: boolean
+  image: string | null
+  seats: number
+  doors: number
+  fuelPolicy: bookcarsTypes.FuelPolicy
+  mileage: number
+  cancellation: number
+  amendments: number
+  theftProtection: number
+  collisionDamageWaiver: number
+  fullInsurance: number
+  additionalDriver: number
+  range: string
+  multimedia: string[]
+  rating?: number
+  trips: number
+  co2?: number
 }
 
 /**
