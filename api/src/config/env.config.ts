@@ -409,6 +409,7 @@ export interface User extends Document {
   payLater?: boolean
   customerId?: string
   contracts?: bookcarsTypes.Contract[]
+  minimumRentalDays?: number
   expireAt?: Date
 }
 
