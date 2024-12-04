@@ -284,6 +284,20 @@ export const CDN_CONTRACTS = __env__('BC_CDN_CONTRACTS', true)
 export const CDN_TEMP_CONTRACTS = __env__('BC_CDN_TEMP_CONTRACTS', true)
 
 /**
+ * Licenses' cdn folder path.
+ *
+ * @type {string}
+ */
+export const CDN_LICENSES = __env__('BC_CDN_LICENSES', true)
+
+/**
+ * Licenses' temp cdn folder path.
+ *
+ * @type {string}
+ */
+export const CDN_TEMP_LICENSES = __env__('BC_CDN_TEMP_LICENSES', true)
+
+/**
  * Backend host.
  *
  * @type {string}
@@ -409,6 +423,8 @@ export interface User extends Document {
   payLater?: boolean
   customerId?: string
   contracts?: bookcarsTypes.Contract[]
+  licenseRequired?: boolean
+  license?: string | null
   minimumRentalDays?: number
   expireAt?: Date
 }
@@ -421,24 +437,26 @@ export interface User extends Document {
  * @typedef {UserInfo}
  */
 export interface UserInfo {
-  _id?: Types.ObjectId;
-  supplier?: Types.ObjectId;
-  fullName: string;
-  email?: string;
-  phone?: string;
-  password?: string;
-  birthDate?: Date;
-  verified?: boolean;
-  verifiedAt?: Date;
-  active?: boolean;
-  language?: string;
-  enableEmailNotifications?: boolean;
-  avatar?: string;
-  bio?: string;
-  location?: string;
-  type?: string;
-  blacklisted?: boolean;
-  payLater?: boolean;
+  _id?: Types.ObjectId
+  supplier?: Types.ObjectId
+  fullName: string
+  email?: string
+  phone?: string
+  password?: string
+  birthDate?: Date
+  verified?: boolean
+  verifiedAt?: Date
+  active?: boolean
+  language?: string
+  enableEmailNotifications?: boolean
+  avatar?: string
+  bio?: string
+  location?: string
+  type?: string
+  blacklisted?: boolean
+  payLater?: boolean
+  licenseRequired?: boolean,
+  license?: string
 }
 
 /**

@@ -4,6 +4,7 @@ import { Expo, ExpoPushMessage, ExpoPushTicket } from 'expo-server-sdk'
 import { Request, Response } from 'express'
 import nodemailer from 'nodemailer'
 import path from 'node:path'
+import fs from 'node:fs/promises'
 import * as bookcarsTypes from ':bookcars-types'
 import i18n from '../lang/i18n'
 import Booking from '../models/Booking'
@@ -199,13 +200,36 @@ export const checkout = async (req: Request, res: Response) => {
       throw new Error('Booking not found')
     }
 
+    const supplier = await User.findById(body.booking.supplier)
+    if (!supplier) {
+      throw new Error(`Supplier ${body.booking.supplier} not found`)
+    }
+
     if (driver) {
+      const { license } = driver
+      if (supplier.licenseRequired && !license) {
+        throw new Error("Driver's license required")
+      }
+      if (supplier.licenseRequired && !(await helper.exists(path.join(env.CDN_TEMP_LICENSES, license!)))) {
+        throw new Error("Driver's license file not found")
+      }
       driver.verified = false
       driver.blacklisted = false
       driver.type = bookcarsTypes.UserType.User
+      driver.license = null
 
       user = new User(driver)
       await user.save()
+
+      // create license
+      if (license) {
+        const tempLicense = path.join(env.CDN_TEMP_LICENSES, license)
+        const filename = `${user.id}${path.extname(tempLicense)}`
+        const filepath = path.join(env.CDN_LICENSES, filename)
+        await fs.rename(tempLicense, filepath)
+        user.license = filename
+        await user.save()
+      }
 
       const token = new Token({ user: user._id, token: helper.generateToken() })
       await token.save()
@@ -232,7 +256,13 @@ export const checkout = async (req: Request, res: Response) => {
     }
 
     if (!user) {
-      throw new Error('Driver not found')
+      throw new Error(`User ${body.booking.driver} not found`)
+    }
+    if (supplier.licenseRequired && !user!.license) {
+      throw new Error("Driver's license required")
+    }
+    if (supplier.licenseRequired && !(await helper.exists(path.join(env.CDN_LICENSES, user!.license!)))) {
+      throw new Error("Driver's license file not found")
     }
 
     if (!body.payLater) {
@@ -310,11 +340,6 @@ export const checkout = async (req: Request, res: Response) => {
     }
 
     if (body.payLater || (booking.status === bookcarsTypes.BookingStatus.Paid && body.paymentIntentId && body.customerId)) {
-      const supplier = await User.findById(booking.supplier)
-      if (!supplier) {
-        throw new Error(`Supplier ${booking.supplier} not found`)
-      }
-
       // Send confirmation email to customer
       if (!await confirm(user, supplier, booking, body.payLater)) {
         return res.sendStatus(400)

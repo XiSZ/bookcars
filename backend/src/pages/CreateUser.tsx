@@ -30,6 +30,7 @@ import Error from '@/components/Error'
 import Backdrop from '@/components/SimpleBackdrop'
 import Avatar from '@/components/Avatar'
 import DatePicker from '@/components/DatePicker'
+import DriverLicense from '@/components/DriverLicense'
 
 import '@/assets/css/create-user.css'
 
@@ -52,10 +53,12 @@ const CreateUser = () => {
   const [type, setType] = useState('')
   const [emailValid, setEmailValid] = useState(true)
   const [phoneValid, setPhoneValid] = useState(true)
-  const [payLater, setPayLater] = useState(true)
+  const [payLater, setPayLater] = useState(false)
+  const [licenseRequired, setLicenseRequired] = useState(false)
   const [birthDate, setBirthDate] = useState<Date>()
   const [birthDateValid, setBirthDateValid] = useState(true)
   const [minimumRentalDays, setMinimumRentalDays] = useState('')
+  const [license, setLicense] = useState<string | undefined>()
 
   const handleFullNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFullName(e.target.value)
@@ -219,10 +222,13 @@ const CreateUser = () => {
     try {
       if (avatar) {
         await UserService.deleteTempAvatar(avatar)
-        navigate('/users')
-      } else {
-        navigate('/users')
       }
+
+      if (license) {
+        await UserService.deleteTempLicense(license)
+      }
+
+      navigate('/users')
     } catch {
       navigate('/users')
     }
@@ -292,11 +298,13 @@ const CreateUser = () => {
         birthDate,
         language,
         supplier,
-        minimumRentalDays: minimumRentalDays ? Number(minimumRentalDays) : undefined
+        minimumRentalDays: minimumRentalDays ? Number(minimumRentalDays) : undefined,
+        license,
       }
 
       if (type === bookcarsTypes.RecordType.Supplier) {
         data.payLater = payLater
+        data.licenseRequired = licenseRequired
       }
 
       const status = await UserService.create(data)
@@ -371,23 +379,32 @@ const CreateUser = () => {
               </FormControl>
 
               {driver && (
-                <FormControl fullWidth margin="dense">
-                  <DatePicker
-                    label={strings.BIRTH_DATE}
-                    value={birthDate}
-                    required
-                    onChange={(_birthDate) => {
-                      if (_birthDate) {
-                        const _birthDateValid = validateBirthDate(_birthDate)
+                <>
+                  <FormControl fullWidth margin="dense">
+                    <DatePicker
+                      label={strings.BIRTH_DATE}
+                      value={birthDate}
+                      required
+                      onChange={(_birthDate) => {
+                        if (_birthDate) {
+                          const _birthDateValid = validateBirthDate(_birthDate)
 
-                        setBirthDate(_birthDate)
-                        setBirthDateValid(_birthDateValid)
-                      }
+                          setBirthDate(_birthDate)
+                          setBirthDateValid(_birthDateValid)
+                        }
+                      }}
+                      language={(user && user.language) || env.DEFAULT_LANGUAGE}
+                    />
+                    <FormHelperText error={!birthDateValid}>{(!birthDateValid && commonStrings.BIRTH_DATE_NOT_VALID) || ''}</FormHelperText>
+                  </FormControl>
+
+                  <DriverLicense
+                    className="driver-license-field"
+                    onUpload={(filename: string) => {
+                      setLicense(filename)
                     }}
-                    language={(user && user.language) || env.DEFAULT_LANGUAGE}
                   />
-                  <FormHelperText error={!birthDateValid}>{(!birthDateValid && commonStrings.BIRTH_DATE_NOT_VALID) || ''}</FormHelperText>
-                </FormControl>
+                </>
               )}
 
               <FormControl fullWidth margin="dense">
@@ -417,10 +434,24 @@ const CreateUser = () => {
                             setPayLater(e.target.checked)
                           }}
                           color="primary"
-                          disabled
                         />
                       )}
                       label={commonStrings.PAY_LATER}
+                    />
+                  </FormControl>
+
+                  <FormControl fullWidth margin="dense">
+                    <FormControlLabel
+                      control={(
+                        <Switch
+                          checked={licenseRequired}
+                          onChange={(e) => {
+                            setLicenseRequired(e.target.checked)
+                          }}
+                          color="primary"
+                        />
+                      )}
+                      label={commonStrings.LICENSE_REQUIRED}
                     />
                   </FormControl>
 

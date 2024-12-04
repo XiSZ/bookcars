@@ -1,5 +1,5 @@
-import LocalizedStrings from "react-localization";
-import * as langHelper from "@/common/langHelper";
+import LocalizedStrings from 'react-localization'
+import * as langHelper from '@/common/langHelper'
 
 const strings = new LocalizedStrings({
   fr: {
@@ -64,6 +64,7 @@ const strings = new LocalizedStrings({
     PAY_ONLINE_INFO: "Amendments and cancellation under conditions",
     PAYMENT_FAILED: "Payment failed.",
     CHECKING: "Checking in progress...",
+    LICENSE_REQUIRED: "Driver's license required",
   },
   de: {
     BOOKING_HEADING: "Jetzt buchen",
@@ -127,8 +128,9 @@ const strings = new LocalizedStrings({
     PAY_ONLINE_INFO: "Modificaciones y cancelación bajo condiciones",
     PAYMENT_FAILED: "El pago falló.",
     CHECKING: "Verificación en curso...",
+    LICENSE_REQUIRED: "Permis de conduire requis",
   },
-});
+})
 
-langHelper.setLanguage(strings);
-export { strings };
+langHelper.setLanguage(strings)
+export { strings }

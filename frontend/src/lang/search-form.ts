@@ -17,7 +17,13 @@ const strings = new LocalizedStrings({
     DROP_OFF_DATE: "Rückgabedatum",
     DROP_OFF: "Zurück zum selben Ort",
   },
-});
+
+  es: {
+    PICK_UP_DATE: 'Fecha de recogida',
+    DROP_OFF_DATE: 'Fecha de entrega',
+    DROP_OFF: 'Devolución al mismo lugar',
+  },
+})
 
 langHelper.setLanguage(strings);
 export { strings };

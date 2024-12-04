@@ -83,7 +83,11 @@ const strings = new LocalizedStrings({
     NAME: 'Nom',
     LONGITUDE: 'Longitude',
     LATITUDE: 'Latitude',
+    LICENSE_REQUIRED: 'Permis de Conduire Requis',
+    LICENSE: 'Permis de Conduire',
     MIN_RENTAL_DAYS: 'Jours Minimum de location',
+    DRIVER_LICENSE: 'Permis de conduire',
+    UPLOAD_DRIVER_LICENSE: 'Charger le permis de conduire...',
   },
   en: {
     GENERIC_ERROR: 'An unhandled error occurred.',
@@ -164,7 +168,11 @@ const strings = new LocalizedStrings({
     NAME: 'Name',
     LONGITUDE: 'Longitude',
     LATITUDE: 'Latitude',
+    LICENSE_REQUIRED: "Driver's License Required",
+    LICENSE: "Driver's License",
     MIN_RENTAL_DAYS: 'Minimum Rental Days',
+    DRIVER_LICENSE: "Driver's License",
+    UPLOAD_DRIVER_LICENSE: "Upload driver's license...",
   },
   de: {
     GENERIC_ERROR: 'Ein unbehandelter Fehler ist aufgetreten.',

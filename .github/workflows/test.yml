@@ -3,8 +3,8 @@ name: test
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  # pull_request:
+  #   branches: [ main ]
 
 jobs:
   test:
@@ -24,7 +24,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         
-    - name: test API
+    - name: Run tests
       run: |
            cd ./api
            touch .env
@@ -51,6 +51,8 @@ jobs:
            echo BC_CDN_TEMP_LOCATIONS=$BC_CDN_TEMP_LOCATIONS >> .env
            echo BC_CDN_CONTRACTS=$BC_CDN_CONTRACTS >> .env
            echo BC_CDN_TEMP_CONTRACTS=$BC_CDN_TEMP_CONTRACTS >> .env
+           echo BC_CDN_LICENSES=$BC_CDN_LICENSES >> .env
+           echo BC_CDN_TEMP_LICENSES=$BC_CDN_TEMP_LICENSES >> .env           
            echo BC_BACKEND_HOST=$BC_BACKEND_HOST >> .env
            echo BC_FRONTEND_HOST=$BC_FRONTEND_HOST >> .env
            echo BC_MINIMUM_AGE=$BC_MINIMUM_AGE >> .env
@@ -84,16 +86,28 @@ jobs:
         BC_CDN_TEMP_LOCATIONS: ${{ vars.BC_CDN_TEMP_LOCATIONS }}
         BC_CDN_CONTRACTS: ${{ vars.BC_CDN_CONTRACTS }}
         BC_CDN_TEMP_CONTRACTS: ${{ vars.BC_CDN_TEMP_CONTRACTS }}
+        BC_CDN_LICENSES: ${{ vars.BC_CDN_LICENSES }}
+        BC_CDN_TEMP_LICENSES: ${{ vars.BC_CDN_TEMP_LICENSES }}      
         BC_BACKEND_HOST: ${{ vars.BC_BACKEND_HOST }}
         BC_FRONTEND_HOST: ${{ vars.BC_FRONTEND_HOST }}
         BC_MINIMUM_AGE: ${{ vars.BC_MINIMUM_AGE }}
         BC_EXPO_ACCESS_TOKEN: ${{ secrets.BC_EXPO_ACCESS_TOKEN }}
         BC_STRIPE_SECRET_KEY: ${{ secrets.BC_STRIPE_SECRET_KEY }}
         BC_ADMIN_EMAIL: ${{ vars.BC_ADMIN_EMAIL }}
+
     - name: Upload coverage reports to Codecov
-      uses: codecov/codecov-action@v4
+      uses: codecov/codecov-action@v5
       with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: cobertura-coverage.xml
-          directory: ./api/coverage
-          fail_ci_if_error: true
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./cobertura-coverage.xml
+        directory: ./api/coverage
+        fail_ci_if_error: true
+        verbose: true
+
+    - name: Upload coverage reports to Coveralls
+      uses: coverallsapp/github-action@v2
+      with:
+        file: ./api/coverage/cobertura-coverage.xml
+        base-path: api
+        fail-on-error: true
+        measure: true

@@ -1,5 +1,5 @@
-import LocalizedStrings from 'react-localization'
-import * as langHelper from '@/common/langHelper'
+import LocalizedStrings from "react-localization";
+import * as langHelper from "@/common/langHelper";
 
 const strings = new LocalizedStrings({
   fr: {
@@ -16,6 +16,11 @@ const strings = new LocalizedStrings({
     SIGN_UP_HEADING: "Anmelden",
     SIGN_UP: "Anmelden",
     SIGN_UP_ERROR: "Bei der Anmeldung ist ein Fehler aufgetreten.",
+  },
+  es: {
+    SIGN_UP_HEADING: "Regístrate",
+    SIGN_UP: "Regístrate",
+    SIGN_UP_ERROR: "Se produjo un error durante el registro.",
   },
 });
 

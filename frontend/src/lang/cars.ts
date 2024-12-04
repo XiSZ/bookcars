@@ -95,6 +95,7 @@ const strings = new LocalizedStrings({
     TITLE_2: " pour vous",
     TITLE_CAR_AVAILABLE: "voiture disponible",
     TITLE_CARS_AVAILABLE: "voitures disponibles",
+    DETAILS: 'Détails',
   },
   en: {
     NEW_CAR: "New car",
@@ -270,6 +271,7 @@ const strings = new LocalizedStrings({
     TITLE_2: " für Sie",
     TITLE_CAR_AVAILABLE: "verfügbares Auto",
     TITLE_CARS_AVAILABLE: "verfügbare Autos",
+    DETAILS: 'Details',
   },
   es: {
     NEW_CAR: "Coche nuevo",
@@ -360,6 +362,7 @@ const strings = new LocalizedStrings({
     TITLE_2: " para ti",
     TITLE_CAR_AVAILABLE: "coche disponible",
     TITLE_CARS_AVAILABLE: "coches disponibles",
+    DETAILS: 'Detalles',
   },
 });
 
