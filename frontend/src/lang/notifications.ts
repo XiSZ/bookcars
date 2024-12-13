@@ -40,6 +40,18 @@ const strings = new LocalizedStrings({
       "Möchten Sie diese Benachrichtigungen wirklich löschen?",
   },
 });
+  es: {
+    EMPTY_LIST: 'No hay notificaciones',
+    VIEW: 'Ver',
+    MARK_AS_READ: 'Marcar como leído',
+    MARK_AS_UNREAD: 'Marcar como no leído',
+    MARK_ALL_AS_READ: 'Marcar todo como leíd',
+    MARK_ALL_AS_UNREAD: 'Marcar todo como no leíd',
+    DELETE_ALL: 'Eliminar todo',
+    DELETE_NOTIFICATION: '¿Está seguro de que desea eliminar esta notificación?',
+    DELETE_NOTIFICATIONS: '¿Está seguro de que desea eliminar estas notificaciones?',
+  },
+})
 
 langHelper.setLanguage(strings);
 export { strings };

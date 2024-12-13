@@ -156,7 +156,7 @@ const strings = new LocalizedStrings({
     ALL: 'All',
     SUPPLIER: 'Supplier',
     STATUS: 'Status',
-    PICK_UP_LOCATION: 'Pickup location',
+    PICK_UP_LOCATION: 'Pick-up location',
     DROP_OFF_LOCATION: 'Drop-off location',
     OPTIONS: 'Options',
     OF: 'of',

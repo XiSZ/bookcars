@@ -1,5 +1,5 @@
-import LocalizedStrings from 'react-localization';
-import * as langHelper from '@/common/langHelper';
+import LocalizedStrings from 'react-localization'
+import * as langHelper from '@/common/langHelper'
 
 const strings = new LocalizedStrings({
   fr: {
@@ -19,6 +19,39 @@ const strings = new LocalizedStrings({
     MIDI: 'MIDI',
     MAXI: 'MAXI',
     SEARCH_FOR_CAR: 'Rechercher une voiture',
+    TITLE: 'Les meilleures offres de location de voitures',
+    SUBTITLE: "Comparez nos prix et réservez votre voiture dès aujourd'hui !",
+    WHY_TITLE: "Réservez avec nous dès aujourd'hui et conduisez en toute confiance !",
+    WHY_SERVICE_TITLE: 'Service',
+    WHY_SERVICE: "Assistance routière 24 h/24 pour une tranquillité d'esprit.",
+    WHY_CHARGES_TITLE: 'Pas de frais cachés',
+    WHY_CHARGES: 'Ce que vous voyez est ce que vous payez.',
+    WHY_FLEET_TITLE: 'Flotte distinctive',
+    WHY_FLEET: 'Choisissez parmi une large sélection de véhicules haut de gamme et fiables.',
+    WHY_MILEAGE_TITLE: 'Kilométrage illimité',
+    WHY_MILEAGE: 'Explorez les villes et au-delà sans limites.',
+    WHY_MILEAGE_ASTERISK: "* s'applique lorsque cela est indiqué",
+    SERVICES_TITLE: "Qu'est-ce qui nous différencie ?",
+    SERVICES_FLEET_TITLE: 'Large gamme de véhicules',
+    SERVICES_FLEET: 'Des voitures citadines compactes aux SUV de luxe, notre flotte distinctive répond à tous les besoins de voyage. Que ce soit pour les affaires ou les loisirs, nous avons la voiture parfaite pour votre voyage.',
+    SERVICES_FLEXIBLE_TITLE: 'Prise en charge et restitution flexibles',
+    SERVICES_FLEXIBLE: "Grâce à nos emplacements pratiques et à nos horaires flexibles, nous facilitons la location d'une voiture. Que vous arriviez dans une ville ou dans un aéroport international, votre véhicule sera prêt quand vous l'êtes.",
+    SERVICES_PRICES_TITLE: 'Excellents prix',
+    SERVICES_PRICES: "Nous proposons des tarifs compétitifs sur tous les véhicules, vous assurant d'obtenir des voitures de qualité supérieure à des prix imbattables. Pas besoin de faire de compromis - obtenez un excellent rapport qualité-prix à chaque fois.",
+    SERVICES_BOOKING_ONLINE_TITLE: 'Réservation en ligne facile',
+    SERVICES_BOOKING_ONLINE: "'Évitez les files d'attente et réservez votre location de voiture en quelques minutes via notre plateforme en ligne conviviale. Comparez les options, personnalisez votre location et sécurisez votre véhicule sans effort.",
+    SERVICE_INSTANT_BOOKING_TITLE: 'Réservation instantanée',
+    SERVICE_INSTANT_BOOKING: "Pas d'attente ! Une fois que vous avez choisi votre véhicule et effectué votre réservation, vous recevrez une confirmation immédiate, garantissant un processus de location fluide et sans tracas.",
+    SERVICES_SUPPORT_TITLE: 'Assistance client 24h/24 et 7j/7',
+    SERVICES_SUPPORT: "Que vous réserviez un véhicule, que vous ayez besoin d'assistance sur la route ou que vous ayez des questions, notre équipe d'assistance dédiée est disponible 24 heures sur 24.",
+    CUSTOMER_CARE_TITLE: 'Service client BookCars',
+    CONTACT_US: 'Nous Contacter',
+    CUSTOMER_CARE_SUBTITLE: 'Toujours là pour vous aider',
+    CUSTOMER_CARE_TEXT: 'Chez BookCars, nous nous engageons à fournir une assistance rapide et fiable pour garantir que votre expérience de location de voiture soit fluide et agréable du début à la fin.',
+    CUSTOMER_CARE_ASSISTANCE: 'Assistance routière 24 h/24 et 7 j/7',
+    CUSTOMER_CARE_MODIFICATION: 'Demandes de renseignements et modifications',
+    CUSTOMER_CARE_GUIDANCE: 'Guide pour la sélection du véhicule',
+    CUSTOMER_CARE_SUPPORT: 'Conseils et assistance',
   },
   de: {
     PICK_UP_DATE: 'Abholdatum',
@@ -30,7 +63,6 @@ const strings = new LocalizedStrings({
     MAP_PICK_UP_SELECTED: 'Abholort ausgewählt',
     MAP_DROP_OFF_SELECTED: 'Rückgabeort ausgewählt',
   },
-  es: {},
   en: {
     PICK_UP_DATE: 'Pick-up Date',
     DROP_OFF_DATE: 'Drop-off Date',
@@ -76,22 +108,7 @@ const strings = new LocalizedStrings({
     SERVICE_INSTANT_BOOKING:
       "No waiting around! Once you choose your vehicle and complete your booking, you'll receive an immediate confirmation, ensuring a smooth and hassle-free rental process.",
     SERVICES_SUPPORT_TITLE: '24/7 Customer Support',
-    SERVICES_SUPPORT:
-      "Whether you're booking a vehicle, need assistance on the road, or have any questions, our dedicated support team is available around the clock.",
-    FAQ_TITLE: 'FAQ',
-    MORE_QUESTIONS: 'More questions?',
-    FAQ_DOCUMENTS_TITLE: 'What documents do I need to rent a vehicle?',
-    FAQ_DOCUMENTS_TEXT:
-      "To rent a vehicle, you'll typically need a valid driver's license, a credit card for payment and security deposit, and proof of insurance. Additional requirements may vary depending on your location and the type of vehicle you're renting.",
-    FAQ_SERVICES_TITLE: 'Do you offer delivery and pickup services?',
-    FAQ_SERVICES_TEXT:
-      "Yes, we do! We offer convenient delivery and pickup services to various locations, including airports, hotels, and more. Just let us know your preferred location, and we'll take care of the rest.",
-    FAQ_AGE_TITLE: 'Is there an age requirement for renting a vehicle?',
-    FAQ_AGE_TEXT:
-      'Yes, the minimum age requirement for renting a vehicle is usually 18 years old. However, some locations may have higher age requirements or additional restrictions for certain vehicle types.',
-    FAQ_CANCEL_TITLE: 'What happens if I need to cancel my reservation?',
-    FAQ_CANCEL_TEXT:
-      'We understand that plans can change, which is why we offer flexible cancellation policies. Depending on the timing of your cancellation, there may be applicable fees. Please refer to our terms and conditions or contact our customer support team for assistance with cancellations.',
+    SERVICES_SUPPORT: "Whether you're booking a vehicle, need assistance on the road, or have any questions, our dedicated support team is available around the clock.",
     CUSTOMER_CARE_TITLE: 'BookCars Customer Care',
     CONTACT_US: 'Contact Us',
     CUSTOMER_CARE_SUBTITLE: 'Always Here to Help',
@@ -119,65 +136,41 @@ const strings = new LocalizedStrings({
     MIDI: 'MIDI',
     MAXI: 'MAXI',
     SEARCH_FOR_CAR: 'Buscar un coche',
-    TITLE: 'Les meilleures offres de location de voitures',
-    SUBTITLE: "Comparez nos prix et réservez votre voiture dès aujourd'hui !",
-    WHY_TITLE:
-      "Réservez avec nous dès aujourd'hui et conduisez en toute confiance !",
-    WHY_SERVICE_TITLE: 'Service',
-    WHY_SERVICE: "Assistance routière 24 h/24 pour une tranquillité d'esprit.",
-    WHY_CHARGES_TITLE: 'Pas de frais cachés',
-    WHY_CHARGES: 'Ce que vous voyez est ce que vous payez.',
-    WHY_FLEET_TITLE: 'Flotte distinctive',
-    WHY_FLEET:
-      'Choisissez parmi une large sélection de véhicules haut de gamme et fiables.',
-    WHY_MILEAGE_TITLE: 'Kilométrage illimité',
-    WHY_MILEAGE: 'Explorez les villes et au-delà sans limites.',
-    WHY_MILEAGE_ASTERISK: "* s'applique lorsque cela est indiqué",
-    SERVICES_TITLE: "Qu'est-ce qui nous différencie ?",
-    SERVICES_FLEET_TITLE: 'Large gamme de véhicules',
-    SERVICES_FLEET:
-      'Des voitures citadines compactes aux SUV de luxe, notre flotte distinctive répond à tous les besoins de voyage. Que ce soit pour les affaires ou les loisirs, nous avons la voiture parfaite pour votre voyage.',
-    SERVICES_FLEXIBLE_TITLE: 'Prise en charge et restitution flexibles',
-    SERVICES_FLEXIBLE:
-      "Grâce à nos emplacements pratiques et à nos horaires flexibles, nous facilitons la location d'une voiture. Que vous arriviez dans une ville ou dans un aéroport international, votre véhicule sera prêt quand vous l'êtes.",
-    SERVICES_PRICES_TITLE: 'Excellents prix',
-    SERVICES_PRICES:
-      "Nous proposons des tarifs compétitifs sur tous les véhicules, vous assurant d'obtenir des voitures de qualité supérieure à des prix imbattables. Pas besoin de faire de compromis - obtenez un excellent rapport qualité-prix à chaque fois.",
-    SERVICES_BOOKING_ONLINE_TITLE: 'Réservation en ligne facile',
-    SERVICES_BOOKING_ONLINE:
-      "'Évitez les files d'attente et réservez votre location de voiture en quelques minutes via notre plateforme en ligne conviviale. Comparez les options, personnalisez votre location et sécurisez votre véhicule sans effort.",
-    SERVICE_INSTANT_BOOKING_TITLE: 'Réservation instantanée',
-    SERVICE_INSTANT_BOOKING:
-      "Pas d'attente ! Une fois que vous avez choisi votre véhicule et effectué votre réservation, vous recevrez une confirmation immédiate, garantissant un processus de location fluide et sans tracas.",
-    SERVICES_SUPPORT_TITLE: 'Assistance client 24h/24 et 7j/7',
-    SERVICES_SUPPORT:
-      "Que vous réserviez un véhicule, que vous ayez besoin d'assistance sur la route ou que vous ayez des questions, notre équipe d'assistance dédiée est disponible 24 heures sur 24.",
-    FAQ_TITLE: 'FAQ',
-    MORE_QUESTIONS: 'Plus de questions ?',
-    FAQ_DOCUMENTS_TITLE:
-      'De quels documents ai-je besoin pour louer un véhicule ?',
-    FAQ_DOCUMENTS_TEXT:
-      "Pour louer un véhicule, vous aurez généralement besoin d'un permis de conduire valide, d'une carte de crédit pour le paiement et le dépôt de garantie, ainsi que d'une preuve d'assurance. Des exigences supplémentaires peuvent varier en fonction de votre emplacement et du type de véhicule que vous louez.",
-    FAQ_SERVICES_TITLE:
-      'Proposez-vous des services de livraison et de restitution ?',
-    FAQ_SERVICES_TEXT:
-      'Oui, nous le faisons ! Nous proposons des services de livraison et de ramassage pratiques à divers endroits, notamment les aéroports, les hôtels, etc. Dites-nous simplement votre destination préférée et nous nous occuperons du reste.',
-    FAQ_AGE_TITLE: "Y a-t-il une limite d'âge pour louer un véhicule ?",
-    FAQ_AGE_TEXT:
-      "Oui, l'âge minimum requis pour louer un véhicule est généralement de 18 ans. Cependant, certains endroits peuvent avoir des exigences d'âge plus élevées ou des restrictions supplémentaires pour certains types de véhicules.",
-    FAQ_CANCEL_TITLE: 'Que se passe-t-il si je dois annuler ma réservation ?',
-    FAQ_CANCEL_TEXT:
-      "Nous comprenons que les plans peuvent changer, c'est pourquoi nous proposons des politiques d'annulation flexibles. Selon le moment de votre annulation, des frais peuvent s'appliquer. Veuillez vous référer à nos conditions générales ou contacter notre équipe d'assistance client pour obtenir de l'aide concernant les annulations.",
-    CUSTOMER_CARE_TITLE: 'Service client BookCars',
-    CONTACT_US: 'Nous Contacter',
-    CUSTOMER_CARE_SUBTITLE: 'Toujours là pour vous aider',
-    CUSTOMER_CARE_TEXT:
-      'Chez BookCars, nous nous engageons à fournir une assistance rapide et fiable pour garantir que votre expérience de location de voiture soit fluide et agréable du début à la fin.',
-    CUSTOMER_CARE_ASSISTANCE: 'Assistance routière 24 h/24 et 7 j/7',
-    CUSTOMER_CARE_MODIFICATION: 'Demandes de renseignements et modifications',
-    CUSTOMER_CARE_GUIDANCE: 'Guide pour la sélection du véhicule',
-    CUSTOMER_CARE_SUPPORT: 'Conseils et assistance',
-    },
+
+    TITLE: 'Las mejores ofertas de alquiler de coches',
+    SUBTITLE: '¡Compare nuestros precios y reserve su coche hoy mismo!',
+    WHY_TITLE: '¡Reserve con nosotros hoy y conduzca con confianza!',
+    WHY_SERVICE_TITLE: 'Servicio',
+    WHY_SERVICE: 'Asistencia en carretera las 24 horas para su tranquilidad.',
+    WHY_CHARGES_TITLE: 'Sin cargos ocultos',
+    WHY_CHARGES: 'Lo que ve es lo que paga.',
+    WHY_FLEET_TITLE: 'Flota distintiva',
+    WHY_FLEET: 'Elija entre una amplia selección de vehículos premium y confiables.',
+    WHY_MILEAGE_TITLE: 'Kilometraje ilimitado',
+    WHY_MILEAGE: 'Explore ciudades y más allá sin límites.',
+    WHY_MILEAGE_ASTERISK: '*se aplica cuando se indica',
+    SERVICES_TITLE: 'Lo que nos distingue ¿Diferente?',
+    SERVICES_FLEET_TITLE: 'Amplia gama de vehículos',
+    SERVICES_FLEET: 'Desde coches urbanos compactos hasta SUV de lujo, nuestra distintiva flota satisface todas las necesidades de viaje. Ya sea por negocios o por placer, tenemos el coche perfecto para su viaje.',
+    SERVICES_FLEXIBLE_TITLE: 'Recogida y devolución flexibles',
+    SERVICES_FLEXIBLE: 'Ofrecemos ubicaciones convenientes y horarios flexibles, para que alquilar un coche sea una experiencia sin complicaciones. Tanto si llega a una ciudad como a un aeropuerto internacional, su vehículo estará listo cuando usted lo esté.',
+    SERVICES_PRICES_TITLE: 'Precios excelentes',
+    SERVICES_PRICES: 'Ofrecemos tarifas competitivas en todos los vehículos, lo que garantiza que obtendrá automóviles de la mejor calidad a precios inmejorables. No es necesario que haga concesiones: obtenga una excelente relación calidad-precio en todo momento.',
+    SERVICES_BOOKING_ONLINE_TITLE: 'Reserva en línea sencilla',
+    SERVICES_BOOKING_ONLINE: 'Evite las colas y reserve su alquiler de automóvil en minutos a través de nuestra plataforma en línea fácil de usar. Compare opciones, personalice su alquiler y asegure su vehículo sin esfuerzo.',
+    SERVICE_INSTANT_BOOKING_TITLE: 'Reserva instantánea',
+    SERVICE_INSTANT_BOOKING: '¡Sin esperas! Una vez que elijas tu vehículo y completes tu reserva, recibirás una confirmación inmediata, lo que garantiza un proceso de alquiler sin complicaciones y sin complicaciones.',
+    SERVICES_SUPPORT_TITLE: 'Atención al cliente las 24 horas, los 7 días de la semana',
+    SERVICES_SUPPORT: 'Ya sea que estés reservando un vehículo, necesites asistencia en la carretera o tengas alguna pregunta, nuestro equipo de soporte dedicado está disponible las 24 horas.',
+    CUSTOMER_CARE_TITLE: 'Atención al cliente de BookCars',
+    CONTACT_US: 'Contáctanos',
+    CUSTOMER_CARE_SUBTITLE: 'Siempre aquí para ayudar',
+    CUSTOMER_CARE_TEXT: 'En BookCars, nos dedicamos a brindar asistencia rápida y confiable para garantizar que su experiencia de alquiler de automóviles sea fluida y placentera de principio a fin',
+    CUSTOMER_CARE_ASSISTANCE: 'Asistencia en carretera las 24 horas, los 7 días de la semana',
+    CUSTOMER_CARE_MODIFICATION: 'Consultas y modificaciones',
+    CUSTOMER_CARE_GUIDANCE: 'Orientación para la selección de vehículos',
+    CUSTOMER_CARE_SUPPORT: 'Asesoramiento y asistencia',
+  },
 })
 langHelper.setLanguage(strings)
 export { strings }

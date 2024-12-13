@@ -7,16 +7,16 @@ const strings = new LocalizedStrings({
     DROP_OFF_LOCATION: "Lieu de restitution",
   },
   en: {
-    PICK_UP_LOCATION: "Pickup location",
+    PICK_UP_LOCATION: "Pick-up location",
     DROP_OFF_LOCATION: "Drop-off location",
-  },
-  de: {
-    PICK_UP_LOCATION: "Abholort",
-    DROP_OFF_LOCATION: "Abgabeort",
   },
   es: {
     PICK_UP_LOCATION: "Lugar de recogida",
     DROP_OFF_LOCATION: "Lugar de devolución",
+  },
+  de: {
+    PICK_UP_LOCATION: "Abholstandort",
+    DROP_OFF_LOCATION: "Rückgabestandort",
   },
 });
 
