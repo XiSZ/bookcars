@@ -14,7 +14,12 @@ const strings = new LocalizedStrings({
     SELECT_PICK_UP_LOCATION: "Als Abholort festlegen",
     SELECT_DROP_OFF_LOCATION: "Als Rückgabeort festlegen",
   },
-});
+
+  es: {
+    SELECT_PICK_UP_LOCATION: 'Seleccionar ubicación',
+    SELECT_DROP_OFF_LOCATION: 'Establecer como ubicación de entrega',
+  },
+})
 
 langHelper.setLanguage(strings);
 export { strings };

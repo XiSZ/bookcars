@@ -1,5 +1,5 @@
-import LocalizedStrings from 'react-localization'
-import * as langHelper from '@/common/langHelper'
+import LocalizedStrings from "react-localization";
+import * as langHelper from "@/common/langHelper";
 
 const strings = new LocalizedStrings({
   fr: {
@@ -16,6 +16,12 @@ const strings = new LocalizedStrings({
     SETTINGS_UPDATED: "Einstellungen erfolgreich aktualisiert.",
     NETWORK_SETTINGS: "Netzwerkeinstellungen",
     SETTINGS_EMAIL_NOTIFICATIONS: "E-Mail-Benachrichtigungen aktivieren",
+  },
+  es: {
+    SETTINGS_UPDATED: "Configuración actualizada correctamente.",
+    NETWORK_SETTINGS: "Configuración de red",
+    SETTINGS_EMAIL_NOTIFICATIONS:
+      "Habilitar notificaciones por correo electrónico",
   },
 });
 
