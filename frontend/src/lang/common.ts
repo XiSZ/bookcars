@@ -1,7 +1,7 @@
-import LocalizedStrings from 'react-localization';
-import env from '@/config/env.config';
-import * as langHelper from '@/common/langHelper';
-import * as StripeService from '@/services/StripeService';
+import LocalizedStrings from 'localized-strings'
+import env from '@/config/env.config'
+import * as langHelper from '@/common/langHelper'
+import * as StripeService from '@/services/StripeService'
 
 const strings = new LocalizedStrings({
   fr: {
