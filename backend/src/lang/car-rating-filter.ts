@@ -16,6 +16,7 @@ const strings = new LocalizedStrings({
     RATING_3: "(3 and up)",
     RATING_4: "(4 and up)",
   },
+<<<<<<< HEAD
   de: {
     RATING: "Bewertung",
     RATING_1: "(1 und mehr)",
@@ -24,6 +25,16 @@ const strings = new LocalizedStrings({
     RATING_4: "(4 und mehr)",
   },
 });
+=======
+  es: {
+    RATING: 'Clasificación',
+    RATING_1: '(1 y más)',
+    RATING_2: '(2 y más)',
+    RATING_3: '(3 y más)',
+    RATING_4: '(4 y más)',
+  },
+})
+>>>>>>> origin/main
 
 langHelper.setLanguage(strings);
 export { strings };

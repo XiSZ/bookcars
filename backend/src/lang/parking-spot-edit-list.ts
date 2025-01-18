@@ -8,10 +8,17 @@ const strings = new LocalizedStrings({
   en: {
     NEW_PARKING_SPOT: "New parking spot",
   },
+<<<<<<< HEAD
   de: {
     NEW_PARKING_SPOT: "Neuer Parkplatz",
   },
 });
+=======
+  es: {
+    NEW_PARKING_SPOT: 'Nueva plaza de aparcamiento',
+  },
+})
+>>>>>>> origin/main
 
 langHelper.setLanguage(strings);
 export { strings };

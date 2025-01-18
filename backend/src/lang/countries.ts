@@ -20,6 +20,7 @@ const strings = new LocalizedStrings({
     COUNTRY: "country",
     COUNTRIES: "countries",
   },
+<<<<<<< HEAD
   de: {
     NEW_COUNTRY: "Neues Land",
     DELETE_COUNTRY: "Möchten Sie dieses Land wirklich löschen?",
@@ -30,6 +31,17 @@ const strings = new LocalizedStrings({
     COUNTRIES: "Länder",
   },
 });
+=======
+  es: {
+    NEW_COUNTRY: 'Nuevo país',
+    DELETE_COUNTRY: '¿Estás seguro de que quieres eliminar este país?',
+    CANNOT_DELETE_COUNTRY: 'Este país no puede ser eliminado porque está relacionado con ubicaciones.',
+    EMPTY_LIST: 'No hay países.',
+    COUNTRY: 'país',
+    COUNTRIES: 'países',
+  },
+})
+>>>>>>> origin/main
 
 langHelper.setLanguage(strings);
 export { strings };

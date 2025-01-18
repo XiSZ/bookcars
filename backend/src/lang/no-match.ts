@@ -8,10 +8,17 @@ const strings = new LocalizedStrings({
   en: {
     NO_MATCH: "Nothing to see here!",
   },
+<<<<<<< HEAD
   de: {
     NO_MATCH: "Hier gibt es nichts zu sehen!",
   },
 });
+=======
+  es: {
+    NO_MATCH: '¡Nada que ver aquí!',
+  },
+})
+>>>>>>> origin/main
 
 langHelper.setLanguage(strings);
 export { strings };

@@ -17,6 +17,7 @@ const strings = new LocalizedStrings({
     DELETE_SELECTION: "Delete selectied users",
     BLACKLIST: "Add to the blacklist",
   },
+<<<<<<< HEAD
   de: {
     DELETE_USER:
       "Möchten Sie diesen Benutzer und alle seine Daten wirklich löschen?",
@@ -26,6 +27,15 @@ const strings = new LocalizedStrings({
     BLACKLIST: "Zur schwarzen Liste hinzufügen",
   },
 });
+=======
+  es: {
+    DELETE_USER: '¿Estás seguro de que quieres eliminar a este usuario y todos sus datos?',
+    DELETE_USERS: '¿Estás seguro de que quieres eliminar a los usuarios seleccionados y todos sus datos?',
+    DELETE_SELECTION: 'Eliminar los usuarios seleccionados',
+    BLACKLIST: 'Añadir a la lista negra',
+  },
+})
+>>>>>>> origin/main
 
 langHelper.setLanguage(strings);
 export { strings };

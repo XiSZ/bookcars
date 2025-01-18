@@ -5,7 +5,7 @@ import * as StripeService from '@/services/StripeService'
 
 const strings = new LocalizedStrings({
   fr: {
-    BOOKCARS: 'BookCars',
+    BOOKCARS: env.WEBSITE_NAME,
     GENERIC_ERROR: "Une erreur non gérée s'est produite.",
     CHANGE_LANGUAGE_ERROR:
       "Une erreur s'est produite lors du changement de langue.",
@@ -92,7 +92,7 @@ const strings = new LocalizedStrings({
     UPLOAD_FILE: 'Charger un ficher...',
   },
   en: {
-    BOOKCARS: 'BookCars',
+    BOOKCARS: env.WEBSITE_NAME,
     GENERIC_ERROR: 'An unhandled error occurred.',
     CHANGE_LANGUAGE_ERROR: 'An error occurred while changing language.',
     UPDATED: 'Changes made successfully.',
@@ -263,7 +263,7 @@ const strings = new LocalizedStrings({
     UPLOAD_FILE: 'Upload file...',
   },
   es: {
-    BOOKCARS: 'BookCars',
+    BOOKCARS: env.WEBSITE_NAME,
     GENERIC_ERROR: 'Se ha producido un error no gestionado.',
     CHANGE_LANGUAGE_ERROR: 'Se ha producido un error al cambiar el idioma.',
     UPDATED: 'Cambios realizados con éxito.',

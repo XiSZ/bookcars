@@ -16,6 +16,7 @@ const strings = new LocalizedStrings({
     FIVE: "5 seats",
     FIVE_PLUS: "5+ seats",
   },
+<<<<<<< HEAD
   de: {
     SEATS: "Sitze",
     TWO: "2 Sitze",
@@ -24,6 +25,16 @@ const strings = new LocalizedStrings({
     FIVE_PLUS: "5+ Sitze",
   },
 });
+=======
+  es: {
+    SEATS: 'Asientos',
+    TWO: '2 asientos',
+    FOUR: '4 asientos',
+    FIVE: '5 asientos',
+    FIVE_PLUS: '5+ asientos',
+  },
+})
+>>>>>>> origin/main
 
 langHelper.setLanguage(strings);
 export { strings };

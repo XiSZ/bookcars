@@ -8,10 +8,17 @@ const strings = new LocalizedStrings({
   en: {
     UNAUTHORIZED: "Unauthorized access",
   },
+<<<<<<< HEAD
   de: {
     UNAUTHORIZED: "Unbefugter Zugriff",
   },
 });
+=======
+  es: {
+    UNAUTHORIZED: 'Acceso no autorizado',
+  },
+})
+>>>>>>> origin/main
 
 langHelper.setLanguage(strings);
 export { strings };

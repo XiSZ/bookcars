@@ -16,6 +16,7 @@ const strings = new LocalizedStrings({
     MAXI: "Maxi",
     SCOOTER: "Scooter",
   },
+<<<<<<< HEAD
   de: {
     RANGE: "Reichweite",
     MINI: "Mini",
@@ -24,6 +25,16 @@ const strings = new LocalizedStrings({
     SCOOTER: "Scooter",
   },
 });
+=======
+  es: {
+    RANGE: 'Gama',
+    MINI: 'Mini',
+    MIDI: 'Midi',
+    MAXI: 'Maxi',
+    SCOOTER: 'Scooter',
+  },
+})
+>>>>>>> origin/main
 
 langHelper.setLanguage(strings);
 export { strings };

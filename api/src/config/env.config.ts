@@ -36,6 +36,13 @@ export const __env__ = (
 export const LANGUAGES = ["en", "fr", "es", "de"];
 
 /**
+ * Website Name
+ *
+ * @type {string}
+ */
+export const WEBSITE_NAME = __env__('BC_WEBSITE_NAME', false, 'BookCars')
+
+/**
  * Server Port. Default is 4002.
  *
  * @type {number}

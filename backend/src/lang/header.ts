@@ -47,7 +47,23 @@ const strings = new LocalizedStrings({
     SIGN_OUT: "Abmelden",
     COUNTRIES: "Länder",
   },
-});
+
+  es: {
+    DASHBOARD: 'Panel de control',
+    HOME: 'Inicio',
+    COMPANIES: 'Proveedores',
+    LOCATIONS: 'Ubicaciones',
+    CARS: 'Coches',
+    USERS: 'Usuarios',
+    ABOUT: 'Acerca de',
+    TOS: 'Términos de servicio',
+    CONTACT: 'Contacto',
+    LANGUAGE: 'Idioma',
+    SETTINGS: 'Configuración',
+    SIGN_OUT: 'Cerrar sesión',
+    COUNTRIES: 'Países',
+  },
+})
 
 langHelper.setLanguage(strings);
 export { strings };

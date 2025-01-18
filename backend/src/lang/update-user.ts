@@ -8,10 +8,17 @@ const strings = new LocalizedStrings({
   en: {
     UPDATE_USER_HEADING: "User update",
   },
+<<<<<<< HEAD
   de: {
     UPDATE_USER_HEADING: "Benutzeraktualisierung",
   },
 });
+=======
+  es: {
+    UPDATE_USER_HEADING: 'Actualización del usuario',
+  },
+})
+>>>>>>> origin/main
 
 langHelper.setLanguage(strings);
 export { strings };

@@ -8,10 +8,17 @@ const strings = new LocalizedStrings({
   en: {
     NEW_BOOKING_HEADING: "New booking",
   },
+<<<<<<< HEAD
   de: {
     NEW_BOOKING_HEADING: "Neue Buchung",
   },
 });
+=======
+  es: {
+    NEW_BOOKING_HEADING: 'Nueva reserva',
+  },
+})
+>>>>>>> origin/main
 
 langHelper.setLanguage(strings);
 export { strings };

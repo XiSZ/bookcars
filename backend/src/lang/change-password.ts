@@ -23,6 +23,7 @@ const strings = new LocalizedStrings({
     PASSWORD_UPDATE_ERROR: "An error occurred while updating password.",
     PASSWORD_UPDATE: "Password changed successfully.",
   },
+<<<<<<< HEAD
   de: {
     CHANGE_PASSWORD_HEADING: "Passwortänderung",
     CURRENT_PASSWORD: "Aktuelles Passwort",
@@ -35,6 +36,19 @@ const strings = new LocalizedStrings({
     PASSWORD_UPDATE: "Passwort erfolgreich geändert.",
   },
 });
+=======
+  es: {
+    CHANGE_PASSWORD_HEADING: 'Modificación de contraseña',
+    CURRENT_PASSWORD: 'Contraseña actual',
+    YOUR_PASSWORD: 'Tu contraseña',
+    CURRENT_PASSWORD_ERROR: 'Contraseña incorrecta',
+    NEW_PASSWORD: 'Nueva contraseña',
+    NEW_PASSWORD_ERROR: 'Por favor elija una nueva contraseña',
+    PASSWORD_UPDATE_ERROR: 'Se produjo un error al actualizar la contraseña.',
+    PASSWORD_UPDATE: 'Contraseña cambiada con éxito.',
+  },
+})
+>>>>>>> origin/main
 
 langHelper.setLanguage(strings);
 export { strings };

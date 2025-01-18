@@ -10,11 +10,19 @@ const strings = new LocalizedStrings({
     CREATE_USER_HEADING: "New user",
     BIRTH_DATE: "Birth date",
   },
+<<<<<<< HEAD
   de: {
     CREATE_USER_HEADING: "Neuer Benutzer",
     BIRTH_DATE: "Geburtsdatum",
   },
 });
+=======
+  es: {
+    CREATE_USER_HEADING: 'Nuevo usuario',
+    BIRTH_DATE: 'Fecha de nacimiento',
+  },
+})
+>>>>>>> origin/main
 
 langHelper.setLanguage(strings);
 export { strings };

@@ -16,6 +16,7 @@ const strings = new LocalizedStrings({
     RECAPTCHA_ERROR: "Fill out the captcha to continue.",
     SIGN_UP_ERROR: "An error occurred during sign up.",
   },
+<<<<<<< HEAD
   de: {
     SIGN_UP_HEADING: "Anmelden",
     TOS_SIGN_UP:
@@ -25,6 +26,16 @@ const strings = new LocalizedStrings({
     SIGN_UP_ERROR: "Bei der Anmeldung ist ein Fehler aufgetreten.",
   },
 });
+=======
+  es: {
+    SIGN_UP_HEADING: 'Registrarse',
+    TOS_SIGN_UP: 'He leído y acepto los Términos de uso.',
+    SIGN_UP: 'Registrarse',
+    RECAPTCHA_ERROR: 'Complete el captcha para continuar.',
+    SIGN_UP_ERROR: 'Se produjo un error durante el registro.',
+  },
+})
+>>>>>>> origin/main
 
 langHelper.setLanguage(strings);
 export { strings };

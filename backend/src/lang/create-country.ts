@@ -14,6 +14,7 @@ const strings = new LocalizedStrings({
     INVALID_COUNTRY: "This country already exists.",
     COUNTRY_CREATED: "Country created successfully.",
   },
+<<<<<<< HEAD
   de: {
     NEW_COUNTRY_HEADING: "Neues Land",
     COUNTRY_NAME: "Land",
@@ -21,6 +22,15 @@ const strings = new LocalizedStrings({
     COUNTRY_CREATED: "Land erfolgreich erstellt.",
   },
 });
+=======
+  es: {
+    NEW_COUNTRY_HEADING: 'Nuevo país',
+    COUNTRY_NAME: 'País',
+    INVALID_COUNTRY: 'Este país ya existe.',
+    COUNTRY_CREATED: 'País creado con éxito.',
+  },
+})
+>>>>>>> origin/main
 
 langHelper.setLanguage(strings);
 export { strings };

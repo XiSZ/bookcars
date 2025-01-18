@@ -51,7 +51,23 @@ const strings = new LocalizedStrings({
     DAYS: "Tage",
     COST: "Gesamtkosten",
   },
-});
+  es: {
+    CAR: 'Coche',
+    SUPPLIER: 'Proveedor',
+    DRIVER: 'Conductor',
+    PRICE: 'Precio',
+    STATUS: 'Estado',
+    UPDATE_SELECTION: 'Modificar selección',
+    DELETE_SELECTION: 'Eliminar selección',
+    UPDATE_STATUS: 'Modificación del estado',
+    NEW_STATUS: 'Nuevo estado',
+    DELETE_BOOKING: '¿Estás seguro de que quieres eliminar esta reserva?',
+    DELETE_BOOKINGS: '¿Estás seguro de que quieres eliminar las reservas seleccionadas?',
+    EMPTY_LIST: 'Sin reservas.',
+    DAYS: 'Días',
+    COST: 'Coste',
+  },
+})
 
 langHelper.setLanguage(strings);
 export { strings };

@@ -1,5 +1,5 @@
-import LocalizedStrings from 'localized-strings'
-import * as langHelper from '@/common/langHelper'
+import LocalizedStrings from "localized-strings";
+import * as langHelper from "@/common/langHelper";
 
 const strings = new LocalizedStrings({
   fr: {
@@ -13,6 +13,11 @@ const strings = new LocalizedStrings({
   de: {
     REQUIRED_FIELD: "Bitte füllen Sie das Feld aus: ",
     REQUIRED_FIELDS: "Bitte füllen Sie die Felder aus: ",
+  },
+
+  es: {
+    REQUIRED_FIELD: "Por favor, complete el campo: ",
+    REQUIRED_FIELDS: "Por favor, complete los campos: ",
   },
 });
 

@@ -14,6 +14,7 @@ const strings = new LocalizedStrings({
     DELETE_SUPPLIER:
       "Are you sure you want to delete this supplier and all its data?",
   },
+<<<<<<< HEAD
   de: {
     EMPTY_LIST: "Keine Lieferanten.",
     VIEW_SUPPLIER: "Lieferantenprofil anzeigen",
@@ -21,6 +22,14 @@ const strings = new LocalizedStrings({
       "Möchten Sie diesen Lieferanten und alle seine Daten wirklich löschen?",
   },
 });
+=======
+  es: {
+    EMPTY_LIST: 'No hay proveedores.',
+    VIEW_SUPPLIER: 'Ver perfil del proveedor',
+    DELETE_SUPPLIER: '¿Estás seguro de que quieres eliminar este proveedor y todos sus datos?',
+  },
+})
+>>>>>>> origin/main
 
 langHelper.setLanguage(strings);
 export { strings };

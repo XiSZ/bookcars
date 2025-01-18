@@ -18,6 +18,7 @@ const strings = new LocalizedStrings({
     COUNTRY: "Country",
     PARKING_SPOTS: "Parking spots",
   },
+<<<<<<< HEAD
   de: {
     NEW_LOCATION_HEADING: "Neuer Standort",
     LOCATION_NAME: "Ort",
@@ -27,6 +28,17 @@ const strings = new LocalizedStrings({
     PARKING_SPOTS: "Parkplätze",
   },
 });
+=======
+  es: {
+    NEW_LOCATION_HEADING: 'Nuevo lugar',
+    LOCATION_NAME: 'Lugar',
+    INVALID_LOCATION: 'Este lugar ya existe.',
+    LOCATION_CREATED: 'Lugar creado con éxito.',
+    COUNTRY: 'País',
+    PARKING_SPOTS: 'Plazas de aparcamiento',
+  },
+})
+>>>>>>> origin/main
 
 langHelper.setLanguage(strings);
 export { strings };

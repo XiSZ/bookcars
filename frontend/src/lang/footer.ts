@@ -1,7 +1,12 @@
 import LocalizedStrings from 'localized-strings'
 import * as langHelper from '@/common/langHelper'
+import env from '@/config/env.config'
 
+<<<<<<< HEAD
 const COPYRIGHT_PART1 = `Copyright © ${new Date().getFullYear()} BookCars`;
+=======
+const COPYRIGHT_PART1 = `Copyright © ${new Date().getFullYear()} ${env.WEBSITE_NAME}`
+>>>>>>> origin/main
 
 const strings = new LocalizedStrings({
   fr: {
@@ -15,7 +20,7 @@ const strings = new LocalizedStrings({
     LOCATIONS: 'Lieux',
     SUPPORT: 'Support',
     CONTACT: 'Contact',
-    SECURE_PAYMENT: 'Paiement 100% sécurisé avec BookCars',
+    SECURE_PAYMENT: `Paiement 100% sécurisé avec ${env.WEBSITE_NAME}`,
     PRIVACY_POLICY: 'Politique de Confidentialité',
     FAQ: 'FAQ',
   },
@@ -30,7 +35,7 @@ const strings = new LocalizedStrings({
     LOCATIONS: 'Locations',
     SUPPORT: 'Support',
     CONTACT: 'Contact',
-    SECURE_PAYMENT: '100% secure payment with BookCars',
+    SECURE_PAYMENT: `100% secure payment with ${env.WEBSITE_NAME}`,
     PRIVACY_POLICY: 'Privacy Policy',
     FAQ: 'FAQ',
   },
@@ -45,7 +50,7 @@ const strings = new LocalizedStrings({
     LOCATIONS: 'Ubicaciones',
     SUPPORT: 'Soporte',
     CONTACT: 'Contacto',
-    SECURE_PAYMENT: 'Pago 100% seguro con BookCars',
+    SECURE_PAYMENT: `Pago 100% seguro con ${env.WEBSITE_NAME}`,
     PRIVACY_POLICY: 'Política de Privacidad',
     FAQ: 'Preguntas frecuentes',
   },

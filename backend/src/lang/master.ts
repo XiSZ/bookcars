@@ -17,6 +17,7 @@ const strings = new LocalizedStrings({
     VALIDATION_EMAIL_SENT: "Validation email sent.",
     VALIDATION_EMAIL_ERROR: "An error occurred while sending validation email.",
   },
+<<<<<<< HEAD
   de: {
     VALIDATE_EMAIL:
       "Eine Bestätigungs-E-Mail wurde an Ihre E-Mail-Adresse gesendet. Bitte überprüfen Sie Ihren Posteingang und bestätigen Sie Ihr Konto, indem Sie auf den Link in der E-Mail klicken. Es wird nach einem Tag ablaufen. Wenn Sie die Bestätigungs-E-Mail nicht erhalten haben, klicken Sie auf erneut senden.",
@@ -26,6 +27,15 @@ const strings = new LocalizedStrings({
       "Beim Senden der Bestätigungs-E-Mail ist ein Fehler aufgetreten.",
   },
 });
+=======
+  es: {
+    VALIDATE_EMAIL: 'Se ha enviado un correo electrónico de validación a su dirección de correo electrónico. Por favor, revise su bandeja de entrada y valide su cuenta haciendo clic en el enlace del correo electrónico. Expirará después de un día. Si no recibió el correo electrónico de validación, haga clic en reenviar.',
+    RESEND: 'Reenviar',
+    VALIDATION_EMAIL_SENT: 'Correo electrónico de validación enviado.',
+    VALIDATION_EMAIL_ERROR: 'Se produjo un error al enviar el correo electrónico de validación.',
+  },
+})
+>>>>>>> origin/main
 
 langHelper.setLanguage(strings);
 export { strings };
