@@ -50,21 +50,27 @@ const CURRENCIES: Currency[] = [
     symbol: "€",
   },
   {
-<<<<<<< HEAD
     code: "GBP",
     symbol: "£",
-  },
-];
-=======
-    code: 'GBP',
-    symbol: '£',
   },
   {
     code: 'AUD',
     symbol: '$',
   },
-]
->>>>>>> origin/main
+];
+
+const getPaymentGateway = () => {
+  const paymentGateway = String(import.meta.env.VITE_BC_PAYMENT_GATEWAY || 'stripe').toUpperCase()
+
+  if (paymentGateway === 'PAYPAL') {
+    return bookcarsTypes.PaymentGateway.PayPal
+  }
+
+  // Default is Stripe
+  return bookcarsTypes.PaymentGateway.Stripe
+}
+
+const PAYMENT_GATEWAY = getPaymentGateway()
 
 const env = {
   isMobile: window.innerWidth <= 960,
@@ -132,16 +138,11 @@ const env = {
     Const.PAGINATION_MODE.INFINITE_SCROLL
       ? Const.PAGINATION_MODE.INFINITE_SCROLL
       : Const.PAGINATION_MODE.CLASSIC,
-  STRIPE_PUBLISHABLE_KEY: String(
-    import.meta.env.VITE_BC_STRIPE_PUBLISHABLE_KEY
-  ),
-  SET_LANGUAGE_FROM_IP:
-    (import.meta.env.VITE_BC_SET_LANGUAGE_FROM_IP &&
-      import.meta.env.VITE_BC_SET_LANGUAGE_FROM_IP.toLowerCase()) === "true",
-  GOOGLE_ANALYTICS_ENABLED:
-    (import.meta.env.VITE_BC_GOOGLE_ANALYTICS_ENABLED &&
-      import.meta.env.VITE_BC_GOOGLE_ANALYTICS_ENABLED.toLowerCase()) ===
-    "true",
+  PAYMENT_GATEWAY,
+  STRIPE_PUBLISHABLE_KEY: String(import.meta.env.VITE_BC_STRIPE_PUBLISHABLE_KEY),
+  PAYPAL_CLIENT_ID: String(import.meta.env.VITE_BC_PAYPAL_CLIENT_ID),
+  SET_LANGUAGE_FROM_IP: (import.meta.env.VITE_BC_SET_LANGUAGE_FROM_IP && import.meta.env.VITE_BC_SET_LANGUAGE_FROM_IP.toLowerCase()) === 'true',
+  GOOGLE_ANALYTICS_ENABLED: (import.meta.env.VITE_BC_GOOGLE_ANALYTICS_ENABLED && import.meta.env.VITE_BC_GOOGLE_ANALYTICS_ENABLED.toLowerCase()) === 'true',
   GOOGLE_ANALYTICS_ID: String(import.meta.env.VITE_BC_GOOGLE_ANALYTICS_ID),
   CONTACT_EMAIL: import.meta.env.VITE_BC_CONTACT_EMAIL,
   DEPOSIT_FILTER_VALUE_1: Number.parseInt(
@@ -162,8 +163,8 @@ const env = {
   /**
    * Minimum number of locations required for country tabs in homepage.
    */
-  MIN_LOCATIONS:
-    Number.parseInt(String(import.meta.env.VITE_BC_MIN_LOCATIONS), 10) || 4,
-};
+  MIN_LOCATIONS: Number.parseInt(String(import.meta.env.VITE_BC_MIN_LOCATIONS), 10) || 4,
+  HIDE_SUPPLIERS: (import.meta.env.VITE_BC_HIDE_SUPPLIERS && import.meta.env.VITE_BC_HIDE_SUPPLIERS.toLowerCase()) === 'true',
+}
 
 export default env;
