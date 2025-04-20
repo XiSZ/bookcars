@@ -26,6 +26,7 @@ const LANGUAGES = [
 
 const env = {
   isMobile: window.innerWidth <= 960,
+  isSafari: /^((?!chrome|android).)*safari/i.test(navigator.userAgent),
 
   WEBSITE_NAME: String(import.meta.env.VITE_BC_WEBSITE_NAME),
 
@@ -85,19 +86,13 @@ const env = {
     Const.PAGINATION_MODE.INFINITE_SCROLL
       ? Const.PAGINATION_MODE.INFINITE_SCROLL
       : Const.PAGINATION_MODE.CLASSIC,
-  CURRENCY: import.meta.env.VITE_BC_CURRENCY || "$",
-  DEPOSIT_FILTER_VALUE_1: Number.parseInt(
-    String(import.meta.env.VITE_BC_DEPOSIT_FILTER_VALUE_1),
-    10
-  ),
-  DEPOSIT_FILTER_VALUE_2: Number.parseInt(
-    String(import.meta.env.VITE_BC_DEPOSIT_FILTER_VALUE_2),
-    10
-  ),
-  DEPOSIT_FILTER_VALUE_3: Number.parseInt(
-    String(import.meta.env.VITE_BC_DEPOSIT_FILTER_VALUE_3),
-    10
-  ),
-};
+  CURRENCY: import.meta.env.VITE_BC_CURRENCY || '$',
+  DEPOSIT_FILTER_VALUE_1: Number.parseInt(String(import.meta.env.VITE_BC_DEPOSIT_FILTER_VALUE_1), 10),
+  DEPOSIT_FILTER_VALUE_2: Number.parseInt(String(import.meta.env.VITE_BC_DEPOSIT_FILTER_VALUE_2), 10),
+  DEPOSIT_FILTER_VALUE_3: Number.parseInt(String(import.meta.env.VITE_BC_DEPOSIT_FILTER_VALUE_3), 10),
+  CONTACT_EMAIL: String(import.meta.env.VITE_BC_CONTACT_EMAIL),
+  RECAPTCHA_ENABLED: (import.meta.env.VITE_BC_RECAPTCHA_ENABLED && import.meta.env.VITE_BC_RECAPTCHA_ENABLED.toLowerCase()) === 'true',
+  RECAPTCHA_SITE_KEY: String(import.meta.env.VITE_BC_RECAPTCHA_SITE_KEY),
+}
 
 export default env;

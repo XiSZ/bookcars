@@ -33,6 +33,8 @@ const strings = new LocalizedStrings({
     SETTINGS: 'Settings',
     SIGN_OUT: 'Sign out',
     COUNTRIES: 'Countries',
+    BANK_DETAILS: 'Bank Details',
+    PRICING: 'Pricing',
   },
   de: {
     DASHBOARD: "Dashboard",
@@ -65,6 +67,8 @@ const strings = new LocalizedStrings({
     SETTINGS: 'Configuración',
     SIGN_OUT: 'Cerrar sesión',
     COUNTRIES: 'Países',
+    BANK_DETAILS: 'Detalles bancarios',
+    PRICING: 'Precios',
   },
 })
 
