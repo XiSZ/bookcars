@@ -720,8 +720,9 @@ export interface LocationValue extends Document {
  * @extends {Document}
  */
 export interface Country extends Document {
-  values: Types.ObjectId[];
-  name?: string;
+  values: Types.ObjectId[]
+  name?: string
+  supplier?: Types.ObjectId
 }
 
 /**
@@ -746,13 +747,14 @@ export interface CountryInfo {
  * @extends {Document}
  */
 export interface Location extends Document {
-  country: Types.ObjectId;
-  longitude?: number;
-  latitude?: number;
-  values: Types.ObjectId[];
-  name?: string;
-  image?: string | null;
-  parkingSpots?: Types.ObjectId[] | null;
+  country: Types.ObjectId
+  longitude?: number
+  latitude?: number
+  values: Types.ObjectId[]
+  name?: string
+  image?: string | null
+  parkingSpots?: Types.ObjectId[] | null
+  supplier?: Types.ObjectId
 }
 
 /**
