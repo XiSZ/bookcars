@@ -2,7 +2,11 @@ import LocalizedStrings from 'localized-strings'
 import * as langHelper from '@/utils/langHelper'
 import env from '@/config/env.config'
 
+<<<<<<< HEAD
+const COPYRIGHT_PART1 = `Copyright © ${new Date().getFullYear()} BookCars`;
+=======
 const COPYRIGHT_PART1 = `Copyright © ${new Date().getFullYear()} ${env.WEBSITE_NAME}`
+>>>>>>> origin/main
 
 const strings = new LocalizedStrings({
   fr: {
@@ -53,7 +57,20 @@ const strings = new LocalizedStrings({
     FAQ: 'Preguntas frecuentes',
     COOKIE_POLICY: 'Política de Cookies',
   },
-})
+  de: {
+    COPYRIGHT_PART1,
+    COPYRIGHT_PART2: '. Alle Rechte vorbehalten.',
+    CORPORATE: 'Unternehmen',
+    ABOUT: 'Über uns',
+    TOS: 'Nutzungsbedingungen',
+    RENT: 'Auto mieten',
+    SUPPLIERS: 'Autovermieter',
+    LOCATIONS: 'Standorte',
+    SUPPORT: 'Hilfe',
+    CONTACT: 'Kontakt',
+    SECURE_PAYMENT: '100% sichere Zahlung mit BookCars',
+  },
+});
 
-langHelper.setLanguage(strings)
-export { strings }
+langHelper.setLanguage(strings);
+export { strings };

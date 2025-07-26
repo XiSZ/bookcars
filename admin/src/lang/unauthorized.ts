@@ -3,15 +3,22 @@ import * as langHelper from '@/utils/langHelper'
 
 const strings = new LocalizedStrings({
   fr: {
-    UNAUTHORIZED: 'Accès non autorisé',
+    UNAUTHORIZED: "Accès non autorisé",
   },
   en: {
-    UNAUTHORIZED: 'Unauthorized access',
+    UNAUTHORIZED: "Unauthorized access",
   },
+<<<<<<< HEAD
+  de: {
+    UNAUTHORIZED: "Unbefugter Zugriff",
+  },
+});
+=======
   es: {
     UNAUTHORIZED: 'Acceso no autorizado',
   },
 })
+>>>>>>> origin/main
 
-langHelper.setLanguage(strings)
-export { strings }
+langHelper.setLanguage(strings);
+export { strings };

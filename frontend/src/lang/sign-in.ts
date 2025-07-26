@@ -18,6 +18,15 @@ const strings = new LocalizedStrings({
     RESET_PASSWORD: 'Forgot password?',
     STAY_CONNECTED: 'Stay connected',
   },
+  de: {
+    SIGN_IN_HEADING: 'Einloggen',
+    SIGN_IN: 'Einloggen',
+    SIGN_UP: 'Anmelden',
+    ERROR_IN_SIGN_IN: 'Falsche E-Mail oder Passwort.',
+    IS_BLACKLISTED: 'Ihr Konto ist gesperrt.',
+    RESET_PASSWORD: 'Passwort vergessen?',
+    STAY_CONNECTED: 'Eingeloggt bleiben',
+  },
   es: {
     SIGN_IN_HEADING: 'Iniciar sesión',
     SIGN_IN: 'Iniciar sesión',
@@ -28,5 +37,5 @@ const strings = new LocalizedStrings({
   },
 })
 
-langHelper.setLanguage(strings)
-export { strings }
+langHelper.setLanguage(strings);
+export { strings };

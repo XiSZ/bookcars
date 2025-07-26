@@ -235,6 +235,7 @@ export const create = async (req: Request, res: Response) => {
     // Send email
     i18n.locale = user.language
 
+    const activationURL = `${helper.joinURL(user.type === bookcarsTypes.UserType.User ? env.FRONTEND_HOST : env.BACKEND_HOST,'activate')}/?u=${encodeURIComponent(user.id)}&e=${encodeURIComponent(user.email)}&t=${encodeURIComponent(token.token)}`
     const mailOptions: nodemailer.SendMailOptions = {
       from: env.SMTP_FROM,
       to: user.email,
@@ -243,10 +244,7 @@ export const create = async (req: Request, res: Response) => {
         `<p>
         ${i18n.t('HELLO')}${user.fullName},<br><br>
         ${i18n.t('ACCOUNT_ACTIVATION_LINK')}<br><br>
-        ${helper.joinURL(
-          user.type === bookcarsTypes.UserType.User ? env.FRONTEND_HOST : env.ADMIN_HOST,
-          'activate',
-        )}/?u=${encodeURIComponent(user.id)}&e=${encodeURIComponent(user.email)}&t=${encodeURIComponent(token.token)}<br><br>
+        <a href=${activationURL}>${activationURL}</a><br><br>
         ${i18n.t('REGARDS')}<br>
         </p>`,
     }

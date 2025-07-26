@@ -20,6 +20,12 @@ const strings = new LocalizedStrings({
     INVALID_PICK_UP_TIME: 'Invalid pick-up time',
     INVALID_DROP_OFF_TIME: 'Invalid drop-off time',
   },
+  de: {
+    PICK_UP_DATE: "Abholdatum",
+    DROP_OFF_DATE: "Rückgabedatum",
+    DROP_OFF: "Zurück zum selben Ort",
+  },
+
   es: {
     PICK_UP_DATE: 'Fecha de recogida',
     DROP_OFF_DATE: 'Fecha de entrega',
@@ -31,5 +37,5 @@ const strings = new LocalizedStrings({
   },
 })
 
-langHelper.setLanguage(strings)
-export { strings }
+langHelper.setLanguage(strings);
+export { strings };

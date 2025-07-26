@@ -3,15 +3,18 @@ import * as langHelper from '@/utils/langHelper'
 
 const strings = new LocalizedStrings({
   fr: {
-    NEW_BOOKING: 'Nouvelle réservation',
+    NEW_BOOKING: "Nouvelle réservation",
   },
   en: {
-    NEW_BOOKING: 'New Booking',
+    NEW_BOOKING: "New Booking",
+  },
+  de: {
+    NEW_BOOKING: "Neue Buchung",
   },
   es: {
-    NEW_BOOKING: 'Nueva reserva',
+    NEW_BOOKING: "Nueva reserva",
   },
-})
+});
 
-langHelper.setLanguage(strings)
-export { strings }
+langHelper.setLanguage(strings);
+export { strings };

@@ -12,13 +12,11 @@ const strings = new LocalizedStrings({
     USERS: 'Utilisateurs',
     ABOUT: 'À propos',
     TOS: "Conditions d'utilisation",
-    CONTACT: 'Contact',
-    LANGUAGE: 'Langue',
-    SETTINGS: 'Paramètres',
-    SIGN_OUT: 'Déconnexion',
-    COUNTRIES: 'Pays',
-    BANK_DETAILS: 'Détails bancaires',
-    PRICING: 'Tarification',
+    CONTACT: "Contact",
+    LANGUAGE: "Langue",
+    SETTINGS: "Paramètres",
+    SIGN_OUT: "Déconnexion",
+    COUNTRIES: "Pays",
   },
   en: {
     DASHBOARD: 'Dashboard',
@@ -38,6 +36,22 @@ const strings = new LocalizedStrings({
     BANK_DETAILS: 'Bank Details',
     PRICING: 'Pricing',
   },
+  de: {
+    DASHBOARD: "Dashboard",
+    HOME: "Startseite",
+    COMPANIES: "Lieferanten",
+    LOCATIONS: "Standorte",
+    CARS: "Autos",
+    USERS: "Benutzer",
+    ABOUT: "Über",
+    TOS: "Nutzungsbedingungen",
+    CONTACT: "Kontakt",
+    LANGUAGE: "Sprache",
+    SETTINGS: "Einstellungen",
+    SIGN_OUT: "Abmelden",
+    COUNTRIES: "Länder",
+  },
+
   es: {
     DASHBOARD: 'Panel de control',
     SCHEDULER: 'Programador',
@@ -58,5 +72,5 @@ const strings = new LocalizedStrings({
   },
 })
 
-langHelper.setLanguage(strings)
-export { strings }
+langHelper.setLanguage(strings);
+export { strings };

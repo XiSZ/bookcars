@@ -282,5 +282,5 @@ const strings = new LocalizedStrings({
   }
 })
 
-langHelper.setLanguage(strings)
-export { strings }
+langHelper.setLanguage(strings);
+export { strings };

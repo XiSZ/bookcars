@@ -3,15 +3,18 @@ import * as langHelper from '@/utils/langHelper'
 
 const strings = new LocalizedStrings({
   fr: {
-    TOTAL: 'Total :',
+    TOTAL: "Total :",
   },
   en: {
-    TOTAL: 'Total:',
+    TOTAL: "Total:",
+  },
+  de: {
+    TOTAL: "Gesamt:",
   },
   es: {
-    TOTAL: 'Total:',
+    TOTAL: "Total:",
   },
-})
+});
 
-langHelper.setLanguage(strings)
-export { strings }
+langHelper.setLanguage(strings);
+export { strings };

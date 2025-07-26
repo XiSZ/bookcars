@@ -3,22 +3,20 @@ import * as langHelper from '@/utils/langHelper'
 
 const strings = new LocalizedStrings({
   fr: {
-    NEW_LOCATION_HEADING: 'Nouveau lieu',
-    LOCATION_NAME: 'Lieu',
-    INVALID_LOCATION: 'Ce lieu existe déjà.',
-    LOCATION_CREATED: 'Lieu créé avec succès.',
-    COUNTRY: 'Pays',
-    PARKING_SPOTS: 'Places de parking',
-    PARENT_LOCATION: 'Lieu Parent',
+    NEW_LOCATION_HEADING: "Nouveau lieu",
+    LOCATION_NAME: "Lieu",
+    INVALID_LOCATION: "Ce lieu existe déjà.",
+    LOCATION_CREATED: "Lieu créé avec succès.",
+    COUNTRY: "Pays",
+    PARKING_SPOTS: "Places de parking",
   },
   en: {
-    NEW_LOCATION_HEADING: 'New location',
-    LOCATION_NAME: 'Location',
-    INVALID_LOCATION: 'This location already exists.',
-    LOCATION_CREATED: 'Location created successfully.',
-    COUNTRY: 'Country',
-    PARKING_SPOTS: 'Parking spots',
-    PARENT_LOCATION: 'Parent Location',
+    NEW_LOCATION_HEADING: "New location",
+    LOCATION_NAME: "Location",
+    INVALID_LOCATION: "This location already exists.",
+    LOCATION_CREATED: "Location created successfully.",
+    COUNTRY: "Country",
+    PARKING_SPOTS: "Parking spots",
   },
   es: {
     NEW_LOCATION_HEADING: 'Nuevo lugar',
@@ -31,5 +29,5 @@ const strings = new LocalizedStrings({
   },
 })
 
-langHelper.setLanguage(strings)
-export { strings }
+langHelper.setLanguage(strings);
+export { strings };

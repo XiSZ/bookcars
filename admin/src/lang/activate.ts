@@ -3,14 +3,19 @@ import * as langHelper from '@/utils/langHelper'
 
 const strings = new LocalizedStrings({
   fr: {
-    ACTIVATE_HEADING: 'Activation du compte',
+    ACTIVATE_HEADING: "Activation du compte",
     TOKEN_EXPIRED: "Votre lien d'activation du compte a expiré.",
-    ACTIVATE: 'Activer',
+    ACTIVATE: "Activer",
   },
   en: {
-    ACTIVATE_HEADING: 'Account Activation',
-    TOKEN_EXPIRED: 'Your account activation link expired.',
-    ACTIVATE: 'Activate',
+    ACTIVATE_HEADING: "Account Activation",
+    TOKEN_EXPIRED: "Your account activation link expired.",
+    ACTIVATE: "Activate",
+  },
+  de: {
+    ACTIVATE_HEADING: "Kontoaktivierung",
+    TOKEN_EXPIRED: "Ihr Kontoaktivierungslink ist abgelaufen.",
+    ACTIVATE: "Aktivieren",
   },
   es: {
     ACTIVATE_HEADING: 'Activación de cuenta',
@@ -19,5 +24,5 @@ const strings = new LocalizedStrings({
   },
 })
 
-langHelper.setLanguage(strings)
-export { strings }
+langHelper.setLanguage(strings);
+export { strings };

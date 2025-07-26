@@ -4,8 +4,8 @@ import * as langHelper from '@/utils/langHelper'
 
 const strings = new LocalizedStrings({
   fr: {
-    NEW_CAR_HEADING: 'Nouvelle voiture',
-    NAME: 'Nom',
+    NEW_CAR_HEADING: "Nouvelle voiture",
+    NAME: "Nom",
     CAR_IMAGE_SIZE_ERROR: `L'image doit être au format ${env.CAR_IMAGE_WIDTH}x${env.CAR_IMAGE_HEIGHT}`,
     RECOMMENDED_IMAGE_SIZE: `Taille d'image recommandée : ${env.CAR_IMAGE_WIDTH}x${env.CAR_IMAGE_HEIGHT}`,
     SUPPLIER: 'Fournisseur',
@@ -39,8 +39,8 @@ const strings = new LocalizedStrings({
     BLOCK_ON_PAY: 'Bloquer la voiture après un paiement réussi',
   },
   en: {
-    NEW_CAR_HEADING: 'New car',
-    NAME: 'Name',
+    NEW_CAR_HEADING: "New car",
+    NAME: "Name",
     CAR_IMAGE_SIZE_ERROR: `The image must be in the format ${env.CAR_IMAGE_WIDTH}x${env.CAR_IMAGE_HEIGHT}`,
     RECOMMENDED_IMAGE_SIZE: `Recommended image size: ${env.CAR_IMAGE_WIDTH}x${env.CAR_IMAGE_HEIGHT}`,
     SUPPLIER: 'Supplier',
@@ -72,6 +72,34 @@ const strings = new LocalizedStrings({
     IS_DATE_BASED_PRICE: 'Date Based Prices',
     DATE_BASED_PRICES: 'Date Based Prices',
     BLOCK_ON_PAY: 'Block Car On Successful Payment',
+  },
+  de: {
+    NEW_CAR_HEADING: "Neues Auto",
+    NAME: "Name",
+    CAR_IMAGE_SIZE_ERROR: `Das Bild muss im folgenden format sein: ${env.CAR_IMAGE_WIDTH}x${env.CAR_IMAGE_HEIGHT}`,
+    RECOMMENDED_IMAGE_SIZE: `Empfohlene Bilder größe: ${env.CAR_IMAGE_WIDTH}x${env.CAR_IMAGE_HEIGHT}`,
+    SUPPLIER: "Anbieter",
+    LOCATIONS: "Abholort",
+    AVAILABLE: "Verfügbar zur Miete",
+    CAR_TYPE: "Motor",
+    DAILY_PRICE: "Tagespreis",
+    DISCOUNTED_DAILY_PRICE: "Vergünstigter Tagespreis",
+    BI_WEEKLY_PRICE: "Bi-Weekly Price (3 days)",
+    DISCOUNTED_BI_WEEKLY_PRICE: "Vergünstigter Bi-Wöchentlicher Preis",
+    WEEKLY_PRICE: "Wöchentlicher Preis",
+    DISCOUNTED_WEEKLY_PRICE: "Vergünstigter Wöchentlicher Preis",
+    MONTHLY_PRICE: "Monatlicher Preis",
+    DISCOUNTED_MONThLY_PRICE: "Vergünstigter Monatlic Preis",
+    SEATS: "Sitze",
+    DOORS: "Türe",
+    GEARBOX: "Getriebe",
+    AIRCON: "Klimaanlage",
+    MINIMUM_AGE: "Mindesalter",
+    MINIMUM_AGE_NOT_VALID: `Das Mindestalter muss mindestens ${env.MINIMUM_AGE} Jahre Alt sein.`,
+    CAR_RANGE: "Auto reichweite",
+    MULTIMEDIA: "Multimedia",
+    RATING: "Bewertung",
+    CO2: "CO2 (g/km)",
   },
   es: {
     NEW_CAR_HEADING: 'Nuevo coche',
@@ -111,5 +139,5 @@ const strings = new LocalizedStrings({
   },
 })
 
-langHelper.setLanguage(strings)
-export { strings }
+langHelper.setLanguage(strings);
+export { strings };

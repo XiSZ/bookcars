@@ -4,13 +4,13 @@ import { strings as commonStrings } from '@/lang/common'
 import env from '@/config/env.config'
 import * as UserService from '@/services/UserService'
 
-const language = UserService.getLanguage()
-const isUS = language === 'en' && env.CURRENCY === '$'
+const language = UserService.getLanguage();
+const isUS = language === "en" && env.CURRENCY === "$";
 
 const strings = new LocalizedStrings({
   fr: {
-    NEW_CAR: 'Nouvelle voiture',
-    DELETE_CAR: 'Êtes-vous sûr de vouloir supprimer cette voiture ?',
+    NEW_CAR: "Nouvelle voiture",
+    DELETE_CAR: "Êtes-vous sûr de vouloir supprimer cette voiture ?",
     CAR_CURRENCY: `${commonStrings.CURRENCY}/jour`,
     FUEL_POLICY: 'Politique carburant',
     DIESEL: 'Diesel',
@@ -96,8 +96,8 @@ const strings = new LocalizedStrings({
     CAR_RANGE_CARAVAN: 'Caravane',
   },
   en: {
-    NEW_CAR: 'New car',
-    DELETE_CAR: 'Are you sure you want to delete this car?',
+    NEW_CAR: "New car",
+    DELETE_CAR: "Are you sure you want to delete this car?",
     CAR_CURRENCY: `${commonStrings.CURRENCY}/day`,
     FUEL_POLICY: 'Fuel policy',
     DIESEL: 'Diesel',
@@ -183,6 +183,96 @@ const strings = new LocalizedStrings({
     CAR_RANGE_TRUCK: 'Truck',
     CAR_RANGE_CARAVAN: 'Caravan',
   },
+<<<<<<< HEAD
+  de: {
+    NEW_CAR: "Neues Auto",
+    DELETE_CAR: "Sind Sie sicher, dass Sie dieses Auto löschen möchten?",
+    CAR_CURRENCY: `${commonStrings.CURRENCY}/Tag`,
+    FUEL_POLICY: "Kraftstoff Richtlinie",
+    DIESEL: "Diesel",
+    GASOLINE: "Gasoline",
+    ELECTRIC: "Electric",
+    HYBRID: "Hybrid",
+    PLUG_IN_HYBRID: "Plug-in hybrid",
+    UNKNOWN: "Nicht spezifiziert",
+    DIESEL_SHORT: "D",
+    GASOLINE_SHORT: "G",
+    ELECTRIC_SHORT: "E",
+    HYBRID_SHORT: "H",
+    PLUG_IN_HYBRID_SHORT: "PH",
+    GEARBOX_MANUAL: "Manuell",
+    GEARBOX_AUTOMATIC: "Automatik",
+    GEARBOX_MANUAL_SHORT: "M",
+    GEARBOX_AUTOMATIC_SHORT: "A",
+    FUEL_POLICY_LIKE_FOR_LIKE: "Like für Like",
+    FUEL_POLICY_FREE_TANK: "Gratis tank",
+    DIESEL_TOOLTIP: "Dieses Fahrzeug hat einen Dieselmotor",
+    GASOLINE_TOOLTIP: "Dieses Auto hat einen Benzinmotor",
+    ELECTRIC_TOOLTIP: "Dieses Auto ist elektrisch",
+    HYBRID_TOOLTIP: "Dieses Auto ist Hybrid",
+    PLUG_IN_HYBRID_TOOLTIP: "Dieses Auto ist ein Plug-in-Hybrid",
+    GEARBOX_MANUAL_TOOLTIP: "Dieses Auto hat ein manuelles Getriebe",
+    GEARBOX_AUTOMATIC_TOOLTIP: "Dieses Auto hat ein automatisches Getriebe",
+    SEATS_TOOLTIP_1: "Dieses Auto hat ",
+    SEATS_TOOLTIP_2: "sitze",
+    DOORS_TOOLTIP_1: "Dieses Auto hat",
+    DOORS_TOOLTIP_2: "türen",
+    AIRCON_TOOLTIP: "Dieses Auto hat Klimaanlage",
+    FUEL_POLICY_LIKE_FOR_LIKE_TOOLTIP:
+      "Dieses Auto wird mit Kraftstoff geliefert und muss mit derselben Menge Kraftstoff zurückgegeben werden.",
+    FUEL_POLICY_FREE_TANK_TOOLTIP:
+      "Der Preis beinhaltet einen vollen Tank an Kraftstoff",
+    MILEAGE: "kilometerstand",
+    MILEAGE_UNIT: "KM/Tag",
+    UNLIMITED: "Unbegrenzt",
+    LIMITED: "Begrenzt",
+    CANCELLATION: "Stornierung",
+    CANCELLATION_TOOLTIP:
+      "Die Buchung kann vor dem Startdatum der Miete storniert werden.",
+    AMENDMENTS: "Amendments",
+    AMENDMENTS_TOOLTIP:
+      "Die Buchung kann vor dem Startdatum der Miete geändert werden.",
+    THEFT_PROTECTION: "Diebstahlschutz",
+    THEFT_PROTECTION_TOOLTIP: "Die Miete kann Diebstahlschutz enthalten.",
+    COLLISION_DAMAGE_WAVER: "Kollisionsschadensverzicht",
+    COLLISION_DAMAGE_WAVER_TOOLTIP:
+      "Die Miete kann einen Kollisionsschadensverzicht enthalten.",
+    FULL_INSURANCE: "Vollkaskoversicherung",
+    FULL_INSURANCE_TOOLTIP:
+      "Die Miete kann einen Kollisionsschadensverzicht und Diebstahlschutz des Fahrzeugs enthalten.",
+    ADDITIONAL_DRIVER: "Zusätzlicher Fahrer",
+    INCLUDED: "Inklusive",
+    AVAILABLE: "Verfügbar",
+    UNAVAILABLE: "Nicht verfügbar",
+    CAR_AVAILABLE: "Verfügbar zur Miete",
+    CAR_AVAILABLE_TOOLTIP: "Dieses Auto ist verfügbar zur Miete.",
+    CAR_UNAVAILABLE: "Nicht verfügbar zur Miete",
+    CAR_UNAVAILABLE_TOOLTIP: "Dieses Auto ist nicht verfügbar zur Miete.",
+    VIEW_CAR: "Dieses Auto ansehen",
+    EMPTY_LIST: "Keine Autos.",
+    CANNOT_DELETE_CAR:
+      "Dieses Auto kann nicht gelöscht werden, da es mit Buchungen verknüpft ist. Sie können es jedoch durch Ändern nicht zur Miete verfügbar machen.",
+    GEARBOX: "Schaltung",
+    ENGINE: "Motor",
+    DEPOSIT: "Kaution bei Abholung",
+    LESS_THAN_VALUE_1: `Weniger als ${isUS ? env.CURRENCY : ""}${
+      env.DEPOSIT_FILTER_VALUE_1
+    }${!isUS ? ` ${env.CURRENCY}` : ""}`,
+    LESS_THAN_VALUE_2: `Weniger als ${isUS ? env.CURRENCY : ""}${
+      env.DEPOSIT_FILTER_VALUE_2
+    }${!isUS ? ` ${env.CURRENCY}` : ""}`,
+    LESS_THAN_VALUE_3: `Weniger als ${isUS ? env.CURRENCY : ""}${
+      env.DEPOSIT_FILTER_VALUE_3
+    }${!isUS ? ` ${env.CURRENCY}` : ""}`,
+    AVAILABILITY: "Verfügbarkeit",
+    PRICE_DAYS_PART_1: "Kosten für",
+    PRICE_DAYS_PART_2: "Tag",
+    PRICE_PER_DAY: "Kosten pro Tag:",
+    TRIPS: "Reisen",
+    CO2: "C02 Effekt",
+  },
+});
+=======
   es: {
     NEW_CAR: 'Nuevo coche',
     DELETE_CAR: '¿Estás seguro de que quieres eliminar este coche?',
@@ -271,6 +361,7 @@ const strings = new LocalizedStrings({
     CAR_RANGE_CARAVAN: 'Caravana',
   },
 })
+>>>>>>> origin/main
 
-langHelper.setLanguage(strings)
-export { strings }
+langHelper.setLanguage(strings);
+export { strings };

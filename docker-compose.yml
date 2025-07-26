@@ -59,9 +59,19 @@ services:
       - 8443:443
     volumes:
       - cdn:/var/www/cdn/bookcars
+      
+  mailhog:
+    image: mailhog/mailhog
+    restart: always
+    # the HTTP server starts on port 8025
+    # the SMTP server starts on port 1025
+    ports:
+      - 8025:8025
+    # in-memory message storage
 
 volumes:
   cdn:
+  db:
   mongodb_data:
   mongodb_config:
   backend_logs:
