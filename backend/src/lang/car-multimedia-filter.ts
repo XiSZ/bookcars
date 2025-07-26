@@ -3,29 +3,19 @@ import * as langHelper from '@/common/langHelper'
 
 const strings = new LocalizedStrings({
   fr: {
-    MULTIMEDIA: "Multimédia",
-    TOUCHSCREEN: "Écran tactile",
-    BLUETOOTH: "Bluetooth",
-    ANDROID_AUTO: "Android Auto",
-    APPLE_CAR_PLAY: "Apple Car Play",
+    MULTIMEDIA: 'Multimédia',
+    TOUCHSCREEN: 'Écran tactile',
+    BLUETOOTH: 'Bluetooth',
+    ANDROID_AUTO: 'Android Auto',
+    APPLE_CAR_PLAY: 'Apple Car Play',
   },
   en: {
-    MULTIMEDIA: "Multimedia",
-    TOUCHSCREEN: "Touchscreen",
-    BLUETOOTH: "Bluetooth",
-    ANDROID_AUTO: "Android Auto",
-    APPLE_CAR_PLAY: "Apple Car Play",
+    MULTIMEDIA: 'Multimedia',
+    TOUCHSCREEN: 'Touchscreen',
+    BLUETOOTH: 'Bluetooth',
+    ANDROID_AUTO: 'Android Auto',
+    APPLE_CAR_PLAY: 'Apple Car Play',
   },
-<<<<<<< HEAD
-  de: {
-    MULTIMEDIA: "Multimedia",
-    TOUCHSCREEN: "Touchscreen",
-    BLUETOOTH: "Bluetooth",
-    ANDROID_AUTO: "Android Auto",
-    APPLE_CAR_PLAY: "Apple Car Play",
-  },
-});
-=======
   es: {
     MULTIMEDIA: 'Multimedia',
     TOUCHSCREEN: 'Pantalla táctil',
@@ -34,7 +24,6 @@ const strings = new LocalizedStrings({
     APPLE_CAR_PLAY: 'Apple Car Play',
   },
 })
->>>>>>> origin/main
 
 langHelper.setLanguage(strings)
 export { strings }

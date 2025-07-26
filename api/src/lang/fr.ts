@@ -1,8 +1,8 @@
 import * as env from '../config/env.config'
 
 export const fr = {
-  ERROR: "Erreur interne : ",
-  DB_ERROR: "Échec de la requête dans la base de données : ",
+  ERROR: 'Erreur interne : ',
+  DB_ERROR: 'Échec de la requête dans la base de données : ',
   SMTP_ERROR: "Erreur SMTP - Échec de l'envoi de l'email: ",
   ACCOUNT_ACTIVATION_SUBJECT: 'Activation de votre compte',
   HELLO: 'Bonjour ',

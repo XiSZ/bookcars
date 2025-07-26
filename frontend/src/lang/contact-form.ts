@@ -14,14 +14,7 @@ const strings = new LocalizedStrings({
     SUBJECT: 'Subject',
     MESSAGE: 'Message',
     SEND: 'Send',
-    MESSAGE_SENT: 'Message sent',
-  },
-  de: {
-    CONTACT_HEADING: 'Kontakt',
-    SUBJECT: 'Betreff',
-    MESSAGE: 'Nachricht',
-    SEND: 'Senden',
-    MESSAGE_SENT: 'Nachricht gesendet',
+    MESSAGE_SENT: 'Message sent'
   },
   es: {
     CONTACT_HEADING: 'Contacto',
@@ -30,7 +23,7 @@ const strings = new LocalizedStrings({
     SEND: 'Enviar',
     MESSAGE_SENT: 'Mensaje enviado',
   },
-});
+})
 
-langHelper.setLanguage(strings);
-export { strings };
+langHelper.setLanguage(strings)
+export { strings }

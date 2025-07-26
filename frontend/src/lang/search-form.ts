@@ -17,12 +17,6 @@ const strings = new LocalizedStrings({
     MIN_PICK_UP_HOURS_ERROR: `Pick up time must be at least ${env.MIN_PICK_UP_HOURS} hour${env.MIN_PICK_UP_HOURS > 1 ? 's' : ''} in the future`,
     MIN_RENTAL_HOURS_ERROR: `There must be at least ${env.MIN_RENTAL_HOURS} hour${env.MIN_RENTAL_HOURS > 1 ? 's' : ''} between pick up and drop off`,
   },
-  de: {
-    PICK_UP_DATE: "Abholdatum",
-    DROP_OFF_DATE: "Rückgabedatum",
-    DROP_OFF: "Zurück zum selben Ort",
-  },
-
   es: {
     PICK_UP_DATE: 'Fecha de recogida',
     DROP_OFF_DATE: 'Fecha de entrega',
@@ -32,5 +26,5 @@ const strings = new LocalizedStrings({
   },
 })
 
-langHelper.setLanguage(strings);
-export { strings };
+langHelper.setLanguage(strings)
+export { strings }

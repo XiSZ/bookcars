@@ -3,19 +3,15 @@ import * as langHelper from '@/common/langHelper'
 
 const strings = new LocalizedStrings({
   fr: {
-    NO_MATCH: "Rien à voir ici !",
+    NO_MATCH: 'Rien à voir ici !',
   },
   en: {
-    NO_MATCH: "Nothing to see here!",
+    NO_MATCH: 'Nothing to see here!',
   },
-  de: {
-    NO_MATCH: "Hier gibt es nichts zu sehen!",
-  },
-
   es: {
     NO_MATCH: '¡No hay nada que ver aquí!',
   },
 })
 
-langHelper.setLanguage(strings);
-export { strings };
+langHelper.setLanguage(strings)
+export { strings }
