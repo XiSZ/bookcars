@@ -2,18 +2,19 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { RouteProp } from '@react-navigation/native'
-
-import * as UserService from '../services/UserService'
-import Button from './Button'
-import i18n from '../lang/i18n'
-import * as helper from '../common/helper'
-import Header from './Header'
 import * as bookcarsTypes from ':bookcars-types'
+
+import * as UserService from '@/services/UserService'
+import Button from './Button'
+import i18n from '@/lang/i18n'
+import * as helper from '@/utils/helper'
+import Header from './Header'
+import { useAuth } from '@/context/AuthContext'
 
 interface LayoutProps {
   navigation: NativeStackNavigationProp<StackParams, keyof StackParams>
   strict?: boolean
-  route?: RouteProp<StackParams, keyof StackParams>,
+  route?: RouteProp<StackParams, keyof StackParams>
   reload?: boolean
   style?: object
   title?: string
@@ -37,7 +38,7 @@ const Layout = ({
 }: LayoutProps) => {
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState<bookcarsTypes.User | null>(null)
-  const [loggedIn, setLoggedIn] = useState(false)
+  const { loggedIn, refresh } = useAuth()
 
   const exit = async (_reload = false) => {
     if (strict) {
@@ -48,7 +49,7 @@ const Layout = ({
       }
     } else {
       await UserService.signout(navigation, false, false)
-      setLoggedIn(false)
+      refresh()
 
       if (onLoad) {
         onLoad()
@@ -83,7 +84,7 @@ const Layout = ({
               return
             }
 
-            setLoggedIn(true)
+            refresh()
             setUser(_user)
             setLoading(false)
 
@@ -132,7 +133,7 @@ const Layout = ({
 
   return (
     <View style={{ ...styles.container, ...style }}>
-      <Header title={title} hideTitle={hideTitle} loggedIn={loggedIn} reload={reload} _avatar={avatar} />
+      <Header route={route} title={title} hideTitle={hideTitle} loggedIn={loggedIn} reload={reload} _avatar={avatar} />
       {(!loading
         && ((!user && !strict) || (user && user.verified) ? (
           children
@@ -141,14 +142,14 @@ const Layout = ({
             <Text style={styles.validateText}>{i18n.t('VALIDATE_EMAIL')}</Text>
             <Button style={styles.validateButton} label={i18n.t('RESEND')} onPress={handleResend} />
           </View>
-        ))) || <></>}
+        ))) || null}
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fafafa',
+    backgroundColor: '#F5F5F5',
   },
   validate: {
     marginTop: 15,

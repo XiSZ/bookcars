@@ -5,7 +5,7 @@ export enum UserType {
 }
 
 export enum AppType {
-  Backend = 'backend',
+  Admin = 'admin',
   Frontend = 'frontend',
 }
 
@@ -15,17 +15,36 @@ export enum CarType {
   Electric = 'electric',
   Hybrid = 'hybrid',
   PlugInHybrid = 'plugInHybrid',
-  Unknown = 'unknown'
+  Unknown = 'unknown',
+}
+
+export enum CarRange {
+  Mini = 'mini', // car
+  Midi = 'midi', // suv
+  Maxi = 'maxi', // van
+  Scooter = 'scooter',
+  Bus = 'bus',
+  Truck = 'truck',
+  Caravan = 'caravan',
+}
+
+export enum CarMultimedia {
+  Touchscreen = 'touchscreen',
+  Bluetooth = 'bluetooth',
+  AndroidAuto = 'androidAuto',
+  AppleCarPlay = 'appleCarPlay',
 }
 
 export enum GearboxType {
   Manual = 'manual',
-  Automatic = 'automatic'
+  Automatic = 'automatic',
 }
 
 export enum FuelPolicy {
-  LikeForlike = 'likeForlike',
-  FreeTank = 'freeTank'
+  LikeForLike = 'likeForlike',
+  FreeTank = 'freeTank',
+  FullToFull = 'fullToFull',
+  FullToEmpty = 'FullToEmpty',
 }
 
 export enum BookingStatus {
@@ -33,18 +52,19 @@ export enum BookingStatus {
   Pending = 'pending',
   Deposit = 'deposit',
   Paid = 'paid',
+  PaidInFull = 'paidInFull',
   Reserved = 'reserved',
-  Cancelled = 'cancelled'
+  Cancelled = 'cancelled',
 }
 
 export enum Mileage {
   Limited = 'limited',
-  Unlimited = 'unlimited'
+  Unlimited = 'unlimited',
 }
 
 export enum Availablity {
   Available = 'available',
-  Unavailable = 'unavailable'
+  Unavailable = 'unavailable',
 }
 
 export enum RecordType {
@@ -52,7 +72,13 @@ export enum RecordType {
   Supplier = 'supplier',
   User = 'user',
   Car = 'car',
-  Location = 'location'
+  Location = 'location',
+  Country = 'country',
+}
+
+export enum PaymentGateway {
+  PayPal = 'payPal',
+  Stripe = 'stripe',
 }
 
 export interface Booking {
@@ -78,20 +104,25 @@ export interface Booking {
   paymentIntentId?: string
   customerId?: string
   expireAt?: Date
+  isDeposit?: boolean
+  isPayedInFull?: boolean
+  paypalOrderId?: string
 }
 
 export interface CheckoutPayload {
   driver?: User
   booking?: Booking
   additionalDriver?: AdditionalDriver
-  payLater?: boolean
+  payLater: boolean
   sessionId?: string
   paymentIntentId?: string
   customerId?: string
+  payPal?: boolean
 }
 
 export interface Filter {
   from?: Date
+  dateBetween?: Date
   to?: Date
   keyword?: string
   pickupLocation?: string
@@ -113,7 +144,6 @@ export interface AdditionalDriver {
   birthDate: Date
 }
 
-
 export interface UpsertBookingPayload {
   booking: Booking
   additionalDriver?: AdditionalDriver
@@ -124,6 +154,22 @@ export interface LocationName {
   name: string
 }
 
+export interface CountryName {
+  language: string
+  name: string
+}
+
+export interface UpsertLocationPayload {
+  country: string
+  longitude?: number
+  latitude?: number
+  names: LocationName[]
+  image?: string | null
+  parkingSpots?: ParkingSpot[]
+  supplier?: string
+  parentLocation?: string
+}
+
 export interface UpdateSupplierPayload {
   _id: string
   fullName: string
@@ -131,16 +177,41 @@ export interface UpdateSupplierPayload {
   location: string
   bio: string
   payLater: boolean
+  licenseRequired: boolean
+  minimumRentalDays?: number
+  priceChangeRate?: number
+  supplierCarLimit?: number
+  notifyAdminOnNewCar?: boolean
+  blacklisted?: boolean
 }
 
 export interface CreateCarPayload {
+  loggedUser: string
   name: string
+  licensePlate?: string
   supplier: string
   minimumAge: number
   locations: string[]
-  price: number
+
+  // price fields
+  hourlyPrice: number | null
+  discountedHourlyPrice: number | null
+  dailyPrice: number
+  discountedDailyPrice: number | null
+  biWeeklyPrice: number | null
+  discountedBiWeeklyPrice: number | null
+  weeklyPrice: number | null
+  discountedWeeklyPrice: number | null
+  monthlyPrice: number | null
+  discountedMonthlyPrice: number | null
+  // date based price
+  isDateBasedPrice: boolean
+  dateBasedPrices: DateBasedPrice[]
+
   deposit: number
   available: boolean
+  fullyBooked?: boolean
+  comingSoon?: boolean
   type: string
   gearbox: string
   aircon: boolean
@@ -155,6 +226,11 @@ export interface CreateCarPayload {
   collisionDamageWaiver: number
   fullInsurance: number
   additionalDriver: number
+  range: string
+  multimedia: string[]
+  rating?: number
+  co2?: number
+  blockOnPay?: boolean
 }
 
 export interface UpdateCarPayload extends CreateCarPayload {
@@ -177,6 +253,14 @@ export interface GetCarsPayload {
   deposit?: number
   availability?: string[]
   pickupLocation?: string
+  ranges?: string[]
+  multimedia?: string[]
+  rating?: number
+  seats?: number
+  includeAlreadyBookedCars?: boolean
+  includeComingSoonCars?: boolean
+  from?: Date
+  to?: Date
 }
 
 export interface SignUpPayload {
@@ -193,6 +277,8 @@ export interface SignUpPayload {
   birthDate?: number | Date
 }
 
+export type Contract = { language: string, file: string | null }
+
 export interface CreateUserPayload {
   email?: string
   phone: string
@@ -208,12 +294,18 @@ export interface CreateUserPayload {
   blacklisted?: boolean
   payLater?: boolean
   supplier?: string
+  contracts?: Contract[]
+  licenseRequired?: boolean
+  minimumRentalDays?: number
+  license?: string
+  priceChangeRate?: number
+  supplierCarLimit?: number
+  notifyAdminOnNewCar?: boolean
 }
 
 export interface UpdateUserPayload extends CreateUserPayload {
   _id: string
   enableEmailNotifications?: boolean
-  payLater?: boolean
 }
 
 export interface ChangePasswordPayload {
@@ -231,13 +323,24 @@ export interface ActivatePayload {
 
 export interface ValidateEmailPayload {
   email: string
+  appType?: AppType
+}
+
+export enum SocialSignInType {
+  Facebook = 'facebook',
+  Apple = 'apple',
+  Google = 'google'
 }
 
 export interface SignInPayload {
-  email: string
+  email?: string
   password?: string
   stayConnected?: boolean
   mobile?: boolean
+  fullName?: string
+  avatar?: string
+  accessToken?: string
+  socialSignInType?: SocialSignInType
 }
 
 export interface ResendLinkPayload {
@@ -259,6 +362,11 @@ export interface ValidateSupplierPayload {
 }
 
 export interface ValidateLocationPayload {
+  language: string
+  name: string
+}
+
+export interface ValidateCountryPayload {
   language: string
   name: string
 }
@@ -291,6 +399,13 @@ export interface User {
   checked?: boolean
   customerId?: string
   carCount?: number
+  contracts?: Contract[]
+  licenseRequired?: boolean
+  license?: string | null
+  minimumRentalDays?: number
+  priceChangeRate?: number
+  supplierCarLimit?: number
+  notifyAdminOnNewCar?: boolean
 }
 
 export interface Option {
@@ -300,26 +415,83 @@ export interface Option {
 }
 
 export interface LocationValue {
+  _id?: string
   language: string
   value?: string
+}
+
+export interface ParkingSpot {
+  _id?: string
+  longitude: number | string
+  latitude: number | string
   name?: string
+  values?: LocationValue[]
 }
 
 export interface Location {
   _id: string
+  country?: Country
+  longitude?: number
+  latitude?: number
   name?: string
   values?: LocationValue[]
+  image?: string
+  parkingSpots?: ParkingSpot[]
+  supplier?: User
+  parentLocation?: Location
+}
+
+export interface Country {
+  _id: string
+  name?: string
+  values?: LocationValue[]
+  supplier?: User
+}
+
+export interface CountryInfo extends Country {
+  locations?: Location[]
+}
+
+export interface UpsertCountryPayload {
+  names: CountryName[]
+  supplier?: string
+}
+
+export interface DateBasedPrice {
+  _id?: string
+  startDate: Date | null
+  endDate: Date | null
+  dailyPrice: number | string
 }
 
 export interface Car {
   _id: string
   name: string
+  licensePlate?: string
   supplier: User
   minimumAge: number
   locations: Location[]
-  price: number
+
+  // price fields
+  dailyPrice: number
+  discountedDailyPrice: number | null
+  hourlyPrice: number | null
+  discountedHourlyPrice: number | null
+  biWeeklyPrice: number | null
+  discountedBiWeeklyPrice: number | null
+  weeklyPrice: number | null
+  discountedWeeklyPrice: number | null
+  monthlyPrice: number | null
+  discountedMonthlyPrice: number | null
+
+  // date based price fields
+  isDateBasedPrice: boolean
+  dateBasedPrices: DateBasedPrice[]
+
   deposit: number
   available: boolean
+  fullyBooked?: boolean
+  comingSoon?: boolean
   type: CarType
   gearbox: GearboxType
   aircon: boolean
@@ -334,6 +506,12 @@ export interface Car {
   collisionDamageWaiver: number
   fullInsurance: number
   additionalDriver: number
+  range: string
+  multimedia: CarMultimedia[] | undefined
+  rating?: number
+  trips: number
+  co2?: number
+  blockOnPay?: boolean
   [propKey: string]: any
 }
 
@@ -352,6 +530,7 @@ export interface Notification {
   user: string
   message: string
   booking?: string
+  car?: string
   isRead?: boolean
   checked?: boolean
   createdAt?: Date
@@ -396,6 +575,14 @@ export interface CreatePaymentPayload {
   description?: string
 }
 
+export interface CreatePayPalOrderPayload {
+  bookingId: string
+  amount: number
+  currency: string
+  name: string
+  description: string
+}
+
 export interface PaymentResult {
   sessionId?: string
   paymentIntentId?: string
@@ -408,10 +595,46 @@ export interface SendEmailPayload {
   to: string
   subject: string
   message: string
-  recaptchaToken: string
-  ip: string
+  isContactForm: boolean
 }
 
+export interface Response<T> {
+  status: number
+  data: T
+}
+
+export interface BankDetails {
+  _id: string
+  accountHolder: string
+  bankName: string
+  iban: string
+  swiftBic: string
+  showBankDetailsPage: boolean
+}
+
+export interface UpsertBankDetailsPayload {
+  _id?: string
+  accountHolder: string
+  bankName: string
+  iban: string
+  swiftBic: string
+  showBankDetailsPage: boolean
+}
+
+export interface Setting {
+  _id: string
+  minPickupHours: number
+  minRentalHours: number
+  minPickupDropoffHour: number
+  maxPickupDropoffHour: number
+}
+
+export interface UpdateSettingsPayload {
+  minPickupHours: number
+  minRentalHours: number
+  minPickupDropoffHour: number
+  maxPickupDropoffHour: number
+}
 
 // 
 // React types

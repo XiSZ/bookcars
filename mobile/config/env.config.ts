@@ -6,6 +6,8 @@ import {
   BC_BOOKINGS_PAGE_SIZE,
   BC_CDN_USERS,
   BC_CDN_CARS,
+  BC_CDN_LICENSES,
+  BC_CDN_TEMP_LICENSES,
   BC_SUPPLIER_IMAGE_WIDTH,
   BC_SUPPLIER_IMAGE_HEIGHT,
   BC_CAR_IMAGE_WIDTH,
@@ -14,8 +16,11 @@ import {
   BC_STRIPE_PUBLISHABLE_KEY,
   BC_STRIPE_MERCHANT_IDENTIFIER,
   BC_STRIPE_COUNTRY_CODE,
-  BC_STRIPE_CURRENCY_CODE,
-  BC_CURRENCY,
+  BC_BASE_CURRENCY,
+  BC_DEPOSIT_FILTER_VALUE_1,
+  BC_DEPOSIT_FILTER_VALUE_2,
+  BC_DEPOSIT_FILTER_VALUE_3,
+  BC_WEBSITE_NAME,
 } from '@env'
 
 /**
@@ -34,8 +39,35 @@ export const LANGUAGES = [
     label: 'English',
   },
   {
-    code: 'de',
-    label: 'Deutsch',
+    code: 'es',
+    label: 'Español',
+  },
+]
+
+type Currency = { code: string, symbol: string }
+
+/**
+ * The three-letter ISO 4217 alphabetic currency codes, e.g. "USD" or "EUR" and their symbols.
+ * https://docs.stripe.com/currencies
+ *
+ * @type {Currency[]}
+ */
+export const CURRENCIES: Currency[] = [
+  {
+    code: 'USD',
+    symbol: '$',
+  },
+  {
+    code: 'EUR',
+    symbol: '€',
+  },
+  {
+    code: 'GBP',
+    symbol: '£',
+  },
+  {
+    code: 'AUD',
+    symbol: '$',
   },
 ]
 
@@ -45,6 +77,13 @@ export const LANGUAGES = [
  * @type {string}
  */
 export const APP_TYPE: string = 'frontend'
+
+/**
+ * Website name.
+ *
+ * @type {string}
+ */
+export const WEBSITE_NAME: string = String(BC_WEBSITE_NAME || 'BookCars')
 
 /**
  * API host.
@@ -117,6 +156,20 @@ export const CDN_USERS: string = BC_CDN_USERS
 export const CDN_CARS: string = BC_CDN_CARS
 
 /**
+ * Driver licenses CDN.
+ *
+ * @type {string}
+ */
+export const CDN_LICENSES: string = BC_CDN_LICENSES
+
+/**
+ * Temp driver licenses CDN.
+ *
+ * @type {string}
+ */
+export const CDN_TEMP_LICENSES: string = BC_CDN_TEMP_LICENSES
+
+/**
  * Page offset.
  *
  * @type {number}
@@ -180,16 +233,29 @@ export const STRIPE_MERCHANT_IDENTIFIER: string = BC_STRIPE_MERCHANT_IDENTIFIER
 export const STRIPE_COUNTRY_CODE: string = BC_STRIPE_COUNTRY_CODE
 
 /**
- * The three-letter ISO 4217 alphabetic currency code, e.g. "USD" or "EUR". Required for Stripe payments.
- * Must be a supported currency: https://docs.stripe.com/currencies
+ * The three-letter ISO 4217 alphabetic currency code, e.g. "USD" or "EUR" base currency. Default is USD.
  *
  * @type {string}
  */
-export const STRIPE_CURRENCY_CODE: string = BC_STRIPE_CURRENCY_CODE
+export const BASE_CURRENCY: string = BC_BASE_CURRENCY || 'USD'
 
 /**
- * Currency. Default is $.
+ * Deposit filter first value.
  *
- * @type {string}
+ * @type {number}
  */
-export const CURRENCY: string = BC_CURRENCY
+export const DEPOSIT_FILTER_VALUE_1: number = Number(BC_DEPOSIT_FILTER_VALUE_1)
+
+/**
+ * Deposit filter second value.
+ *
+ * @type {number}
+ */
+export const DEPOSIT_FILTER_VALUE_2: number = Number(BC_DEPOSIT_FILTER_VALUE_2)
+
+/**
+ * Deposit filter third value.
+ *
+ * @type {number}
+ */
+export const DEPOSIT_FILTER_VALUE_3: number = Number(BC_DEPOSIT_FILTER_VALUE_3)

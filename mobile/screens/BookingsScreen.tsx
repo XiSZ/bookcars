@@ -3,16 +3,19 @@ import { StyleSheet, View } from 'react-native'
 import { useIsFocused } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as bookcarsTypes from ':bookcars-types'
+import * as bookcarsHelper from ':bookcars-helper'
 
-import Layout from '../components/Layout'
-import i18n from '../lang/i18n'
-import * as UserService from '../services/UserService'
-import BookingList from '../components/BookingList'
-import SupplierFilter from '../components/SupplierFilter'
-import * as env from '../config/env.config'
-import StatusFilter from '../components/StatusFilter'
-import * as BookingService from '../services/BookingService'
-import BookingFilter from '../components/BookingFilter'
+import * as UserService from '@/services/UserService'
+import * as SupplierService from '@/services/SupplierService'
+import i18n from '@/lang/i18n'
+import Layout from '@/components/Layout'
+import BookingList from '@/components/BookingList'
+import SupplierFilter from '@/components/SupplierFilter'
+import * as env from '@/config/env.config'
+import StatusFilter from '@/components/StatusFilter'
+import * as BookingService from '@/services/BookingService'
+import BookingFilter from '@/components/BookingFilter'
+import Indicator from '@/components/Indicator'
 
 const BookingsScreen = ({ navigation, route }: NativeStackScreenProps<StackParams, 'Bookings'>) => {
   const isFocused = useIsFocused()
@@ -21,7 +24,8 @@ const BookingsScreen = ({ navigation, route }: NativeStackScreenProps<StackParam
   const [visible, setVisible] = useState(false)
   const [user, setUser] = useState<bookcarsTypes.User>()
   const [hasBookings, setHasBookings] = useState(false)
-  const [suppliers, setSuppliers] = useState<string[]>([])
+  const [suppliers, setSuppliers] = useState<bookcarsTypes.User[]>([])
+  const [supplierIds, setSupplierIds] = useState<string[]>([])
   const [statuses, setStatuses] = useState<string[]>([])
   const [filter, setFilter] = useState<bookcarsTypes.Filter>()
 
@@ -29,7 +33,7 @@ const BookingsScreen = ({ navigation, route }: NativeStackScreenProps<StackParam
     try {
       setVisible(false)
       setUser(undefined)
-      setSuppliers([])
+      setSupplierIds([])
       setFilter(undefined)
 
       const _language = await UserService.getLanguage()
@@ -56,8 +60,13 @@ const BookingsScreen = ({ navigation, route }: NativeStackScreenProps<StackParam
       const _hasBookings = hasBookingsStatus === 200
       setHasBookings(_hasBookings)
 
+      const _suppliers = await SupplierService.getAllSuppliers()
+      const _supplierIds = bookcarsHelper.flattenSuppliers(_suppliers)
+      setSuppliers(_suppliers)
+      setSupplierIds(_supplierIds)
+
       setVisible(true)
-    } catch (err) {
+    } catch {
       await UserService.signout(navigation, false, true)
     }
   }
@@ -75,12 +84,8 @@ const BookingsScreen = ({ navigation, route }: NativeStackScreenProps<StackParam
     setReload(false)
   }
 
-  const onLoadSuppliers = (_suppliers: string[]) => {
-    setSuppliers(_suppliers)
-  }
-
   const onChangeSuppliers = (_suppliers: string[]) => {
-    setSuppliers(_suppliers)
+    setSupplierIds(_suppliers)
   }
 
   const onLoadStatuses = (_statuses: string[]) => {
@@ -97,11 +102,13 @@ const BookingsScreen = ({ navigation, route }: NativeStackScreenProps<StackParam
 
   return (
     <Layout style={styles.master} navigation={navigation} route={route} onLoad={onLoad} reload={reload} strict>
+      {!visible && <Indicator style={{ marginVertical: 10 }} />}
       {visible && user?._id && (
         <BookingList
+          navigation={navigation}
           user={user._id}
           language={language}
-          suppliers={suppliers}
+          suppliers={supplierIds}
           statuses={statuses}
           filter={filter}
           header={(
@@ -109,7 +116,7 @@ const BookingsScreen = ({ navigation, route }: NativeStackScreenProps<StackParam
               <SupplierFilter
                 style={styles.filter}
                 visible={hasBookings}
-                onLoad={onLoadSuppliers}
+                suppliers={suppliers}
                 onChange={onChangeSuppliers}
               />
               <StatusFilter
@@ -121,6 +128,7 @@ const BookingsScreen = ({ navigation, route }: NativeStackScreenProps<StackParam
               <BookingFilter
                 style={styles.filter}
                 visible={hasBookings}
+                backgroundColor="#fff"
                 onSubmit={onSubmitBookingFilter}
               />
             </View>

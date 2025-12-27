@@ -1,74 +1,90 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import i18n from '../lang/i18n'
+import * as env from '@/config/env.config'
+import i18n from '@/lang/i18n'
 import Accordion from './Accordion'
 import RadioButton from './RadioButton'
+import * as helper from '@/utils/helper'
 
 interface DepositFilterProps {
+  language: string
   visible?: boolean
   style?: object
   onChange?: (value: number) => void
 }
 
 const DepositFilter = ({
+  language,
   visible,
   style,
   onChange
 }: DepositFilterProps) => {
-  const [deposit2500, setDeposit2500] = useState(false)
-  const [deposit5000, setDeposit5000] = useState(false)
-  const [deposit7500, setDeposit7500] = useState(false)
+  const [depositValue1, setDepositValue1] = useState(false)
+  const [depositValue2, setDepositValue2] = useState(false)
+  const [depositValue3, setDepositValue3] = useState(false)
   const [depositall, setDepositall] = useState(true)
+  const [depositValue1Text, setDepositValue1Text] = useState('')
+  const [depositValue2Text, setDepositValue2Text] = useState('')
+  const [depositValue3Text, setDepositValue3Text] = useState('')
+  const [loading, setLoading] = useState(true)
 
-  const onValueChangeDeposit2500 = (checked: boolean) => {
-    if (checked) {
-      const value = 2500
-      setDeposit2500(true)
-      setDeposit5000(false)
-      setDeposit7500(false)
-      setDepositall(false)
+  useEffect(() => {
+    const init = async () => {
+      setDepositValue1Text(await helper.getDepositFilterValue(language, 'value1'))
+      setDepositValue2Text(await helper.getDepositFilterValue(language, 'value2'))
+      setDepositValue3Text(await helper.getDepositFilterValue(language, 'value3'))
+      setLoading(false)
+    }
 
-      if (onChange) {
-        onChange(value)
-      }
+    init()
+  }, [language])
+
+  const handleChange = (value: number) => {
+    if (onChange) {
+      onChange(value)
     }
   }
 
-  const onValueChangeDeposit5000 = (checked: boolean) => {
+  const onValueChangeDepositValue1 = (checked: boolean) => {
     if (checked) {
-      const value = 5000
-      setDeposit2500(false)
-      setDeposit5000(true)
-      setDeposit7500(false)
+      setDepositValue1(true)
+      setDepositValue2(false)
+      setDepositValue3(false)
       setDepositall(false)
 
-      if (onChange) {
-        onChange(value)
-      }
+      handleChange(env.DEPOSIT_FILTER_VALUE_1)
     }
   }
 
-  const onValueChangeDeposit7500 = (checked: boolean) => {
+  const onValueChangeDepositValue2 = (checked: boolean) => {
     if (checked) {
-      const value = 7500
-      setDeposit2500(false)
-      setDeposit5000(false)
-      setDeposit7500(true)
+      setDepositValue1(false)
+      setDepositValue2(true)
+      setDepositValue3(false)
       setDepositall(false)
 
-      if (onChange) {
-        onChange(value)
-      }
+      handleChange(env.DEPOSIT_FILTER_VALUE_2)
+    }
+  }
+
+  const onValueChangeDepositValue3 = (checked: boolean) => {
+    if (checked) {
+      setDepositValue1(false)
+      setDepositValue2(false)
+      setDepositValue3(true)
+      setDepositall(false)
+
+      handleChange(env.DEPOSIT_FILTER_VALUE_3)
     }
   }
 
   const onValueChangeDepositall = (checked: boolean) => {
     if (checked) {
       const value = -1
-      setDeposit2500(false)
-      setDeposit5000(false)
-      setDeposit7500(false)
+      setDepositValue1(false)
+      setDepositValue2(false)
+      setDepositValue3(false)
       setDepositall(true)
 
       if (onChange) {
@@ -77,17 +93,14 @@ const DepositFilter = ({
     }
   }
 
-  return null
-
-  // TODO
   return (
-    visible && (
+    !loading && visible && (
       <View style={{ ...styles.container, ...style }}>
         <Accordion style={styles.accordion} title={i18n.t('DEPOSIT')}>
           <View style={styles.contentContainer}>
-            <RadioButton style={styles.component} textStyle={styles.text} checked={deposit2500} label={i18n.t('LESS_THAN_2500')} onValueChange={onValueChangeDeposit2500} />
-            <RadioButton style={styles.component} textStyle={styles.text} checked={deposit5000} label={i18n.t('LESS_THAN_5000')} onValueChange={onValueChangeDeposit5000} />
-            <RadioButton style={styles.component} textStyle={styles.text} checked={deposit7500} label={i18n.t('LESS_THAN_7500')} onValueChange={onValueChangeDeposit7500} />
+            <RadioButton style={styles.component} textStyle={styles.text} checked={depositValue1} label={depositValue1Text} onValueChange={onValueChangeDepositValue1} />
+            <RadioButton style={styles.component} textStyle={styles.text} checked={depositValue2} label={depositValue2Text} onValueChange={onValueChangeDepositValue2} />
+            <RadioButton style={styles.component} textStyle={styles.text} checked={depositValue3} label={depositValue3Text} onValueChange={onValueChangeDepositValue3} />
             <RadioButton style={styles.component} textStyle={styles.text} checked={depositall} label={i18n.t('ALL')} onValueChange={onValueChangeDepositall} />
           </View>
         </Accordion>

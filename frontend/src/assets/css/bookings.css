@@ -2,13 +2,8 @@ div.bookings {
   display: flex;
   flex-direction: column;
   align-items: center;
-
   position: absolute;
-  top: 64px;
-  right: 0;
-  bottom: 0;
-  left: 0;
-
+  inset: 64px 0 0;
   transform: translate3d(0, 0, 0);
 }
 
@@ -17,7 +12,7 @@ div.bookings div.col-1 {
   top: 0;
   bottom: 0;
   left: 0;
-  width: 300px;
+  width: 336px;
   padding: 12px 0 0 12px;
   background-color: #FAFAFA;
   overflow: auto;
@@ -42,7 +37,7 @@ div.bookings div.col-1 .cl-booking-filter {
 
 div.bookings div.col-2 {
   position: absolute;
-  inset: 0 0 0 300px;
+  inset: 0 0 0 336px;
 }
 
 /* Device width is lower than or equal to 960px */
@@ -80,9 +75,8 @@ div.bookings div.col-2 {
   div.bookings div.col-1 .cl-supplier-filter,
   div.bookings div.col-1 .cl-status-filter,
   div.bookings div.col-1 .cl-booking-filter {
-    margin: 10px;
     background-color: #fff;
-    width: calc(100% - 20px);
+    width: calc(100% - 10px);
     max-width: 480px;
   }
 

@@ -8,27 +8,28 @@ import {
 import { Info as InfoIcon } from '@mui/icons-material'
 import * as bookcarsTypes from ':bookcars-types'
 import * as bookcarsHelper from ':bookcars-helper'
-import { strings as commonStrings } from '../lang/common'
-import { strings as blStrings } from '../lang/booking-list'
-import { strings as bfStrings } from '../lang/booking-filter'
-import { strings as csStrings } from '../lang/cars'
-import env from '../config/env.config'
-import * as helper from '../common/helper'
-import Layout from '../components/Layout'
-import * as UserService from '../services/UserService'
-import * as BookingService from '../services/BookingService'
-import * as CarService from '../services/CarService'
-import Backdrop from '../components/SimpleBackdrop'
+import { strings as commonStrings } from '@/lang/common'
+import { strings as blStrings } from '@/lang/booking-list'
+import { strings as bfStrings } from '@/lang/booking-filter'
+import { strings as csStrings } from '@/lang/cars'
+import env from '@/config/env.config'
+import * as helper from '@/utils/helper'
+import Layout from '@/components/Layout'
+import * as UserService from '@/services/UserService'
+import * as BookingService from '@/services/BookingService'
+import * as CarService from '@/services/CarService'
+import * as PaymentService from '@/services/PaymentService'
+import Backdrop from '@/components/SimpleBackdrop'
 import NoMatch from './NoMatch'
 import Error from './Error'
-import CarList from '../components/CarList'
-import SupplierSelectList from '../components/SupplierSelectList'
-import LocationSelectList from '../components/LocationSelectList'
-import CarSelectList from '../components/CarSelectList'
-import StatusList from '../components/StatusList'
-import DateTimePicker from '../components/DateTimePicker'
+import CarList from '@/components/CarList'
+import SupplierSelectList from '@/components/SupplierSelectList'
+import LocationSelectList from '@/components/LocationSelectList'
+import CarSelectList from '@/components/CarSelectList'
+import StatusList from '@/components/StatusList'
+import DateTimePicker from '@/components/DateTimePicker'
 
-import '../assets/css/booking.css'
+import '@/assets/css/booking.css'
 
 const Booking = () => {
   const [loading, setLoading] = useState(false)
@@ -78,7 +79,7 @@ const Booking = () => {
         if (_car && from && to) {
           const _booking = bookcarsHelper.clone(booking)
           _booking.car = _car
-          const _price = helper.price(_car, from, to, _booking)
+          const _price = bookcarsHelper.calculateTotalPrice(_car, from, to, _booking)
 
           setBooking(_booking)
           setPrice(_price)
@@ -103,97 +104,109 @@ const Booking = () => {
 
   const handleCancellationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (booking && booking.car) {
-      booking.cancellation = e.target.checked
+      const _booking = bookcarsHelper.clone(booking) as bookcarsTypes.Booking
+      _booking.cancellation = e.target.checked
 
-      const _price = helper.price(
+      const _price = bookcarsHelper.calculateTotalPrice(
         booking.car as bookcarsTypes.Car,
         new Date(booking.from),
         new Date(booking.to),
-        booking as bookcarsTypes.CarOptions
+        (booking.car as bookcarsTypes.Car).supplier.priceChangeRate || 0,
+        booking as bookcarsTypes.CarOptions,
       )
-      setBooking(booking)
+      setBooking(_booking)
       setPrice(_price)
-      setCancellation(booking.cancellation)
+      setCancellation(_booking.cancellation)
     }
   }
 
   const handleAmendmentsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (booking && booking.car) {
-      booking.amendments = e.target.checked
+      const _booking = bookcarsHelper.clone(booking) as bookcarsTypes.Booking
+      _booking.amendments = e.target.checked
 
-      const _price = helper.price(
+      const _price = bookcarsHelper.calculateTotalPrice(
         booking.car as bookcarsTypes.Car,
         new Date(booking.from),
         new Date(booking.to),
-        booking as bookcarsTypes.CarOptions
+        (booking.car as bookcarsTypes.Car).supplier.priceChangeRate || 0,
+        booking as bookcarsTypes.CarOptions,
       )
-      setBooking(booking)
+      setBooking(_booking)
       setPrice(_price)
-      setAmendments(booking.amendments)
+      setAmendments(_booking.amendments)
     }
   }
 
   const handleCollisionDamageWaiverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (booking && booking.car) {
-      booking.collisionDamageWaiver = e.target.checked
+      const _booking = bookcarsHelper.clone(booking) as bookcarsTypes.Booking
+      _booking.collisionDamageWaiver = e.target.checked
 
-      const _price = helper.price(
+      const _price = bookcarsHelper.calculateTotalPrice(
         booking.car as bookcarsTypes.Car,
         new Date(booking.from),
         new Date(booking.to),
-        booking as bookcarsTypes.CarOptions
+        (booking.car as bookcarsTypes.Car).supplier.priceChangeRate || 0,
+        booking as bookcarsTypes.CarOptions,
       )
-      setBooking(booking)
+      setBooking(_booking)
       setPrice(_price)
-      setCollisionDamageWaiver(booking.collisionDamageWaiver)
+      setCollisionDamageWaiver(_booking.collisionDamageWaiver)
     }
   }
 
   const handleTheftProtectionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (booking && booking.car) {
-      booking.theftProtection = e.target.checked
+      const _booking = bookcarsHelper.clone(booking) as bookcarsTypes.Booking
+      _booking.theftProtection = e.target.checked
 
-      const _price = helper.price(
+      const _price = bookcarsHelper.calculateTotalPrice(
         booking.car as bookcarsTypes.Car,
         new Date(booking.from),
         new Date(booking.to),
-        booking as bookcarsTypes.CarOptions
+        (booking.car as bookcarsTypes.Car).supplier.priceChangeRate || 0,
+        booking as bookcarsTypes.CarOptions,
       )
-      setBooking(booking)
+      setBooking(_booking)
       setPrice(_price)
-      setTheftProtection(booking.theftProtection)
+      setTheftProtection(_booking.theftProtection)
     }
   }
 
   const handleFullInsuranceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (booking && booking.car) {
-      booking.fullInsurance = e.target.checked
+      const _booking = bookcarsHelper.clone(booking) as bookcarsTypes.Booking
+      _booking.fullInsurance = e.target.checked
 
-      const _price = helper.price(
+      const _price = bookcarsHelper.calculateTotalPrice(
         booking.car as bookcarsTypes.Car,
         new Date(booking.from),
         new Date(booking.to),
-        booking as bookcarsTypes.CarOptions
+        (booking.car as bookcarsTypes.Car).supplier.priceChangeRate || 0,
+        booking as bookcarsTypes.CarOptions,
       )
-      setBooking(booking)
+      setBooking(_booking)
       setPrice(_price)
-      setFullInsurance(booking.fullInsurance)
+      setFullInsurance(_booking.fullInsurance)
     }
   }
 
   const handleAdditionalDriverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (booking && booking.car) {
-      booking.additionalDriver = e.target.checked
+      const _booking = bookcarsHelper.clone(booking) as bookcarsTypes.Booking
+      _booking.additionalDriver = e.target.checked
 
-      const _price = helper.price(
+      const _price = bookcarsHelper.calculateTotalPrice(
         booking.car as bookcarsTypes.Car,
         new Date(booking.from),
         new Date(booking.to),
-        booking as bookcarsTypes.CarOptions
+        (booking.car as bookcarsTypes.Car).supplier.priceChangeRate || 0,
+        booking as bookcarsTypes.CarOptions,
       )
-      setBooking(booking)
+      setBooking(_booking)
       setPrice(_price)
-      setAdditionalDriver(booking.additionalDriver)
+      setAdditionalDriver(_booking.additionalDriver)
     }
   }
 
@@ -249,7 +262,7 @@ const Booking = () => {
           const _booking = await BookingService.getBooking(id)
           if (_booking) {
             setBooking(_booking)
-            setPrice(_booking.price)
+            setPrice(await PaymentService.convertPrice(_booking.price!))
             setLoading(false)
             setVisible(true)
             const cmp = _booking.supplier as bookcarsTypes.User
@@ -289,7 +302,7 @@ const Booking = () => {
             setLoading(false)
             setNoMatch(true)
           }
-        } catch (err) {
+        } catch {
           setLoading(false)
           setError(true)
           setVisible(false)
@@ -312,16 +325,18 @@ const Booking = () => {
         <div className="booking">
           <div className="col-1">
             <form onSubmit={handleSubmit}>
-              <FormControl fullWidth margin="dense">
-                <SupplierSelectList
-                  label={blStrings.SUPPLIER}
-                  required
-                  variant="standard"
-                  onChange={handleSupplierChange}
-                  value={supplier}
-                  readOnly={!edit}
-                />
-              </FormControl>
+              {!env.HIDE_SUPPLIERS && (
+                <FormControl fullWidth margin="dense">
+                  <SupplierSelectList
+                    label={blStrings.SUPPLIER}
+                    required
+                    variant="standard"
+                    onChange={handleSupplierChange}
+                    value={supplier}
+                    readOnly={!edit}
+                  />
+                </FormControl>
+              )}
 
               <FormControl fullWidth margin="dense">
                 <LocationSelectList
@@ -365,16 +380,18 @@ const Booking = () => {
                   readOnly={!edit}
                   onChange={(_from) => {
                     if (_from) {
-                      booking.from = _from
+                      const _booking = bookcarsHelper.clone(booking) as bookcarsTypes.Booking
+                      _booking.from = _from
 
-                      const _price = helper.price(
+                      const _price = bookcarsHelper.calculateTotalPrice(
                         booking.car as bookcarsTypes.Car,
                         new Date(booking.from),
                         new Date(booking.to),
-                        booking as bookcarsTypes.CarOptions
+                        (booking.car as bookcarsTypes.Car).supplier.priceChangeRate || 0,
+                        booking as bookcarsTypes.CarOptions,
                       )
-                      booking.price = _price
-                      setBooking(booking)
+                      _booking.price = _price
+                      setBooking(_booking)
                       setPrice(_price)
                       setFrom(_from)
                       setMinDate(_from)
@@ -392,16 +409,18 @@ const Booking = () => {
                   readOnly={!edit}
                   onChange={(_to) => {
                     if (_to) {
-                      booking.to = _to
+                      const _booking = bookcarsHelper.clone(booking) as bookcarsTypes.Booking
+                      _booking.to = _to
 
-                      const _price = helper.price(
+                      const _price = bookcarsHelper.calculateTotalPrice(
                         booking.car as bookcarsTypes.Car,
                         new Date(booking.from),
                         new Date(booking.to),
-                        booking as bookcarsTypes.CarOptions
+                        (booking.car as bookcarsTypes.Car).supplier.priceChangeRate || 0,
+                        booking as bookcarsTypes.CarOptions,
                       )
-                      booking.price = _price
-                      setBooking(booking)
+                      _booking.price = _price
+                      setBooking(_booking)
                       setPrice(_price)
                       setTo(_to)
                     }
@@ -476,7 +495,7 @@ const Booking = () => {
               <div>
                 {edit && (
                   <div className="booking-buttons">
-                    <Button variant="contained" className="btn-primary btn-margin-bottom" size="small" type="submit">
+                    <Button variant="contained" className="btn-primary btn-margin-bottom" type="submit">
                       {commonStrings.SAVE}
                     </Button>
                   </div>
@@ -489,7 +508,7 @@ const Booking = () => {
               <div className="price">
                 <span className="price-days">{helper.getDays(days)}</span>
                 <span className="price-main">{bookcarsHelper.formatPrice(price as number, commonStrings.CURRENCY, language)}</span>
-                <span className="price-day">{`${csStrings.PRICE_PER_DAY} ${bookcarsHelper.formatPrice(Math.floor((price as number) / days), commonStrings.CURRENCY, language)}`}</span>
+                <span className="price-day">{`${csStrings.PRICE_PER_DAY} ${bookcarsHelper.formatPrice((price as number) / days, commonStrings.CURRENCY, language)}`}</span>
               </div>
             </div>
             <CarList
@@ -497,6 +516,7 @@ const Booking = () => {
               booking={booking}
               cars={[booking.car as bookcarsTypes.Car]}
               hidePrice
+              hideSupplier={env.HIDE_SUPPLIERS}
             />
           </div>
         </div>

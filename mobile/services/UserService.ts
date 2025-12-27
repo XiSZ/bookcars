@@ -2,9 +2,9 @@ import { Platform } from 'react-native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import * as Localization from 'expo-localization'
 import axiosInstance from './axiosInstance'
-import * as env from '../config/env.config'
-import * as AsyncStorage from '../common/AsyncStorage'
-import * as toastHelper from '../common/toastHelper'
+import * as env from '@/config/env.config'
+import * as AsyncStorage from '@/utils/AsyncStorage'
+import * as toastHelper from '@/utils/toastHelper'
 import * as bookcarsTypes from ':bookcars-types'
 
 /**
@@ -224,6 +224,12 @@ export const validateAccessToken = async (): Promise<number> => {
       }
     )
     .then((res) => res.status)
+    .catch((err) => {
+      if (err.response?.status) {
+        return err.response.status
+      }
+      return 500
+    })
 }
 
 /**
@@ -276,9 +282,16 @@ export const getLanguage = async () => {
     return lang
   }
 
-  lang = Localization.locale.includes('fr') ? 'fr' : env.DEFAULT_LANGUAGE
+  lang = getDefaultLanguage()
   return lang
 }
+
+export const getDefaultLanguage = () => {
+  const locales = Localization.getLocales()
+  const lang = locales.length > 0 && locales[0].languageCode === 'fr' ? 'fr' : env.DEFAULT_LANGUAGE
+  return lang
+}
+
 
 /**
  * Update user's langauge.
@@ -435,7 +448,6 @@ export const changePassword = async (data: bookcarsTypes.ChangePasswordPayload):
  * @returns {Promise<number | undefined>}
  */
 export const updateAvatar = async (userId: string, file: BlobInfo): Promise<number> => {
-  const user = await AsyncStorage.getObject<bookcarsTypes.User>('bc-user')
   const uri = Platform.OS === 'android' ? file.uri : file.uri.replace('file://', '')
   const formData = new FormData()
   formData.append('image', {
@@ -443,18 +455,17 @@ export const updateAvatar = async (userId: string, file: BlobInfo): Promise<numb
     name: file.name,
     type: file.type,
   } as any)
+  const headers = await authHeader()
   return axiosInstance
     .post(
       `/api/update-avatar/${encodeURIComponent(userId)}`,
       formData,
-      user && user.accessToken
-        ? {
-          headers: {
-            'x-access-token': user.accessToken,
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-        : { headers: { 'Content-Type': 'multipart/form-data' } },
+      {
+        headers: {
+          ...headers,
+          'Content-Type': 'multipart/form-data'
+        },
+      }
     )
     .then((res) => res.status)
 }
@@ -484,16 +495,125 @@ export const deleteAvatar = async (userId: string): Promise<number> => {
  * @returns {unknown}
  */
 export const loggedIn = async () => {
-  const currentUser = await getCurrentUser()
-  if (currentUser) {
-    const status = await validateAccessToken()
-    if (status === 200 && currentUser._id) {
-      const user = await getUser(currentUser._id)
-      if (user) {
-        return true
+  try {
+    const currentUser = await getCurrentUser()
+    if (currentUser) {
+      const status = await validateAccessToken()
+      if (status === 200 && currentUser._id) {
+        const user = await getUser(currentUser._id)
+        if (user) {
+          return true
+        }
       }
     }
+    return false
+  } catch {
+    return false
   }
-
-  return false
 }
+
+/**
+ * Check if password exists.
+ *
+ * @param {string} id
+ * @returns {Promise<bookcarsTypes.User|null>}
+ */
+export const hasPassword = async (id: string): Promise<number> => {
+  const headers = await authHeader()
+
+  return axiosInstance
+    .get(
+      `/api/has-password/${encodeURIComponent(id)}`,
+      { headers }
+    )
+    .then((res) => res.status)
+}
+
+/**
+* Create temporary license.
+*
+* @param {BlobInfo} file
+* @returns {Promise<string>}
+*/
+export const createLicense = (file: BlobInfo): Promise<string> => {
+  const uri = Platform.OS === 'android' ? file.uri : file.uri.replace('file://', '')
+  const formData = new FormData()
+  formData.append('file', {
+    uri,
+    name: file.name,
+    type: file.type,
+  } as any)
+
+  return axiosInstance
+    .post(
+      '/api/create-license',
+      formData,
+      { headers: { 'Content-Type': 'multipart/form-data' } },
+    )
+    .then((res) => res.data)
+}
+
+/**
+ * Update license.
+ *
+ * @param {string} userId
+
+ * @param {BlobInfo} file
+ * @returns {Promise<bookcarsTypes.Response<string>>}
+ */
+export const updateLicense = async (userId: string, file: BlobInfo): Promise<bookcarsTypes.Response<string>> => {
+  const uri = Platform.OS === 'android' ? file.uri : file.uri.replace('file://', '')
+  const formData = new FormData()
+  formData.append('file', {
+    uri,
+    name: file.name,
+    type: file.type,
+  } as any)
+
+  const headers = await authHeader()
+
+  return axiosInstance
+    .post(
+      `/api/update-license/${userId}`,
+      formData,
+      {
+        headers: {
+          ...headers,
+          'Content-Type': 'multipart/form-data'
+        },
+      },
+    )
+    .then((res) => ({ status: res.status, data: res.data }))
+}
+
+/**
+ * Delete license.
+ *
+ * @param {string} userId
+ * @param {string} language
+ * @returns {Promise<number>}
+ */
+export const deleteLicense = async (userId: string): Promise<number> => {
+  const headers = await authHeader()
+  return axiosInstance
+    .post(
+      `/api/delete-license/${userId}`,
+      null,
+      { headers }
+    )
+    .then((res) => res.status)
+}
+
+/**
+* Delete a temporary license file.
+*
+* @param {string} file
+* @returns {Promise<number>}
+*/
+export const deleteTempLicense = (file: string): Promise<number> =>
+  axiosInstance
+    .post(
+      `/api/delete-temp-license/${encodeURIComponent(file)}`,
+      null,
+    )
+    .then((res) => res.status)

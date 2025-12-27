@@ -3,7 +3,8 @@
 /**/*.pem
 /**/*.pem-chain
 /**/*.ca.pem
-
-# custom
-/**/.vscode
-/**/.idea
+/**/.DS_Store
+/**/dist
+/node_modules
+.eslintcache
+.vscode/settings.json

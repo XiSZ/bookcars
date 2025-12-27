@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1
 
-FROM node:lts-alpine as build
+FROM node:lts-alpine AS build
 WORKDIR /bookcars/frontend
 COPY ./frontend ./
 COPY ./frontend/.env.docker .env
 COPY ./packages /bookcars/packages
-RUN npm install
+RUN npm install --force
 RUN npm run build
 
 FROM nginx:stable-alpine
@@ -15,5 +15,4 @@ COPY --from=build /bookcars/frontend/build .
 COPY ./frontend/nginx.conf /etc/nginx/conf.d/default.conf
 CMD ["nginx", "-g", "daemon off;"]
 EXPOSE 80
-# port 443 is default port for https
 EXPOSE 443

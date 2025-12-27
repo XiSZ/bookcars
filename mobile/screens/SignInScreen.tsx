@@ -5,15 +5,15 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import validator from 'validator'
 import * as bookcarsTypes from ':bookcars-types'
 
-import TextInput from '../components/TextInput'
-import Button from '../components/Button'
-import Link from '../components/Link'
-import i18n from '../lang/i18n'
-import Error from '../components/Error'
-import * as UserService from '../services/UserService'
-import * as helper from '../common/helper'
-import Switch from '../components/Switch'
-import Header from '../components/Header'
+import TextInput from '@/components/TextInput'
+import Button from '@/components/Button'
+import Link from '@/components/Link'
+import i18n from '@/lang/i18n'
+import Error from '@/components/Error'
+import * as UserService from '@/services/UserService'
+import * as helper from '@/utils/helper'
+import Switch from '@/components/Switch'
+import Header from '@/components/Header'
 
 const SignInScreen = ({ navigation, route }: NativeStackScreenProps<StackParams, 'SignIn'>) => {
   const isFocused = useIsFocused()
@@ -166,6 +166,7 @@ const SignInScreen = ({ navigation, route }: NativeStackScreenProps<StackParams,
           setBlacklisted(true)
         } else {
           await helper.registerPushToken(res.data._id as string)
+          await UserService.setLanguage(res.data.language || UserService.getDefaultLanguage())
 
           setPasswordError(false)
           setBlacklisted(false)
@@ -191,9 +192,12 @@ const SignInScreen = ({ navigation, route }: NativeStackScreenProps<StackParams,
 
   return (
     <View style={styles.master}>
-      <Header title={i18n.t('SIGN_IN_TITLE')} hideTitle={false} loggedIn={false} />
+      <Header route={route} title={i18n.t('SIGN_IN_TITLE')} hideTitle={false} loggedIn={false} />
 
-      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled" nestedScrollEnabled>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        keyboardShouldPersistTaps={helper.android() ? 'handled' : 'always'}
+      >
         <View style={styles.contentContainer}>
           <TextInput
             ref={emailRef}
@@ -240,7 +244,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexGrow: 1,
-    backgroundColor: '#fafafa',
+    backgroundColor: '#f5f5f5',
   },
   contentContainer: {
     width: '100%',

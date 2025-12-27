@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, Text, Dimensions } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
-
-import * as env from '../config/env.config'
-import { AutocompleteDropdown, AutocompleteOption } from './AutocompleteDropdown/AutocompleteDropdown'
-import * as LocationService from '../services/LocationService'
-import * as helper from '../common/helper'
+import * as env from '@/config/env.config'
+import * as LocationService from '@/services/LocationService'
+import * as helper from '@/utils/helper'
+import { AutocompleteDropdown, AutocompleteDropdownItem } from './AutocompleteDropdown-v4.3.1'
 
 interface LocationSelectListProps {
   selectedItem?: string
   size?: 'small'
   style?: object
   backgroundColor?: string
+  placeholderTextColor?: string
   label: string
   blur?: boolean
   close?: boolean
+  text?: string,
   onSelectItem?: (selectedItem: string) => void
   onFetch?: () => void
   onChangeText?: (text: string) => void
@@ -22,25 +23,38 @@ interface LocationSelectListProps {
 }
 
 const LocationSelectList = ({
-  selectedItem: listSelectedItem,
+  selectedItem: __selectedItem,
   size,
   style,
   backgroundColor,
+  placeholderTextColor = 'rgba(0, 0, 0, 0.6)',
   label,
-  blur,
+  // blur,
   close,
+  text: __text,
   onSelectItem,
   onFetch,
   onChangeText: listOnChangeText,
   onFocus
 }: LocationSelectListProps) => {
   const [loading, setLoading] = useState(false)
-  const [rows, setRows] = useState<AutocompleteOption[]>([])
+  const [rows, setRows] = useState<AutocompleteDropdownItem[]>([])
   const [selectedItem, setSelectedItem] = useState<string>()
 
   useEffect(() => {
-    setSelectedItem(listSelectedItem)
-  }, [listSelectedItem])
+    setSelectedItem(__selectedItem)
+  }, [__selectedItem])
+
+  useEffect(() => {
+    const fetch = async () => {
+      await fetchData(__text || '')
+      setSelectedItem(__selectedItem)
+    }
+    if (__text) {
+      fetch()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [__text])
 
   const _setSelectedItem = (_selectedItem?: string) => {
     setSelectedItem(_selectedItem)
@@ -50,14 +64,13 @@ const LocationSelectList = ({
     }
   }
 
-  const onChangeText = (text: string) => {
-    fetchData(text)
+  const onChangeText = async (text: string) => {
+    await fetchData(text)
   }
 
   const fetchData = async (text: string) => {
     try {
       setLoading(true)
-
       const data = await LocationService.getLocations(text, 1, env.PAGE_SIZE)
       const _data = data && data.length > 0 ? data[0] : { pageInfo: { totalRecord: 0 }, resultData: [] }
       if (!_data) {
@@ -87,7 +100,7 @@ const LocationSelectList = ({
       <Text
         style={{
           display: selectedItem ? 'flex' : 'none',
-          backgroundColor: backgroundColor ?? '#fafafa',
+          backgroundColor: backgroundColor ?? '#F5F5F5',
           color: 'rgba(0, 0, 0, 0.6)',
           fontSize: 12,
           fontWeight: '400',
@@ -102,12 +115,12 @@ const LocationSelectList = ({
         {label}
       </Text>
       <AutocompleteDropdown
-        blur={blur}
+        // blur={blur}
         initialValue={selectedItem || ''}
         loading={loading}
         useFilter={false} // set false to prevent rerender twice
         dataSet={rows}
-        onSelectItem={(item: AutocompleteOption) => {
+        onSelectItem={(item) => {
           if (item) {
             _setSelectedItem(item.id)
           }
@@ -128,12 +141,12 @@ const LocationSelectList = ({
         }}
         textInputProps={{
           placeholder: label || '',
-          placeholderTextColor: 'rgba(0, 0, 0, 0.6)',
+          placeholderTextColor,
           autoCorrect: false,
           autoCapitalize: 'none',
           style: {
             borderRadius: 10,
-            paddingLeft: 15,
+            // paddingLeft: 15,
             fontSize: small ? 14 : 16,
           },
         }}
@@ -143,8 +156,8 @@ const LocationSelectList = ({
           alignSelf: 'center',
         }}
         inputContainerStyle={{
-          backgroundColor: backgroundColor ?? '#fafafa',
-          color: 'rgba(0, 0, 0, 0.87)',
+          backgroundColor: backgroundColor ?? '#F5F5F5',
+          // color: 'rgba(0, 0, 0, 0.87)',
           borderColor: 'rgba(0, 0, 0, 0.23)',
           borderWidth: 1,
           borderRadius: 10,
@@ -152,7 +165,7 @@ const LocationSelectList = ({
         suggestionsListContainerStyle={{
           display: close ? 'none' : 'flex',
         }}
-        renderItem={(item: AutocompleteOption) => (
+        renderItem={(item) => (
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <MaterialIcons name="location-on" size={23} style={{ marginLeft: 5 }} />
             <Text
@@ -173,7 +186,9 @@ const LocationSelectList = ({
         closeOnBlur
         clearOnFocus={false}
         closeOnSubmit
-        EmptyResultComponent={<></>}
+        EmptyResultComponent={<View></View>}
+        debounce={200}
+        suggestionsListMaxHeight={Dimensions.get('window').height * 0.3}
       />
     </View>
   )

@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import { ActivityIndicator, FlatList, StyleSheet, View, Text } from 'react-native'
-import { Paragraph, Dialog, Portal, Button as NativeButton } from 'react-native-paper'
+import { ActivityIndicator, StyleSheet, View, Text, RefreshControl } from 'react-native'
+import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view'
+import { Text as RNPText, Dialog, Portal, Button as NativeButton } from 'react-native-paper'
 import { enUS, fr } from 'date-fns/locale'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import * as bookcarsTypes from ':bookcars-types'
-import * as env from '../config/env.config'
-import i18n from '../lang/i18n'
-import * as helper from '../common/helper'
-import * as BookingService from '../services/BookingService'
+import * as env from '@/config/env.config'
+import i18n from '@/lang/i18n'
+import * as helper from '@/utils/helper'
+import * as BookingService from '@/services/BookingService'
 import Booking from './Booking'
 
 interface BookingListProps {
+  navigation?: NativeStackNavigationProp<StackParams, keyof StackParams>
   suppliers?: string[]
   statuses?: string[]
   filter?: bookcarsTypes.Filter
@@ -20,6 +23,7 @@ interface BookingListProps {
 }
 
 const BookingList = ({
+  navigation,
   suppliers,
   statuses,
   filter,
@@ -40,6 +44,7 @@ const BookingList = ({
   const [cancelRequestSent, setCancelRequestSent] = useState(false)
   const [deleted, setDeleted] = useState(false)
   const [locale, setLoacle] = useState(fr)
+  const [refreshing, setRefreshing] = useState(false)
 
   const fetchData = async (reset = false) => {
     try {
@@ -65,7 +70,7 @@ const BookingList = ({
         }
         const _rows = _page === 0 ? _data.resultData : [...rows, ..._data.resultData]
         setRows(_rows)
-        setFetch(_data.resultData.length > 0)
+        setFetch(_data.resultData.length === env.BOOKINGS_PAGE_SIZE)
         setLoading(false)
       } else {
         setRows([])
@@ -137,12 +142,17 @@ const BookingList = ({
 
   return (
     <View style={styles.container}>
-      <FlatList
-        keyboardShouldPersistTaps="handled"
+      <KeyboardAwareFlatList
+        automaticallyAdjustKeyboardInsets
+        keyboardShouldPersistTaps={helper.android() ? 'handled' : 'always'}
+
+        extraHeight={20}
+        extraScrollHeight={20}
+        enableOnAndroid
+
         initialNumToRender={numToRender}
         maxToRenderPerBatch={numToRender}
         removeClippedSubviews
-        nestedScrollEnabled
         contentContainerStyle={styles.contentContainer}
         style={styles.flatList}
         data={rows}
@@ -167,9 +177,13 @@ const BookingList = ({
         }}
         ListHeaderComponent={header}
         ListFooterComponent={
-          fetch && !openCancelDialog
-            ? <ActivityIndicator size="large" color="#f37022" style={styles.indicator} />
-            : <></>
+          <View style={styles.container}>
+            {
+              fetch && !openCancelDialog
+                ? <ActivityIndicator size="large" color="#f37022" style={styles.indicator} />
+                : null
+            }
+          </View>
         }
         ListEmptyComponent={
           !loading ? (
@@ -177,9 +191,40 @@ const BookingList = ({
               <Text style={styles.text}>{deleted ? i18n.t('BOOKING_DELETED') : i18n.t('EMPTY_BOOKING_LIST')}</Text>
             </View>
           )
-            : <></>
+            : null
         }
         refreshing={loading}
+        refreshControl={
+          navigation && (
+            <RefreshControl refreshing={refreshing} onRefresh={() => {
+              setRefreshing(true)
+
+              if (bookingId) {
+                navigation.navigate('Booking', { id: bookingId })
+              } else {
+                navigation.navigate('Bookings', {})
+              }
+
+              // navigation.dispatch((state) => {
+              //   const { routes } = state
+              //   const index = routes.findIndex((r) => r.name === 'Bookings')
+              //   routes.splice(index, 1)
+              //   const now = Date.now()
+              //   routes.push({
+              //     name: 'Bookings',
+              //     key: `Bookings-${now}`,
+              //     params: {},
+              //   })
+
+              //   return CommonActions.reset({
+              //     ...state,
+              //     routes,
+              //     index: routes.length - 1,
+              //   })
+              // })
+            }}
+            />)
+        }
       />
 
       <Portal>
@@ -189,9 +234,9 @@ const BookingList = ({
             {cancelRequestProcessing ? (
               <ActivityIndicator size="large" color="#f37022" />
             ) : cancelRequestSent ? (
-              <Paragraph>{i18n.t('CANCEL_BOOKING_REQUEST_SENT')}</Paragraph>
+              <RNPText variant="bodyMedium">{i18n.t('CANCEL_BOOKING_REQUEST_SENT')}</RNPText>
             ) : (
-              <Paragraph>{i18n.t('CANCEL_BOOKING')}</Paragraph>
+              <RNPText variant="bodyMedium">{i18n.t('CANCEL_BOOKING')}</RNPText>
             )}
           </Dialog.Content>
           <Dialog.Actions style={styles.dialogActions}>
@@ -264,6 +309,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   contentContainer: {
+    flexGrow: 1,
     alignSelf: 'stretch',
     paddingTop: 10,
     paddingBottom: 10,

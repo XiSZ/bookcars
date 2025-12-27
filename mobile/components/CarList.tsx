@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, FlatList, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, ActivityIndicator, RefreshControl } from 'react-native'
+import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { CommonActions, NavigationRoute, RouteProp } from '@react-navigation/native'
 import * as bookcarsTypes from ':bookcars-types'
+import * as bookcarsHelper from ':bookcars-helper'
 
-import * as helper from '../common/helper'
-import * as env from '../config/env.config'
-import i18n from '../lang/i18n'
-import * as UserService from '../services/UserService'
-import * as CarService from '../services/CarService'
+import * as helper from '@/utils/helper'
+import * as env from '@/config/env.config'
+import i18n from '@/lang/i18n'
+import * as UserService from '@/services/UserService'
+import * as CarService from '@/services/CarService'
 import Car from './Car'
 
 interface CarListProps {
@@ -15,16 +18,28 @@ interface CarListProps {
   from?: Date
   to?: Date
   suppliers?: string[]
+  rating?: number
+  ranges?: bookcarsTypes.CarRange[]
+  multimedia?: bookcarsTypes.CarMultimedia[]
+  seats?: number,
+  carSpecs?: bookcarsTypes.CarSpecs,
   pickupLocation?: string
   dropOffLocation?: string
+  pickupLocationName?: string
+  distance?: string
   carType?: string[]
   gearbox?: string[]
   mileage?: string[]
+  fuelPolicy?: string[]
   deposit?: number
   header?: React.ReactElement
   cars?: bookcarsTypes.Car[]
   hidePrice?: boolean
   footerComponent?: React.ReactElement
+  routeName?: 'Cars' | 'Checkout',
+  route: RouteProp<StackParams, keyof StackParams>
+  includeAlreadyBookedCars?: boolean
+  includeComingSoonCars?: boolean
   onLoad?: bookcarsTypes.DataEvent<bookcarsTypes.Car>
 }
 
@@ -33,17 +48,29 @@ const CarList = ({
   from,
   to,
   suppliers,
+  rating,
+  ranges,
+  multimedia,
+  seats,
+  carSpecs,
   pickupLocation,
   dropOffLocation,
+  pickupLocationName,
+  distance,
   carType: _carType,
   gearbox,
   mileage,
+  fuelPolicy,
   deposit,
   header,
   cars,
   hidePrice,
   footerComponent,
-  onLoad
+  routeName,
+  // route,
+  includeAlreadyBookedCars,
+  includeComingSoonCars,
+  onLoad,
 }: CarListProps) => {
   const [language, setLanguage] = useState(env.DEFAULT_LANGUAGE)
   const [onScrollEnd, setOnScrollEnd] = useState(false)
@@ -51,6 +78,7 @@ const CarList = ({
   const [fetch, setFetch] = useState(false)
   const [rows, setRows] = useState<bookcarsTypes.Car[]>([])
   const [page, setPage] = useState(1)
+  const [refreshing, setRefreshing] = useState(false)
 
   useEffect(() => {
     const init = async () => {
@@ -69,10 +97,16 @@ const CarList = ({
   const fetchData = async (
     _page: number,
     _suppliers?: string[],
+    _rating?: number,
+    _ranges?: bookcarsTypes.CarRange[],
+    _multimedia?: bookcarsTypes.CarMultimedia[],
+    _seats?: number,
+    _carSpecs?: bookcarsTypes.CarSpecs,
     _pickupLocation?: string,
     __carType?: string[],
     _gearbox?: string[],
     _mileage?: string[],
+    _fuelPolicy?: string[],
     _deposit?: number
   ) => {
     try {
@@ -82,11 +116,21 @@ const CarList = ({
 
         const payload: bookcarsTypes.GetCarsPayload = {
           suppliers: _suppliers,
+          rating: _rating,
+          ranges: _ranges,
+          multimedia: _multimedia,
+          seats: _seats,
+          carSpecs: _carSpecs,
           pickupLocation: _pickupLocation,
           carType: __carType,
           gearbox: _gearbox,
           mileage: _mileage,
+          fuelPolicy: _fuelPolicy,
           deposit: _deposit,
+          includeAlreadyBookedCars,
+          includeComingSoonCars,
+          from,
+          to,
         }
 
         const data = await CarService.getCars(payload, _page, env.CARS_PAGE_SIZE)
@@ -99,7 +143,7 @@ const CarList = ({
         const _rows = _page === 1 ? _data.resultData : [...rows, ..._data.resultData]
 
         setRows(_rows)
-        setFetch(_data.resultData.length > 0)
+        setFetch(_data.resultData.length === env.CARS_PAGE_SIZE)
         if (onLoad) {
           onLoad({ rows: _data.resultData, rowCount: totalRecords })
         }
@@ -116,8 +160,8 @@ const CarList = ({
 
   useEffect(() => {
     if (suppliers) {
-      if (suppliers.length > 0 && pickupLocation && _carType && gearbox && mileage && deposit) {
-        fetchData(page, suppliers, pickupLocation, _carType, gearbox, mileage, deposit)
+      if (suppliers && rating && ranges && multimedia && seats && carSpecs && pickupLocation && _carType && gearbox && mileage && fuelPolicy && deposit) {
+        fetchData(page, suppliers, rating, ranges, multimedia, seats, carSpecs, pickupLocation, _carType, gearbox, mileage, fuelPolicy, deposit)
       } else {
         setRows([])
         setFetch(false)
@@ -126,11 +170,13 @@ const CarList = ({
         }
       }
     } // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, suppliers, pickupLocation, _carType, gearbox, mileage, deposit])
+  }, [page, suppliers, rating, ranges, multimedia, seats, carSpecs, pickupLocation, _carType, gearbox, mileage, fuelPolicy, deposit])
 
   useEffect(() => {
-    setPage(1)
-  }, [suppliers, pickupLocation, _carType, gearbox, mileage, deposit])
+    if (suppliers && rating && ranges && multimedia && seats && carSpecs && pickupLocation && _carType && gearbox && mileage && fuelPolicy && deposit) {
+      setPage(1)
+    }
+  }, [suppliers, rating, ranges, multimedia, seats, carSpecs, pickupLocation, _carType, gearbox, mileage, fuelPolicy, deposit])
 
   useEffect(() => {
     if (cars) {
@@ -148,12 +194,18 @@ const CarList = ({
   return (
     <View style={styles.container}>
       {((from && to && pickupLocation && dropOffLocation) || hidePrice) && (
-        <FlatList
-          keyboardShouldPersistTaps="handled"
+        <KeyboardAwareFlatList
+
+          automaticallyAdjustKeyboardInsets
+          keyboardShouldPersistTaps={helper.android() ? 'handled' : 'always'}
+
+          extraHeight={20}
+          extraScrollHeight={20}
+          enableOnAndroid
+
           initialNumToRender={numToRender}
           maxToRenderPerBatch={numToRender}
           removeClippedSubviews
-          nestedScrollEnabled
           contentContainerStyle={styles.contentContainer}
           style={styles.flatList}
           data={rows}
@@ -165,12 +217,19 @@ const CarList = ({
               to={to}
               pickupLocation={pickupLocation}
               dropOffLocation={dropOffLocation}
+              pickupLocationName={pickupLocationName}
+              distance={distance}
               navigation={navigation}
               hidePrice={hidePrice}
             />
           )}
           keyExtractor={(item) => item._id}
-          onEndReached={() => setOnScrollEnd(true)}
+          onEndReachedThreshold={0.8}
+          onEndReached={() => {
+            if (fetch && !onScrollEnd) {
+              setOnScrollEnd(true)
+            }
+          }}
           onMomentumScrollEnd={() => {
             if (onScrollEnd && fetch) {
               setPage(page + 1)
@@ -179,9 +238,13 @@ const CarList = ({
           }}
           ListHeaderComponent={header}
           ListFooterComponent={
-            footerComponent || (fetch
-              ? <ActivityIndicator size="large" color="#f37022" style={styles.indicator} />
-              : <></>)
+            <View style={styles.container}>
+              {
+                footerComponent || (fetch
+                  ? <ActivityIndicator size="large" color="#f37022" style={styles.indicator} />
+                  : null)
+              }
+            </View>
           }
           ListEmptyComponent={
             !loading ? (
@@ -189,9 +252,89 @@ const CarList = ({
                 <Text>{i18n.t('EMPTY_CAR_LIST')}</Text>
               </View>
             )
-              : <></>
+              : null
           }
           refreshing={loading}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={() => {
+              setRefreshing(true)
+
+              if ((routeName && pickupLocation && dropOffLocation && from && to) && ((routeName === 'Checkout' && cars && cars.length > 0) || routeName === 'Cars')) {
+                // helper.navigate(route, navigation, true)
+
+                navigation.dispatch((state) => {
+                  const { routes } = state
+                  const _routes = bookcarsHelper.cloneArray(routes) as NavigationRoute<StackParams, keyof StackParams>[]
+                  let index = 0
+
+                  if (routeName === 'Cars') {
+                    index = routes.findIndex((r) => r.name === 'Cars')
+                    // routes.splice(index, 1)
+                    const now = Date.now()
+                    _routes[index] = {
+                      name: routeName,
+                      key: `${routeName}-${now}`,
+                      params: {
+                        pickupLocation: pickupLocation!,
+                        dropOffLocation: dropOffLocation!,
+                        from: from!.getTime(),
+                        to: to!.getTime(),
+                        d: now,
+                      },
+                    }
+                    // routes.push({
+                    //   name: 'Cars',
+                    //   key: `Cars-${now}`,
+                    //   params: {
+                    //     pickupLocation: pickupLocation!,
+                    //     dropOffLocation: dropOffLocation!,
+                    //     from: from!.getTime(),
+                    //     to: to!.getTime(),
+                    //     d: now,
+                    //   },
+                    // })
+                  } else {
+                    index = routes.findIndex((r) => r.name === 'Checkout')
+                    // routes.splice(index, 1)
+                    const now = Date.now()
+                    _routes[index] = {
+                      name: routeName,
+                      key: `${routeName}-${now}`,
+                      params: {
+                        car: cars![0]._id,
+                        pickupLocation: pickupLocation!,
+                        dropOffLocation: dropOffLocation!,
+                        from: from!.getTime(),
+                        to: to!.getTime(),
+                        d: now,
+                      },
+                    }
+                    // routes.push({
+                    //   name: 'Checkout',
+                    //   key: `Checkout-${now}`,
+                    //   params: {
+                    //     car: cars![0]._id,
+                    //     pickupLocation: pickupLocation!,
+                    //     dropOffLocation: dropOffLocation!,
+                    //     from: from!.getTime(),
+                    //     to: to!.getTime(),
+                    //     d: now,
+                    //   },
+                    // })
+                  }
+
+                  return CommonActions.reset({
+                    ...state,
+                    routes: _routes,
+                    index,
+                  })
+                })
+              } else {
+                setRefreshing(false)
+              }
+            }}
+            />
+          }
         />
       )}
     </View>

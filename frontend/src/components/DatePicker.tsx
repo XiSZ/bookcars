@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Ref } from 'react'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker as MuiDatePicker } from '@mui/x-date-pickers/DatePicker'
-import { fr, enUS } from 'date-fns/locale'
+import { fr, enUS, es } from 'date-fns/locale'
 import { TextFieldVariants } from '@mui/material'
 import { DateValidationError } from '@mui/x-date-pickers'
 
 interface DatePickerProps {
+  ref?: Ref<HTMLInputElement>
   value?: Date
   label?: string
   minDate?: Date
@@ -20,6 +21,7 @@ interface DatePickerProps {
 }
 
 const DatePicker = ({
+  ref,
   value: dateValue,
   label,
   minDate: minDateValue,
@@ -49,8 +51,9 @@ const DatePicker = ({
   }, [minDateValue])
 
   return (
-    <LocalizationProvider adapterLocale={language === 'fr' ? fr : enUS} dateAdapter={AdapterDateFns}>
+    <LocalizationProvider adapterLocale={language === 'fr' ? fr : language === 'es' ? es : enUS} dateAdapter={AdapterDateFns}>
       <MuiDatePicker
+        inputRef={ref}
         label={label}
         views={['year', 'month', 'day']}
         value={value}

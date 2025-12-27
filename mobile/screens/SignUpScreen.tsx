@@ -6,17 +6,17 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import validator from 'validator'
 import * as bookcarsTypes from ':bookcars-types'
 
-import i18n from '../lang/i18n'
-import TextInput from '../components/TextInput'
-import Button from '../components/Button'
-import Switch from '../components/Switch'
-import * as UserService from '../services/UserService'
-import * as helper from '../common/helper'
-import DateTimePicker from '../components/DateTimePicker'
-import * as env from '../config/env.config'
-import Error from '../components/Error'
-import Backdrop from '../components/Backdrop'
-import Header from '../components/Header'
+import i18n from '@/lang/i18n'
+import TextInput from '@/components/TextInput'
+import Button from '@/components/Button'
+import Switch from '@/components/Switch'
+import * as UserService from '@/services/UserService'
+import * as helper from '@/utils/helper'
+import DateTimePicker from '@/components/DateTimePicker'
+import * as env from '@/config/env.config'
+import Error from '@/components/Error'
+import Backdrop from '@/components/Backdrop'
+import Header from '@/components/Header'
 
 const SignUpScreen = ({ navigation, route }: NativeStackScreenProps<StackParams, 'SignUp'>) => {
   const isFocused = useIsFocused()
@@ -318,10 +318,13 @@ const SignUpScreen = ({ navigation, route }: NativeStackScreenProps<StackParams,
 
   return (
     <View style={styles.master}>
-      <Header title={i18n.t('SIGN_UP_TITLE')} hideTitle={false} loggedIn={false} />
+      <Header route={route} title={i18n.t('SIGN_UP_TITLE')} hideTitle={false} loggedIn={false} />
 
       {language && (
-        <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled" nestedScrollEnabled>
+        <ScrollView
+          contentContainerStyle={styles.container}
+          keyboardShouldPersistTaps={helper.android() ? 'handled' : 'always'}
+        >
           <View style={styles.contentContainer}>
             <TextInput
               ref={fullNameRef}
@@ -403,7 +406,7 @@ const SignUpScreen = ({ navigation, route }: NativeStackScreenProps<StackParams,
 const styles = StyleSheet.create({
   master: {
     flex: 1,
-    backgroundColor: '#fafafa',
+    backgroundColor: '#f5f5f5',
   },
   container: {
     justifyContent: 'center',

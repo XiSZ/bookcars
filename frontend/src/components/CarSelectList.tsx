@@ -8,14 +8,14 @@ import {
   TextFieldVariants
 } from '@mui/material'
 import * as bookcarsTypes from ':bookcars-types'
-import env from '../config/env.config'
-import { strings as commonStrings } from '../lang/common'
-import { strings as bfStrings } from '../lang/booking-filter'
-import { strings as blStrings } from '../lang/booking-list'
-import { strings } from '../lang/booking-car-list'
-import * as CarService from '../services/CarService'
+import env from '@/config/env.config'
+import { strings as commonStrings } from '@/lang/common'
+import { strings as bfStrings } from '@/lang/booking-filter'
+import { strings as blStrings } from '@/lang/booking-list'
+import { strings } from '@/lang/booking-car-list'
+import * as CarService from '@/services/CarService'
 import MultipleSelect from './MultipleSelect'
-import * as helper from '../common/helper'
+import * as helper from '@/utils/helper'
 
 interface CarSelectListProps {
   label?: string
@@ -206,7 +206,7 @@ const CarSelectList = ({
           )}
         </DialogContent>
         <DialogActions className="dialog-actions">
-          <Button onClick={handleCloseDialog} variant="contained" className="btn-secondary">
+          <Button onClick={handleCloseDialog} variant="outlined" color="primary" className="btn-secondary">
             {commonStrings.CLOSE}
           </Button>
         </DialogActions>

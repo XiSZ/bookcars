@@ -33,7 +33,7 @@ interface TextInputProps {
 }
 
 const TextInputComponent = (
-props: TextInputProps,
+  props: TextInputProps,
   ref: React.ForwardedRef<ReactTextInput>
 ) => {
   const [value, setValue] = useState('')
@@ -41,7 +41,7 @@ props: TextInputProps,
   const small = props.size === 'small'
 
   useEffect(() => {
-    setValue(props.value ?? '')
+    setValue(props.value || '')
   }, [props.value])
 
   const onChangeText = (text: string) => {
@@ -56,13 +56,14 @@ props: TextInputProps,
       maxWidth: 480,
     },
     label: {
-      backgroundColor: props.backgroundColor ?? '#fafafa',
+      backgroundColor: props.backgroundColor ?? '#F5F5F5',
       color: 'rgba(0, 0, 0, 0.6)',
       fontSize: 12,
       fontWeight: '400',
-      paddingRight: 5,
-      paddingLeft: 5,
-      marginLeft: 15,
+      paddingRight: props.label ? 5 : 0,
+      paddingLeft: props.label ? 5 : 0,
+      marginLeft: props.label ? 15 : 0,
+      width: props.label ? 'auto' : 0,
       position: 'absolute',
       top: -9,
       zIndex: 1,
@@ -97,7 +98,7 @@ props: TextInputProps,
   })
 
   return (
-    <View style={{ ...props.style, ...styles.container }}>
+    <View style={{ ...styles.container, ...props.style }}>
       {value !== '' && !props.hideLabel && <Text style={styles.label}>{props.label}</Text>}
       <View style={styles.inputContainer}>
         <ReactTextInput

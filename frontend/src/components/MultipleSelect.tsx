@@ -13,9 +13,9 @@ import {
 import { LocationOn as LocationIcon, AccountCircle } from '@mui/icons-material'
 import * as bookcarsTypes from ':bookcars-types'
 import * as bookcarsHelper from ':bookcars-helper'
-import env from '../config/env.config'
+import env from '@/config/env.config'
 
-import '../assets/css/multiple-select.css'
+import '@/assets/css/multiple-select.css'
 
 interface MultipleSelectProps {
   label?: string
@@ -51,7 +51,6 @@ const ListBox: React.ComponentType<React.HTMLAttributes<HTMLElement>> = forwardR
   useImperativeHandle(ref, () => innerRef.current)
 
   return (
-    // eslint-disable-next-line
     <ul {...rest} ref={innerRef} role="list-box">
       {children}
     </ul>
@@ -194,20 +193,22 @@ const MultipleSelect = ({
                 label={label}
                 variant={variant || 'outlined'}
                 required={required}
-                InputProps={{
-                  ...params.InputProps,
-                  startAdornment: (
-                    <>
-                      <InputAdornment position="start">
-                        {option.image ? (
-                          <Avatar src={bookcarsHelper.joinURL(env.CDN_USERS, option.image)} className="avatar-small suo" />
-                        ) : (
-                          <AccountCircle className="avatar-small suo" color="disabled" />
-                        )}
-                      </InputAdornment>
-                      {params.InputProps.startAdornment}
-                    </>
-                  ),
+                slotProps={{
+                  input: {
+                    ...params.InputProps,
+                    startAdornment: (
+                      <>
+                        <InputAdornment position="start">
+                          {option.image ? (
+                            <Avatar src={bookcarsHelper.joinURL(env.CDN_USERS, option.image)} className="avatar-small suo" />
+                          ) : (
+                            <AccountCircle className="avatar-small suo" color="disabled" />
+                          )}
+                        </InputAdornment>
+                        {params.InputProps.startAdornment}
+                      </>
+                    ),
+                  }
                 }}
               />
             )
@@ -222,22 +223,24 @@ const MultipleSelect = ({
                 label={label}
                 variant={variant || 'outlined'}
                 required={required}
-                InputProps={{
-                  ...params.InputProps,
-                  startAdornment: (
-                    <>
-                      <InputAdornment position="start">
-                        <div className="supplier-ia">
-                          <img
-                            src={bookcarsHelper.joinURL(env.CDN_USERS, option.image)}
-                            alt={option.name}
-                            style={{ height: env.SUPPLIER_IMAGE_HEIGHT }}
-                          />
-                        </div>
-                      </InputAdornment>
-                      {params.InputProps.startAdornment}
-                    </>
-                  ),
+                slotProps={{
+                  input: {
+                    ...params.InputProps,
+                    startAdornment: (
+                      <>
+                        <InputAdornment position="start">
+                          <div className="supplier-ia">
+                            <img
+                              src={bookcarsHelper.joinURL(env.CDN_USERS, option.image)}
+                              alt={option.name}
+                              style={{ height: env.SUPPLIER_IMAGE_HEIGHT }}
+                            />
+                          </div>
+                        </InputAdornment>
+                        {params.InputProps.startAdornment}
+                      </>
+                    ),
+                  }
                 }}
               />
             )
@@ -250,16 +253,18 @@ const MultipleSelect = ({
                 label={label}
                 variant={variant || 'outlined'}
                 required={required}
-                InputProps={{
-                  ...params.InputProps,
-                  startAdornment: (
-                    <>
-                      <InputAdornment position="start">
-                        <LocationIcon />
-                      </InputAdornment>
-                      {params.InputProps.startAdornment}
-                    </>
-                  ),
+                slotProps={{
+                  input: {
+                    ...params.InputProps,
+                    startAdornment: (
+                      <>
+                        <InputAdornment position="start">
+                          <LocationIcon />
+                        </InputAdornment>
+                        {params.InputProps.startAdornment}
+                      </>
+                    ),
+                  }
                 }}
               />
             )
@@ -274,22 +279,24 @@ const MultipleSelect = ({
                 label={label}
                 variant={variant || 'outlined'}
                 required={required}
-                InputProps={{
-                  ...params.InputProps,
-                  startAdornment: (
-                    <>
-                      <InputAdornment position="start">
-                        <img
-                          src={bookcarsHelper.joinURL(env.CDN_CARS, option.image)}
-                          alt={option.name}
-                          style={{
-                            height: env.SELECTED_CAR_OPTION_IMAGE_HEIGHT,
-                          }}
-                        />
-                      </InputAdornment>
-                      {params.InputProps.startAdornment}
-                    </>
-                  ),
+                slotProps={{
+                  input: {
+                    ...params.InputProps,
+                    startAdornment: (
+                      <>
+                        <InputAdornment position="start">
+                          <img
+                            src={bookcarsHelper.joinURL(env.CDN_CARS, option.image)}
+                            alt={option.name}
+                            style={{
+                              height: env.SELECTED_CAR_OPTION_IMAGE_HEIGHT,
+                            }}
+                          />
+                        </InputAdornment>
+                        {params.InputProps.startAdornment}
+                      </>
+                    ),
+                  }
                 }}
               />
             )
@@ -311,9 +318,14 @@ const MultipleSelect = ({
           <Chip {...getTagProps({ index })} key={option._id} label={option.name} />
         ))}
         renderOption={(props, option) => {
+          if ('key' in props) {
+            delete props.key
+          }
+          const _props = props as React.HTMLAttributes<HTMLLIElement>
+
           if (type === bookcarsTypes.RecordType.User) {
             return (
-              <li {...props} key={option._id} className={`${props.className} ms-option`}>
+              <li {..._props} key={option._id} className={`${props.className} ms-option`}>
                 <span className="option-image">
                   {option.image ? <Avatar src={bookcarsHelper.joinURL(env.CDN_USERS, option.image)} className="avatar-medium" /> : <AccountCircle className="avatar-medium" color="disabled" />}
                 </span>
@@ -322,7 +334,7 @@ const MultipleSelect = ({
             )
           } if (type === bookcarsTypes.RecordType.Supplier) {
             return (
-              <li {...props} key={option._id} className={`${props.className} ms-option`}>
+              <li {..._props} key={option._id} className={`${props.className} ms-option`}>
                 <span className="option-image supplier-ia">
                   <img
                     src={bookcarsHelper.joinURL(env.CDN_USERS, option.image)}
@@ -335,7 +347,7 @@ const MultipleSelect = ({
             )
           } if (type === bookcarsTypes.RecordType.Location) {
             return (
-              <li {...props} key={option._id} className={`${props.className} ms-option`}>
+              <li {..._props} key={option._id} className={`${props.className} ms-option`}>
                 <span className="option-image">
                   <LocationIcon />
                 </span>
@@ -344,7 +356,7 @@ const MultipleSelect = ({
             )
           } if (type === bookcarsTypes.RecordType.Car) {
             return (
-              <li {...props} key={option._id} className={`${props.className} ms-option`}>
+              <li {..._props} key={option._id} className={`${props.className} ms-option`}>
                 <span className="option-image car-ia">
                   <img
                     src={bookcarsHelper.joinURL(env.CDN_CARS, option.image)}
@@ -360,15 +372,19 @@ const MultipleSelect = ({
           }
 
           return (
-            <li {...props} key={option._id} className={`${props.className} ms-option`}>
+            <li {..._props} key={option._id} className={`${props.className} ms-option`}>
               <span>{option.name}</span>
             </li>
           )
         }}
-        ListboxProps={ListboxProps || undefined}
         onFocus={onFocus || undefined}
-        ListboxComponent={ListBox}
         onOpen={onOpen || undefined}
+        slotProps={{
+          listbox: {
+            component: ListBox,
+            ...ListboxProps
+          }
+        }}
       />
     </div>
   )

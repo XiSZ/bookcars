@@ -7,13 +7,13 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import * as bookcarsTypes from ':bookcars-types'
 import * as bookcarsHelper from ':bookcars-helper'
 
-import i18n from '../lang/i18n'
-import * as UserService from '../services/UserService'
-import * as NotificationService from '../services/NotificationService'
-import * as env from '../config/env.config'
-import * as helper from '../common/helper'
-import Checkbox from '../components/Checkbox'
-import { useGlobalContext, GlobalContextType } from '../context/GlobalContext'
+import i18n from '@/lang/i18n'
+import * as UserService from '@/services/UserService'
+import * as NotificationService from '@/services/NotificationService'
+import * as env from '@/config/env.config'
+import * as helper from '@/utils/helper'
+import Checkbox from '@/components/Checkbox'
+import { useGlobalContext, GlobalContextType } from '@/context/GlobalContext'
 
 interface NotificationListProps {
   navigation: NativeStackNavigationProp<StackParams, keyof StackParams>
@@ -129,7 +129,7 @@ const NotificationList = ({ user, locale, navigation }: NotificationListProps) =
                           } else {
                             helper.error()
                           }
-                        } catch (err) {
+                        } catch {
                           await UserService.signout(navigation)
                         }
                       }}
@@ -180,7 +180,11 @@ const NotificationList = ({ user, locale, navigation }: NotificationListProps) =
               )}
             </View>
           </View>
-          <ScrollView ref={notificationsListRef} contentContainerStyle={styles.list} keyboardShouldPersistTaps="handled" nestedScrollEnabled>
+          <ScrollView
+            ref={notificationsListRef}
+            contentContainerStyle={styles.list}
+            keyboardShouldPersistTaps={helper.android() ? 'handled' : 'always'}
+          >
             {loading && <ActivityIndicator size="large" color="#f37022" />}
             {rows.map((row) => (
               <View key={row._id} style={styles.notificationContainer}>
@@ -236,7 +240,7 @@ const NotificationList = ({ user, locale, navigation }: NotificationListProps) =
                               } else {
                                 navigate()
                               }
-                            } catch (err) {
+                            } catch {
                               await UserService.signout(navigation)
                             }
                           }}
@@ -279,7 +283,7 @@ const NotificationList = ({ user, locale, navigation }: NotificationListProps) =
                               } else {
                                 helper.error()
                               }
-                            } catch (err) {
+                            } catch {
                               await UserService.signout(navigation)
                             }
                           }}

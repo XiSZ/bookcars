@@ -1,0 +1,26 @@
+{
+  "name": "currency-converter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "rimraf ./tsconfig.tsbuildinfo ./index.js ./index.d.ts ./check.js ./check.d.ts && tsc --build --verbose",
+    "check": "npm run build && node check.js",
+    "lint": "eslint ."
+  },
+  "author": "Akram El Assas",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/runtime": "^7.28.4",
+    "easy-currencies": "^1.8.3"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.50.0",
+    "@typescript-eslint/parser": "^8.50.0",
+    "eslint": "^9.39.2",
+    "rimraf": "^6.1.2",
+    "typescript": "^5.9.3"
+  }
+}

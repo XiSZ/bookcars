@@ -2,84 +2,52 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Paper,
-  Input,
-  InputLabel,
-  FormControl,
-  FormHelperText,
   Button
 } from '@mui/material'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import * as bookcarsTypes from ':bookcars-types'
-import Layout from '../components/Layout'
-import { strings as commonStrings } from '../lang/common'
-import { strings } from '../lang/change-password'
-import * as UserService from '../services/UserService'
-import Backdrop from '../components/SimpleBackdrop'
-import * as helper from '../common/helper'
+import Layout from '@/components/Layout'
+import { strings as commonStrings } from '@/lang/common'
+import { strings } from '@/lang/change-password'
+import * as UserService from '@/services/UserService'
+import Footer from '@/components/Footer'
+import * as helper from '@/utils/helper'
+import { schema, FormFields } from '@/models/ChangePasswordForm'
+import PasswordInput from '@/components/PasswordInput'
 
-import '../assets/css/change-password.css'
+import '@/assets/css/change-password.css'
 
 const ChangePassword = () => {
   const navigate = useNavigate()
 
   const [user, setUser] = useState<bookcarsTypes.User>()
-  const [newPassword, setNewPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [newPasswordError, setNewPasswordError] = useState(false)
-  const [confirmPasswordError, setConfirmPasswordError] = useState(false)
-  const [passwordLengthError, setPasswordLengthError] = useState(false)
-  const [loading, setLoading] = useState(true)
   const [visible, setVisible] = useState(false)
-  const [currentPassword, setCurrentPassword] = useState('')
-  const [currentPasswordError, setCurrentPasswordError] = useState(false)
+  const [hasPassword, setHasPassword] = useState(false)
 
-  const handleNewPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewPassword(e.target.value)
-  }
-
-  const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setConfirmPassword(e.target.value)
-  }
-
-  const handleCurrentPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentPassword(e.target.value)
-  }
+  const { register, handleSubmit, formState: { errors, isSubmitting }, setValue, clearErrors, setError, reset } = useForm<FormFields>({
+    resolver: zodResolver(schema),
+    mode: 'onSubmit',
+  })
 
   const error = () => {
     helper.error(null, strings.PASSWORD_UPDATE_ERROR)
   }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement> | React.KeyboardEvent<HTMLElement>) => {
+  const onSubmit = async ({ currentPassword, newPassword }: FormFields) => {
     try {
-      e.preventDefault()
-
       if (!user) {
-        error()
         return
       }
 
-      const submit = async () => {
-        if (newPassword.length < 6) {
-          setPasswordLengthError(true)
-          setConfirmPasswordError(false)
-          setNewPasswordError(false)
-          return
-        }
-        setPasswordLengthError(false)
-        setNewPasswordError(false)
+      const status = hasPassword ? (await UserService.checkPassword(user._id as string, currentPassword!)) : 200
 
-        if (newPassword !== confirmPassword) {
-          setConfirmPasswordError(true)
-          setNewPasswordError(false)
-          return
-        }
-        setConfirmPasswordError(false)
-        setNewPasswordError(false)
-
+      if (status === 200) {
         const data: bookcarsTypes.ChangePasswordPayload = {
           _id: user._id as string,
-          password: currentPassword,
+          password: currentPassword || '',
           newPassword,
-          strict: true,
+          strict: hasPassword,
         }
 
         const status = await UserService.changePassword(data)
@@ -89,10 +57,8 @@ const ChangePassword = () => {
 
           if (_user) {
             setUser(_user)
-            setNewPasswordError(false)
-            setCurrentPassword('')
-            setNewPassword('')
-            setConfirmPassword('')
+            setHasPassword(true)
+            reset()
             helper.info(strings.PASSWORD_UPDATE)
           } else {
             error()
@@ -100,95 +66,102 @@ const ChangePassword = () => {
         } else {
           error()
         }
-      }
-
-      const status = await UserService.checkPassword(user._id as string, currentPassword)
-
-      setCurrentPasswordError(status !== 200)
-      setNewPasswordError(false)
-      setPasswordLengthError(false)
-      setConfirmPasswordError(false)
-
-      if (status === 200) {
-        submit()
+      } else {
+        setError('currentPassword', { message: strings.CURRENT_PASSWORD_ERROR })
       }
     } catch (err) {
       helper.error(err)
     }
   }
 
-  const handleConfirmPasswordKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
-    if (e.key === 'Enter') {
-      handleSubmit(e)
-    }
-  }
+  const onLoad = async (_user?: bookcarsTypes.User) => {
+    if (_user) {
+      setUser(_user)
 
-  const onLoad = (_user?: bookcarsTypes.User) => {
-    setUser(_user)
-    setLoading(false)
-    setVisible(true)
+      const status = await UserService.hasPassword(_user._id!)
+      setHasPassword(status === 200)
+
+      setVisible(true)
+    }
   }
 
   return (
     <Layout onLoad={onLoad} strict>
-      <div className="password-reset" style={visible ? {} : { display: 'none' }}>
-        <Paper className="password-reset-form password-reset-form-wrapper" elevation={10}>
-          <h1 className="password-reset-form-title">
-            {' '}
-            {strings.CHANGE_PASSWORD_HEADING}
-            {' '}
-          </h1>
-          <form className="form" onSubmit={handleSubmit}>
-            <FormControl fullWidth margin="dense">
-              <InputLabel error={currentPasswordError} className="required">
-                {strings.CURRENT_PASSWORD}
-              </InputLabel>
-              <Input id="password-current" onChange={handleCurrentPasswordChange} value={currentPassword} error={currentPasswordError} type="password" required />
-              <FormHelperText error={currentPasswordError}>{(currentPasswordError && strings.CURRENT_PASSWORD_ERROR) || ''}</FormHelperText>
-            </FormControl>
-            <FormControl fullWidth margin="dense">
-              <InputLabel className="required" error={newPasswordError}>
-                {strings.NEW_PASSWORD}
-              </InputLabel>
-              <Input id="password-new" onChange={handleNewPasswordChange} type="password" value={newPassword} error={newPasswordError || passwordLengthError} required />
-              <FormHelperText error={newPasswordError || passwordLengthError}>
-                {(newPasswordError && strings.NEW_PASSWORD_ERROR) || (passwordLengthError && commonStrings.PASSWORD_ERROR) || ''}
-              </FormHelperText>
-            </FormControl>
-            <FormControl fullWidth margin="dense" error={confirmPasswordError}>
-              <InputLabel error={confirmPasswordError} className="required">
-                {commonStrings.CONFIRM_PASSWORD}
-              </InputLabel>
-              <Input
-                id="password-confirm"
-                onChange={handleConfirmPasswordChange}
-                onKeyDown={handleConfirmPasswordKeyDown}
-                error={confirmPasswordError}
-                type="password"
-                value={confirmPassword}
-                required
-              />
-              <FormHelperText error={confirmPasswordError}>{confirmPasswordError && commonStrings.PASSWORDS_DONT_MATCH}</FormHelperText>
-            </FormControl>
-            <div className="buttons">
-              <Button type="submit" className="btn-primary btn-margin btn-margin-bottom" size="small" variant="contained">
-                {commonStrings.RESET_PASSWORD}
-              </Button>
-              <Button
-                className="btn-secondary btn-margin-bottom"
-                size="small"
-                variant="contained"
-                onClick={() => {
-                  navigate('/')
-                }}
-              >
-                {commonStrings.CANCEL}
-              </Button>
-            </div>
-          </form>
-        </Paper>
-      </div>
-      {loading && <Backdrop text={commonStrings.PLEASE_WAIT} />}
+      {visible && (
+        <>
+          <div className="password-reset">
+            <Paper className="password-reset-form password-reset-form-wrapper" elevation={10}>
+              <h1 className="password-reset-form-title">{strings.CHANGE_PASSWORD_HEADING}</h1>
+              <form className="form" onSubmit={handleSubmit(onSubmit)}>
+                {hasPassword && (
+                  <PasswordInput
+                    label={strings.CURRENT_PASSWORD}
+                    variant="standard"
+                    {...register('currentPassword')}
+                    error={!!errors.currentPassword}
+                    helperText={errors.currentPassword?.message}
+                    onChange={(e) => {
+                      if (errors.currentPassword) {
+                        clearErrors('currentPassword')
+                      }
+                      setValue('currentPassword', e.target.value)
+                    }}
+                    required
+                  />
+                )}
+
+                <PasswordInput
+                  label={strings.NEW_PASSWORD}
+                  variant="standard"
+                  {...register('newPassword')}
+                  error={!!errors.newPassword}
+                  helperText={errors.newPassword?.message}
+                  onChange={(e) => {
+                    if (errors.newPassword) {
+                      clearErrors('newPassword')
+                    }
+                    setValue('newPassword', e.target.value)
+                  }}
+                  required
+                />
+
+                <PasswordInput
+                  label={commonStrings.CONFIRM_PASSWORD}
+                  variant="standard"
+                  {...register('confirmPassword')}
+                  error={!!errors.confirmPassword}
+                  helperText={errors.confirmPassword?.message}
+                  onChange={(e) => {
+                    if (errors.confirmPassword) {
+                      clearErrors('confirmPassword')
+                    }
+                    setValue('confirmPassword', e.target.value)
+                  }}
+                  required
+                />
+
+                <div className="buttons">
+                  <Button type="submit" className="btn-primary btn-margin btn-margin-bottom btn-cp" variant="contained" disabled={isSubmitting}>
+                    {commonStrings.RESET_PASSWORD}
+                  </Button>
+                  <Button
+                    className="btn-margin-bottom btn-cp"
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => {
+                      navigate('/')
+                    }}
+                  >
+                    {commonStrings.CANCEL}
+                  </Button>
+                </div>
+              </form>
+            </Paper>
+          </div>
+
+          <Footer />
+        </>
+      )}
     </Layout>
   )
 }

@@ -15,10 +15,10 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { CommonActions, DrawerActions } from '@react-navigation/routers'
 import { useNavigation, RouteProp } from '@react-navigation/native'
 
-import i18n from '../lang/i18n'
-import * as env from '../config/env.config'
-import * as helper from '../common/helper'
-import * as UserService from '../services/UserService'
+import i18n from '@/lang/i18n'
+import * as env from '@/config/env.config'
+import * as helper from '@/utils/helper'
+import * as UserService from '@/services/UserService'
 import * as bookcarsTypes from ':bookcars-types'
 
 interface DrawerContentProps {
@@ -66,7 +66,7 @@ const DrawerContent = ({
         await UserService.setLanguage(__language)
         setLanguage(__language)
         const route = props.state.routes[index]
-        helper.navigate(route as RouteProp<StackParams, keyof StackParams>, navigation)
+        helper.navigate(route as RouteProp<StackParams, keyof StackParams>, navigation, true)
       }
 
       const currentUser = await UserService.getCurrentUser()
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   signoutIcon: {
-    marginRight: 5,
+    marginRight: -15,
   },
   text: {
     color: 'rgba(0, 0, 0, 0.54)',

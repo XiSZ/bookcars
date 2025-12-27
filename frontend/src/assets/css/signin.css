@@ -4,8 +4,13 @@ div.signin {
   flex-direction: row;
   flex: 1 0 auto;
   justify-content: center;
-  margin: 45px 0;
+  margin: 120px 0;
   transform: translate3d(0, 0, 0);
+  min-height: 100vh;
+}
+
+div.signin .signin-form {
+  height: fit-content;
 }
 
 div.signin .signin-form-title {
@@ -43,7 +48,7 @@ div.signin div.stay-connected label {
   user-select: none;
 }
 
-div.signin div.forgot-password {
+div.signin div.forgot-password-wrapper {
   margin-top: 15px;
 }
 
@@ -55,7 +60,6 @@ div.signin div.forgot-password {
     justify-content: center;
     display: flex;
     width: 350px;
-    height: 430px;
     border: 1px solid rgb(0 0 0 / 12%);
     padding: 15px;
   }
@@ -80,7 +84,6 @@ div.signin div.forgot-password {
     justify-content: center;
     display: flex;
     width: 380px;
-    height: 390px;
     border: 1px solid rgb(0 0 0 / 12%);
     padding: 15px;
   }

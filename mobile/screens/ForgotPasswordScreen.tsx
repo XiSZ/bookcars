@@ -5,13 +5,13 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import validator from 'validator'
 
-import TextInput from '../components/TextInput'
-import Button from '../components/Button'
-import i18n from '../lang/i18n'
-import * as UserService from '../services/UserService'
-import * as helper from '../common/helper'
-import Link from '../components/Link'
-import Header from '../components/Header'
+import TextInput from '@/components/TextInput'
+import Button from '@/components/Button'
+import i18n from '@/lang/i18n'
+import * as UserService from '@/services/UserService'
+import * as helper from '@/utils/helper'
+import Link from '@/components/Link'
+import Header from '@/components/Header'
 
 const ForgotPasswordScreen = ({ navigation, route }: NativeStackScreenProps<StackParams, 'ForgotPassword'>) => {
   const isFocused = useIsFocused()
@@ -53,10 +53,10 @@ const ForgotPasswordScreen = ({ navigation, route }: NativeStackScreenProps<Stac
             setEmailValid(true)
             return false
           }
-            setEmailError(false)
-            setEmailValid(true)
-            return true
-        } catch (err) {
+          setEmailError(false)
+          setEmailValid(true)
+          return true
+        } catch {
           helper.toast(i18n.t('GENERIC_ERROR'))
           setEmailError(false)
           setEmailValid(true)
@@ -106,9 +106,12 @@ const ForgotPasswordScreen = ({ navigation, route }: NativeStackScreenProps<Stac
 
   return (
     <View style={styles.master}>
-      <Header title={i18n.t('FORGOT_PASSWORD')} hideTitle={false} loggedIn={false} />
+      <Header route={route} title={i18n.t('FORGOT_PASSWORD')} hideTitle={false} loggedIn={false} />
 
-      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled" nestedScrollEnabled>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        keyboardShouldPersistTaps={helper.android() ? 'handled' : 'always'}
+      >
         {sent && (
           <View style={styles.contentContainer}>
             <Text style={styles.text}>{i18n.t('RESET_EMAIL_SENT')}</Text>
@@ -153,7 +156,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexGrow: 1,
-    backgroundColor: '#fafafa',
+    backgroundColor: '#F5F5F5',
   },
   contentContainer: {
     width: '100%',
@@ -162,7 +165,9 @@ const styles = StyleSheet.create({
   },
   component: {
     alignSelf: 'stretch',
-    margin: 10,
+    marginTop: 10,
+    marginRight: 10,
+    marginLeft: 10,
   },
 })
 

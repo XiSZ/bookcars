@@ -1,16 +1,17 @@
-import React, { Dispatch, ReactNode, SetStateAction, useState } from 'react'
+import React, { Dispatch, ReactNode, SetStateAction, useEffect, useRef, useState } from 'react'
 import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from 'react-leaflet'
 import L, { LatLngExpression } from 'leaflet'
 import icon from 'leaflet/dist/images/marker-icon.png'
 import iconShadow from 'leaflet/dist/images/marker-shadow.png'
-import * as UserService from '../services/UserService'
-import { strings } from '../lang/map'
-import * as LocationService from '../services/LocationService'
-import * as helper from '../common/helper'
+import * as bookcarsTypes from ':bookcars-types'
+// import * as UserService from '@/services/UserService'
+import { strings } from '@/lang/map'
+import * as LocationService from '@/services/LocationService'
+import * as helper from '@/utils/helper'
 
 import 'leaflet-boundary-canvas'
 import 'leaflet/dist/leaflet.css'
-import '../assets/css/map.css'
+import '@/assets/css/map.css'
 
 const DefaultIcon = L.icon({
   iconUrl: icon,
@@ -24,7 +25,6 @@ interface Marker {
   position: L.LatLng
 }
 
-const position: LatLngExpression = new L.LatLng(36.966428, -95.844032)
 const markers: Marker[] = [
   // { name: 'Athens (ATH)', position: new L.LatLng(37.983810, 23.727539) },
 ]
@@ -66,39 +66,62 @@ const ZoomControlledLayer = ({ zoom, minZoom, children }: ZoomControlledLayerPro
 
 interface MapProps {
   title?: string
-  initialZoom?: number,
-  className?: string,
+  position?: LatLngExpression
+  initialZoom?: number
+  locations?: bookcarsTypes.Location[]
+  parkingSpots?: bookcarsTypes.ParkingSpot[]
+  className?: string
+  children?: ReactNode
   onSelelectPickUpLocation?: (locationId: string) => void
-  onSelelectDropOffLocation?: (locationId: string) => void
+  // onSelelectDropOffLocation?: (locationId: string) => void
 }
 
 const Map = ({
   title,
+  position = new L.LatLng(31.792305849269, -7.080168000000015),
   initialZoom,
+  locations,
+  parkingSpots,
   className,
+  children,
   onSelelectPickUpLocation,
-  onSelelectDropOffLocation,
+  // onSelelectDropOffLocation,
 }: MapProps) => {
   const _initialZoom = initialZoom || 5.5
   const [zoom, setZoom] = useState(_initialZoom)
-  const [map, setMap] = useState<L.Map | null>(null)
+  const map = useRef<L.Map | null>(null)
 
-  if (map) {
-    map.attributionControl.setPrefix('')
-  }
+  useEffect(() => {
+    if (map.current) {
+      map.current.attributionControl.setPrefix('')
+      map.current.invalidateSize()
+    }
+  }, [map])
+
+  useEffect(() => {
+    if (map.current && position) {
+      map.current.setView(position, _initialZoom)
+    }
+  }, [position, _initialZoom, map])
 
   //
   // Tile server
   //
-  const language = UserService.getLanguage()
 
-  let tileURL = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
+  const tileURL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+  // const tileURL = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
+  // const language = UserService.getLanguage()
   // if (language === 'fr') {
   //   tileURL = 'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png'
   // }
-  if (language === 'el') {
-    tileURL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-  }
+
+  const getLocationMarkers = (): Marker[] => (
+    (locations
+      && locations
+        .filter((l) => l.latitude && l.longitude)
+        .map((l) => ({ name: l.name!, position: new L.LatLng(l.latitude!, l.longitude!) }))
+    ) || []
+  )
 
   const getMarkers = (__markers: Marker[]) =>
     __markers.map((marker) => (
@@ -129,7 +152,7 @@ const Map = ({
                 {strings.SELECT_PICK_UP_LOCATION}
               </button>
             )}
-            {!!onSelelectDropOffLocation && (
+            {/* {!!onSelelectDropOffLocation && (
               <button
                 type="button"
                 className="action-btn"
@@ -151,8 +174,17 @@ const Map = ({
               >
                 {strings.SELECT_DROP_OFF_LOCATION}
               </button>
-            )}
+            )} */}
           </div>
+        </Popup>
+      </Marker>
+    ))
+
+  const getParkingSpots = () =>
+    parkingSpots && parkingSpots.map((parkingSpot) => (
+      <Marker key={parkingSpot._id} position={[Number(parkingSpot.latitude), Number(parkingSpot.longitude)]}>
+        <Popup className="marker">
+          <div className="name">{parkingSpot.name}</div>
         </Popup>
       </Marker>
     ))
@@ -164,10 +196,10 @@ const Map = ({
         center={position}
         zoom={_initialZoom}
         className={`${className ? `${className} ` : ''}map`}
-        ref={setMap}
+        ref={map}
       >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          // attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url={tileURL}
         />
         <ZoomTracker setZoom={setZoom} />
@@ -181,6 +213,15 @@ const Map = ({
             getMarkers(markers)
           }
         </ZoomControlledLayer>
+        <ZoomControlledLayer zoom={zoom} minZoom={_initialZoom}>
+          {
+            getMarkers(getLocationMarkers())
+          }
+          {
+            getParkingSpots()
+          }
+        </ZoomControlledLayer>
+        {children}
       </MapContainer>
     </>
   )

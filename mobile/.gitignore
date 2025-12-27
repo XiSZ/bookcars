@@ -62,7 +62,7 @@ dist/
 .env.development
 .env.development.local
 .env.test.local
-.env.production.local
+.env.*production*
 .env.oraclecloud
 
 npm-debug.log*
@@ -76,6 +76,8 @@ dist/
 
 google-services.json
 /**/google-services.json
+GoogleService-Info.plist
+/**/GoogleService-Info.plist
 
 # @end expo-cli
 
@@ -91,7 +93,6 @@ ios/
 
 %ProgramData%/
 
-# custom
-**/credentials.json
-**/*-firebase-*.json
-**/*.jks
+*.tsbuildinfo
+
+.eslintcache

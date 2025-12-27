@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DateTimePicker as MuiDateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
-import { fr, enUS } from 'date-fns/locale'
+import { fr, enUS, es } from 'date-fns/locale'
 import { TextFieldVariants } from '@mui/material'
 import { DateTimeValidationError, PickersActionBarAction } from '@mui/x-date-pickers'
 
@@ -11,6 +11,8 @@ interface DateTimePickerProps {
   label?: string
   minDate?: Date
   maxDate?: Date
+  minTime?: Date
+  maxTime?: Date
   required?: boolean
   language?: string
   variant?: TextFieldVariants
@@ -25,6 +27,8 @@ const DateTimePicker = ({
   label,
   minDate,
   maxDate,
+  minTime,
+  maxTime,
   required,
   variant,
   language,
@@ -46,7 +50,7 @@ const DateTimePicker = ({
   }
 
   return (
-    <LocalizationProvider adapterLocale={language === 'fr' ? fr : enUS} dateAdapter={AdapterDateFns}>
+    <LocalizationProvider adapterLocale={language === 'fr' ? fr : language === 'es' ? es : enUS} dateAdapter={AdapterDateFns}>
       <MuiDateTimePicker
         label={label}
         value={value}
@@ -73,6 +77,8 @@ const DateTimePicker = ({
         onError={onError}
         minDate={minDate}
         maxDate={maxDate}
+        minTime={minTime}
+        maxTime={maxTime}
         timeSteps={{ hours: 1, minutes: 5 }}
         slotProps={{
           textField: {

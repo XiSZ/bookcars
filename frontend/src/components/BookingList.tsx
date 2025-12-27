@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   DataGrid,
   GridColDef,
@@ -9,9 +10,6 @@ import {
 import {
   Tooltip,
   IconButton,
-  Card,
-  CardContent,
-  Typography,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -22,22 +20,22 @@ import {
 } from '@mui/material'
 import {
   Visibility as ViewIcon,
-  Check as CheckIcon,
   Cancel as CancelIcon
 } from '@mui/icons-material'
 import { format } from 'date-fns'
 import { fr as dfnsFR, enUS as dfnsENUS } from 'date-fns/locale'
 import * as bookcarsTypes from ':bookcars-types'
 import * as bookcarsHelper from ':bookcars-helper'
-import * as BookingService from '../services/BookingService'
-import * as helper from '../common/helper'
-import { strings } from '../lang/booking-list'
-import { strings as csStrings } from '../lang/cars'
-import { strings as commonStrings } from '../lang/common'
-import env from '../config/env.config'
-import BookingStatus from './BookingStatus'
+import * as BookingService from '@/services/BookingService'
+import * as PaymentService from '@/services/PaymentService'
+import * as helper from '@/utils/helper'
+import { strings } from '@/lang/booking-list'
+import { strings as commonStrings } from '@/lang/common'
+import env from '@/config/env.config'
+import BookingStatus from '@/components/BookingStatus'
+import Extras from '@/components/Extras'
 
-import '../assets/css/booking-list.css'
+import '@/assets/css/booking-list.css'
 
 interface BookingListProps {
   suppliers?: string[]
@@ -60,7 +58,6 @@ const BookingList = ({
   filter: bookingFilter,
   car: bookingCar,
   user: bookingUser,
-  loading: bookingLoading,
   hideDates,
   hideCarColumn,
   hideSupplierColumn,
@@ -68,9 +65,11 @@ const BookingList = ({
   checkboxSelection,
   onLoad,
 }: BookingListProps) => {
+  const navigate = useNavigate()
+
   const [user, setUser] = useState<bookcarsTypes.User>()
   const [page, setPage] = useState(0)
-  const [pageSize, setPageSize] = useState(env.isMobile() ? env.BOOKINGS_MOBILE_PAGE_SIZE : env.BOOKINGS_PAGE_SIZE)
+  const [pageSize, setPageSize] = useState(env.isMobile ? env.BOOKINGS_MOBILE_PAGE_SIZE : env.BOOKINGS_PAGE_SIZE)
   const [columns, setColumns] = useState<GridColDef<bookcarsTypes.Booking>[]>([])
   const [rows, setRows] = useState<bookcarsTypes.Booking[]>([])
   const [rowCount, setRowCount] = useState(0)
@@ -84,22 +83,21 @@ const BookingList = ({
     pageSize: env.BOOKINGS_PAGE_SIZE,
     page: 0,
   })
-  const [init, setInit] = useState(true)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [openCancelDialog, setOpenCancelDialog] = useState(false)
   const [cancelRequestSent, setCancelRequestSent] = useState(false)
   const [cancelRequestProcessing, setCancelRequestProcessing] = useState(false)
 
   useEffect(() => {
-    if (!env.isMobile()) {
+    if (!env.isMobile) {
       setPage(paginationModel.page)
       setPageSize(paginationModel.pageSize)
     }
   }, [paginationModel])
 
-  const fetchData = async (_page: number, _user?: bookcarsTypes.User) => {
+  const fetchData = async (_page: number, _user?: bookcarsTypes.User, _car?: string) => {
     try {
-      const _pageSize = env.isMobile() ? env.BOOKINGS_MOBILE_PAGE_SIZE : pageSize
+      const _pageSize = env.isMobile ? env.BOOKINGS_MOBILE_PAGE_SIZE : pageSize
 
       if (suppliers && statuses) {
         setLoading(true)
@@ -108,7 +106,7 @@ const BookingList = ({
           suppliers,
           statuses,
           filter: filter || undefined,
-          car,
+          car: _car || car,
           user: (_user && _user._id) || undefined,
         }
 
@@ -124,7 +122,11 @@ const BookingList = ({
         }
         const totalRecords = Array.isArray(_data.pageInfo) && _data.pageInfo.length > 0 ? _data.pageInfo[0].totalRecords : 0
 
-        if (env.isMobile()) {
+        for (const booking of _data.resultData) {
+          booking.price = await PaymentService.convertPrice(booking.price!)
+        }
+
+        if (env.isMobile) {
           const _rows = _page === 0 ? _data.resultData : [...rows, ..._data.resultData]
           setRows(_rows)
           setRowCount(totalRecords)
@@ -150,7 +152,6 @@ const BookingList = ({
       helper.error(err)
     } finally {
       setLoading(false)
-      setInit(false)
     }
   }
 
@@ -168,11 +169,19 @@ const BookingList = ({
 
   useEffect(() => {
     setCar(bookingCar || '')
-  }, [bookingCar])
+
+    if (bookingCar) {
+      fetchData(page, user, bookingCar)
+    }
+  }, [bookingCar]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setUser(bookingUser)
-  }, [bookingUser])
+
+    if(bookingUser){
+      fetchData(page, bookingUser, car)
+    }
+  }, [bookingUser]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (suppliers && statuses && user) {
@@ -250,7 +259,7 @@ const BookingList = ({
           return (
             <>
               <Tooltip title={strings.VIEW}>
-                <IconButton href={`booking?b=${row._id}`}>
+                <IconButton onClick={() => navigate(`/booking?b=${row._id}`)}>
                   <ViewIcon />
                 </IconButton>
               </Tooltip>
@@ -316,7 +325,7 @@ const BookingList = ({
   }, [suppliers, statuses, filter]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (env.isMobile()) {
+    if (env.isMobile) {
       const element = document.querySelector('body')
 
       if (element) {
@@ -378,18 +387,7 @@ const BookingList = ({
   return (
     <div className="bs-list">
       {user
-        && (rows.length === 0 ? (
-          !init
-          && !loading
-          && !bookingLoading
-          && (
-            <Card variant="outlined" className="empty-list">
-              <CardContent>
-                <Typography color="textSecondary">{strings.EMPTY_LIST}</Typography>
-              </CardContent>
-            </Card>
-          )
-        ) : env.isMobile() ? (
+        && (env.isMobile ? (
           <>
             {rows.map((booking) => {
               const _bookingCar = booking.car as bookcarsTypes.Car
@@ -400,12 +398,12 @@ const BookingList = ({
 
               return (
                 <div key={booking._id} className="booking-details">
-                  <div className={`bs bs-${booking.status}`}>
+                  <div className={`bs bs-${booking.status.toLowerCase()}`}>
                     <span>{helper.getBookingStatus(booking.status)}</span>
                   </div>
                   <div className="booking-detail" style={{ height: bookingDetailHeight }}>
                     <span className="booking-detail-title">{strings.CAR}</span>
-                    <div className="booking-detail-value">{`${_bookingCar.name} (${bookcarsHelper.formatPrice(_bookingCar.price, commonStrings.CURRENCY, language as string)}${commonStrings.DAILY})`}</div>
+                    <div className="booking-detail-value">{_bookingCar.name}</div>
                   </div>
                   <div className="booking-detail" style={{ height: bookingDetailHeight }}>
                     <span className="booking-detail-title">{strings.DAYS}</span>
@@ -439,56 +437,10 @@ const BookingList = ({
                     || booking.theftProtection
                     || booking.fullInsurance
                     || booking.additionalDriver) && (
-                      <div className="extras">
-                        <span className="extras-title">{commonStrings.OPTIONS}</span>
-                        {booking.cancellation && (
-                          <div className="extra">
-                            <CheckIcon className="extra-icon" />
-                            <span className="extra-title">{csStrings.CANCELLATION}</span>
-                            <span className="extra-text">{helper.getCancellationOption(_bookingCar.cancellation, language as string)}</span>
-                          </div>
-                        )}
-
-                        {booking.amendments && (
-                          <div className="extra">
-                            <CheckIcon className="extra-icon" />
-                            <span className="extra-title">{csStrings.AMENDMENTS}</span>
-                            <span className="extra-text">{helper.getAmendmentsOption(_bookingCar.amendments, language as string)}</span>
-                          </div>
-                        )}
-
-                        {booking.collisionDamageWaiver && (
-                          <div className="extra">
-                            <CheckIcon className="extra-icon" />
-                            <span className="extra-title">{csStrings.COLLISION_DAMAGE_WAVER}</span>
-                            <span className="extra-text">{helper.getCollisionDamageWaiverOption(_bookingCar.collisionDamageWaiver, days, language as string)}</span>
-                          </div>
-                        )}
-
-                        {booking.theftProtection && (
-                          <div className="extra">
-                            <CheckIcon className="extra-icon" />
-                            <span className="extra-title">{csStrings.THEFT_PROTECTION}</span>
-                            <span className="extra-text">{helper.getTheftProtectionOption(_bookingCar.theftProtection, days, language as string)}</span>
-                          </div>
-                        )}
-
-                        {booking.fullInsurance && (
-                          <div className="extra">
-                            <CheckIcon className="extra-icon" />
-                            <span className="extra-title">{csStrings.FULL_INSURANCE}</span>
-                            <span className="extra-text">{helper.getFullInsuranceOption(_bookingCar.fullInsurance, days, language as string)}</span>
-                          </div>
-                        )}
-
-                        {booking.additionalDriver && (
-                          <div className="extra">
-                            <CheckIcon className="extra-icon" />
-                            <span className="extra-title">{csStrings.ADDITIONAL_DRIVER}</span>
-                            <span className="extra-text">{helper.getAdditionalDriverOption(_bookingCar.additionalDriver, days, language as string)}</span>
-                          </div>
-                        )}
-                      </div>
+                      <Extras
+                        booking={booking}
+                        days={days}
+                      />
                     )}
                   <div className="booking-detail" style={{ height: bookingDetailHeight }}>
                     <span className="booking-detail-title">{strings.COST}</span>
@@ -553,7 +505,7 @@ const BookingList = ({
         </DialogContent>
         <DialogActions className="dialog-actions">
           {!cancelRequestProcessing && (
-            <Button onClick={handleCloseCancelBooking} variant="contained" className="btn-secondary">
+            <Button onClick={handleCloseCancelBooking} variant="outlined" color="primary" className="btn-secondary">
               {commonStrings.CLOSE}
             </Button>
           )}

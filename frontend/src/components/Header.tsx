@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { toast } from 'react-toastify'
+import React, { useState, useEffect, memo } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   AppBar,
   Toolbar,
@@ -11,71 +11,79 @@ import {
   Button,
   Drawer,
   List,
-  ListItemButton,
   ListItemIcon,
   ListItemText,
-  Link
+  ListItem
 } from '@mui/material'
 import {
   Menu as MenuIcon,
   Mail as MailIcon,
   Notifications as NotificationsIcon,
   More as MoreIcon,
-  Language as LanguageIcon,
   Settings as SettingsIcon,
   Home as HomeIcon,
-  InfoTwoTone as AboutIcon,
-  DescriptionTwoTone as TosIcon,
+  InfoOutlined as AboutIcon,
+  Feed as TosIcon,
   ExitToApp as SignoutIcon,
   Login as LoginIcon,
   EventSeat as BookingsIcon,
   CarRental as SupplierIcon,
   LocationOn as LocationIcon,
+  PrivacyTip as PrivacyIcon,
+  QuestionAnswer as FaqIcon,
+  PersonOutline as SignUpIcon,
+  Cookie as CookiePolicyIcon,
 } from '@mui/icons-material'
-import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { CircleFlag } from 'react-circle-flags'
 import * as bookcarsTypes from ':bookcars-types'
-import env from '../config/env.config'
-import { strings } from '../lang/header'
-import { strings as commonStrings } from '../lang/common'
-import * as UserService from '../services/UserService'
-import * as NotificationService from '../services/NotificationService'
+import env from '@/config/env.config'
+import { strings as commonStrings } from '@/lang/common'
+import { strings as suStrings } from '@/lang/sign-up'
+import { strings } from '@/lang/header'
+import * as UserService from '@/services/UserService'
+import * as PaymentService from '@/services/PaymentService'
 import Avatar from './Avatar'
-import * as langHelper from '../common/langHelper'
-import * as helper from '../common/helper'
-import { useGlobalContext, GlobalContextType } from '../context/GlobalContext'
+import * as langHelper from '@/utils/langHelper'
+import * as helper from '@/utils/helper'
+import { useNotificationContext, NotificationContextType } from '@/context/NotificationContext'
+import { useUserContext, UserContextType } from '@/context/UserContext'
 
-import '../assets/css/header.css'
+import '@/assets/css/header.css'
+
+const flagHeight = 28
 
 interface HeaderProps {
-  user?: bookcarsTypes.User
   hidden?: boolean
   hideSignin?: boolean
   headerTitle?: string
 }
 
-const ListItemLink = (props: any) => <ListItemButton component="a" {...props} />
-
 const Header = ({
-  user,
   hidden,
   hideSignin,
   headerTitle,
 }: HeaderProps) => {
   const navigate = useNavigate()
-  const { notificationCount, setNotificationCount } = useGlobalContext() as GlobalContextType
+
+  const { user } = useUserContext() as UserContextType
+  const { notificationCount } = useNotificationContext() as NotificationContextType
+
+  const [currentUser, setCurrentUser] = useState<bookcarsTypes.User>()
 
   const [lang, setLang] = useState(helper.getLanguage(env.DEFAULT_LANGUAGE))
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const [langAnchorEl, setLangAnchorEl] = useState<HTMLElement | null>(null)
+  const [currencyAnchorEl, setCurrencyAnchorEl] = useState<HTMLElement | null>(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState<HTMLElement | null>(null)
   const [sideAnchorEl, setSideAnchorEl] = useState<HTMLElement | null>(null)
   const [isSignedIn, setIsSignedIn] = useState(false)
-  const [loading, setIsLoading] = useState(true)
   const [isLoaded, setIsLoaded] = useState(false)
 
   const isMenuOpen = Boolean(anchorEl)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
   const isLangMenuOpen = Boolean(langAnchorEl)
+  const isCurrencyMenuOpen = Boolean(currencyAnchorEl)
   const isSideMenuOpen = Boolean(sideAnchorEl)
 
   const classes = {
@@ -98,6 +106,23 @@ const Header = ({
     },
   }
 
+  useEffect(() => {
+    const language = langHelper.getLanguage()
+    setLang(helper.getLanguage(language))
+    langHelper.setLanguage(strings, language)
+  }, [])
+
+  useEffect(() => {
+    if (user) {
+      setCurrentUser(user)
+      setIsSignedIn(true)
+    } else {
+      setCurrentUser(undefined)
+      setIsSignedIn(false)
+    }
+    setIsLoaded(true)
+  }, [user])
+
   const handleAccountMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
   }
@@ -110,15 +135,22 @@ const Header = ({
     setLangAnchorEl(event.currentTarget)
   }
 
-  const refreshPage = () => {
-    const params = new URLSearchParams(window.location.search)
+  const handleCurrencyMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setCurrencyAnchorEl(event.currentTarget)
+  }
 
-    if (params.has('l')) {
-      params.delete('l')
-      window.location.href = window.location.href.split('?')[0] + ([...params].length > 0 ? `?${params}` : '')
-    } else {
-      window.location.reload()
-    }
+  const refreshPage = () => {
+    // const params = new URLSearchParams(window.location.search)
+
+    // if (params.has('l')) {
+    //   params.delete('l')
+    //   // window.location.href = window.location.href.split('?')[0] + ([...params].length > 0 ? `?${params}` : '')
+    //   window.location.replace(window.location.href.split('?')[0] + ([...params].length > 0 ? `?${params}` : ''))
+    // } else {
+    //   // window.location.reload()
+    //   window.location.replace(window.location.href)
+    // }
+    navigate(0)
   }
 
   const handleLangMenuClose = async (event: React.MouseEvent<HTMLElement>) => {
@@ -154,17 +186,34 @@ const Header = ({
     }
   }
 
+  const handleCurrencyMenuClose = async (event: React.MouseEvent<HTMLElement>) => {
+    setCurrencyAnchorEl(null)
+
+    const { code } = event.currentTarget.dataset
+    if (code) {
+      const currentCurrency = PaymentService.getCurrency()
+
+      if (code && code !== currentCurrency) {
+        PaymentService.setCurrency(code)
+        // Refresh page
+        refreshPage()
+      }
+    }
+  }
+
   const handleMenuClose = () => {
     setAnchorEl(null)
     handleMobileMenuClose()
   }
 
   const handleSettingsClick = () => {
+    handleMenuClose()
     navigate('/settings')
   }
 
   const handleSignout = async () => {
-    await UserService.signout()
+    await UserService.signout(true, false)
+    handleMenuClose()
   }
 
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -182,28 +231,6 @@ const Header = ({
   const handleNotificationsClick = () => {
     navigate('/notifications')
   }
-
-  useEffect(() => {
-    const language = langHelper.getLanguage()
-    setLang(helper.getLanguage(language))
-    langHelper.setLanguage(strings, language)
-  }, [])
-
-  useEffect(() => {
-    if (!hidden) {
-      if (user) {
-        NotificationService.getNotificationCounter(user._id as string).then((notificationCounter) => {
-          setIsSignedIn(true)
-          setNotificationCount(notificationCounter.count)
-          setIsLoading(false)
-          setIsLoaded(true)
-        })
-      } else {
-        setIsLoading(false)
-        setIsLoaded(true)
-      }
-    }
-  }, [hidden, user, setNotificationCount])
 
   const menuId = 'primary-account-menu'
   const renderMenu = (
@@ -244,12 +271,12 @@ const Header = ({
         <SettingsIcon className="header-action" />
         <p>{strings.SETTINGS}</p>
       </MenuItem>
-      <MenuItem onClick={handleLangMenuOpen}>
+      {/* <MenuItem onClick={handleLangMenuOpen}>
         <IconButton aria-label="language of current user" aria-controls="primary-search-account-menu" aria-haspopup="true" color="inherit">
           <LanguageIcon />
         </IconButton>
         <p>{strings.LANGUAGE}</p>
-      </MenuItem>
+      </MenuItem> */}
       <MenuItem onClick={handleSignout}>
         <IconButton color="inherit">
           <SignoutIcon />
@@ -274,7 +301,32 @@ const Header = ({
       {
         env._LANGUAGES.map((language) => (
           <MenuItem onClick={handleLangMenuClose} data-code={language.code} key={language.code}>
-            {language.label}
+            <div className="language">
+              <CircleFlag countryCode={language.countryCode as string} height={flagHeight} className="flag" title={language.label} />
+              <span>{language.label}</span>
+            </div>
+          </MenuItem>
+        ))
+      }
+    </Menu>
+  )
+
+  const currencyMenuId = 'currency-menu'
+  const renderCurrencyMenu = (
+    <Menu
+      anchorEl={currencyAnchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id={currencyMenuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isCurrencyMenuOpen}
+      onClose={handleCurrencyMenuClose}
+      className="menu"
+    >
+      {
+        env.CURRENCIES.map((_currency) => (
+          <MenuItem onClick={handleCurrencyMenuClose} data-code={_currency.code} key={_currency.code}>
+            {_currency.code}
           </MenuItem>
         ))
       }
@@ -286,91 +338,189 @@ const Header = ({
       <div style={classes.grow} className="header">
         <AppBar position="relative" sx={{ bgcolor: '#fff', boxShadow: 'none', borderBottom: '1px solid #ddd' }}>
           <Toolbar className="toolbar">
-            {isLoaded && !loading && (
+            {isLoaded && (
               <>
                 <IconButton edge="start" sx={classes.menuButton} aria-label="open drawer" onClick={handleSideMenuOpen}>
                   <MenuIcon />
                 </IconButton>
 
-                <Link href="/" className="logo">BookCars</Link>
+                <Button onClick={() => navigate('/')} className="logo">{env.WEBSITE_NAME}</Button>
 
-                {!env.isMobile() && headerTitle && <div className="header-title">{headerTitle}</div>}
+                {!env.isMobile && headerTitle && <div className="header-title">{headerTitle}</div>}
               </>
             )}
-            <Drawer open={isSideMenuOpen} onClose={handleSideMenuClose} className="menu">
+
+            <Drawer open={isSideMenuOpen} onClose={handleSideMenuClose} className="menu side-menu">
               <List sx={classes.list}>
-                <ListItemLink href="/">
+                <ListItem
+                  onClick={() => {
+                    navigate('/')
+                    handleSideMenuClose()
+                  }}
+                >
                   <ListItemIcon><HomeIcon /></ListItemIcon>
                   <ListItemText primary={strings.HOME} />
-                </ListItemLink>
+                </ListItem>
                 {isSignedIn && (
-                  <ListItemLink href="/bookings">
+                  <ListItem
+                    onClick={() => {
+                      navigate('/bookings')
+                      handleSideMenuClose()
+                    }}
+                  >
                     <ListItemIcon><BookingsIcon /></ListItemIcon>
                     <ListItemText primary={strings.BOOKINGS} />
-                  </ListItemLink>
+                  </ListItem>
                 )}
-                <ListItemLink href="/suppliers">
-                  <ListItemIcon><SupplierIcon /></ListItemIcon>
-                  <ListItemText primary={strings.SUPPLIERS} />
-                </ListItemLink>
-                <ListItemLink href="/locations">
+                {!env.HIDE_SUPPLIERS && (
+                  <ListItem
+                    onClick={() => {
+                      navigate('/suppliers')
+                      handleSideMenuClose()
+                    }}
+                  >
+                    <ListItemIcon><SupplierIcon /></ListItemIcon>
+                    <ListItemText primary={strings.SUPPLIERS} />
+                  </ListItem>
+                )}
+                <ListItem
+                  onClick={() => {
+                    navigate('/locations')
+                    handleSideMenuClose()
+                  }}
+                >
                   <ListItemIcon><LocationIcon /></ListItemIcon>
                   <ListItemText primary={strings.LOCATIONS} />
-                </ListItemLink>
-                <ListItemLink href="/about">
+                </ListItem>
+                <ListItem
+                  onClick={() => {
+                    navigate('/about')
+                    handleSideMenuClose()
+                  }}
+                >
                   <ListItemIcon><AboutIcon /></ListItemIcon>
                   <ListItemText primary={strings.ABOUT} />
-                </ListItemLink>
-                <ListItemLink href="/tos">
+                </ListItem>
+                <ListItem
+                  onClick={() => {
+                    navigate('/cookie-policy')
+                    handleSideMenuClose()
+                  }}
+                >
+                  <ListItemIcon><CookiePolicyIcon /></ListItemIcon>
+                  <ListItemText primary={strings.COOKIE_POLICY} />
+                </ListItem>
+                <ListItem
+                  onClick={() => {
+                    navigate('/privacy')
+                    handleSideMenuClose()
+                  }}
+                >
+                  <ListItemIcon><PrivacyIcon /></ListItemIcon>
+                  <ListItemText primary={strings.PRIVACY_POLICY} />
+                </ListItem>
+                <ListItem
+                  onClick={() => {
+                    navigate('/tos')
+                    handleSideMenuClose()
+                  }}
+                >
                   <ListItemIcon><TosIcon /></ListItemIcon>
                   <ListItemText primary={strings.TOS} />
-                </ListItemLink>
-                <ListItemLink href="/contact">
+                </ListItem>
+                <ListItem
+                  onClick={() => {
+                    navigate('/faq')
+                    handleSideMenuClose()
+                  }}
+                >
+                  <ListItemIcon><FaqIcon /></ListItemIcon>
+                  <ListItemText primary={strings.FAQ} />
+                </ListItem>
+                <ListItem
+                  onClick={() => {
+                    navigate('/contact')
+                    handleSideMenuClose()
+                  }}
+                >
                   <ListItemIcon><MailIcon /></ListItemIcon>
                   <ListItemText primary={strings.CONTACT} />
-                </ListItemLink>
-                {env.isMobile() && !hideSignin && !isSignedIn && isLoaded && !loading && (
-                  <ListItemLink href="/sign-in">
-                    <ListItemIcon><LoginIcon /></ListItemIcon>
-                    <ListItemText primary={strings.SIGN_IN} />
-                  </ListItemLink>
+                </ListItem>
+                {env.isMobile && !hideSignin && !isSignedIn && isLoaded && (
+                  <>
+                    <ListItem
+                      onClick={() => {
+                        navigate('/sign-in')
+                        handleSideMenuClose()
+                      }}
+                    >
+                      <ListItemIcon><LoginIcon /></ListItemIcon>
+                      <ListItemText primary={strings.SIGN_IN} />
+                    </ListItem>
+                    <ListItem
+                      onClick={() => {
+                        navigate('/sign-up')
+                        handleSideMenuClose()
+                      }}
+                    >
+                      <ListItemIcon><SignUpIcon /></ListItemIcon>
+                      <ListItemText primary={suStrings.SIGN_UP} />
+                    </ListItem>
+                  </>
                 )}
               </List>
             </Drawer>
-            {(env.isMobile() || !headerTitle) && <div style={classes.grow} />}
+
+            {(env.isMobile || !headerTitle) && <div style={classes.grow} />}
             <div className="header-desktop">
+              {isLoaded && (
+                <Button variant="contained" onClick={handleCurrencyMenuOpen} disableElevation className="btn bold">
+                  {PaymentService.getCurrency()}
+                </Button>
+              )}
+              {isLoaded && (
+                <Button variant="contained" onClick={handleLangMenuOpen} disableElevation className="btn">
+                  <div className="language">
+                    <CircleFlag countryCode={lang?.countryCode as string} height={flagHeight} className="flag" title={lang?.label} />
+                  </div>
+                </Button>
+              )}
+              {!hideSignin && !isSignedIn && isLoaded && (
+                <Button variant="contained" size="medium" startIcon={<SignUpIcon />} onClick={() => navigate('/sign-up')} disableElevation className="btn btn-auth" aria-label="Sign in">
+                  <span className="btn-auth-txt">{suStrings.SIGN_UP}</span>
+                </Button>
+              )}
+              {!hideSignin && !isSignedIn && isLoaded && (
+                <Button variant="contained" size="medium" startIcon={<LoginIcon />} onClick={() => navigate('/sign-in')} disableElevation className="btn btn-auth" aria-label="Sign up">
+                  <span className="btn-auth-txt">{strings.SIGN_IN}</span>
+                </Button>
+              )}
               {isSignedIn && (
                 <IconButton aria-label="" onClick={handleNotificationsClick} className="btn">
-                  <Badge badgeContent={notificationCount > 0 ? notificationCount : null} color="info">
+                  <Badge badgeContent={notificationCount > 0 ? notificationCount : null} color="error">
                     <NotificationsIcon />
                   </Badge>
                 </IconButton>
               )}
-              {!hideSignin && !isSignedIn && isLoaded && !loading && (
-                <Button variant="contained" startIcon={<LoginIcon />} href="/sign-in" disableElevation fullWidth className="btn" style={{ minWidth: '180px' }}>
-                  {strings.SIGN_IN}
-                </Button>
-              )}
-              {isLoaded && !loading && (
-                <Button variant="contained" startIcon={<LanguageIcon />} onClick={handleLangMenuOpen} disableElevation fullWidth className="btn">
-                  {lang?.label}
-                </Button>
-              )}
               {isSignedIn && (
                 <IconButton edge="end" aria-label="account" aria-controls={menuId} aria-haspopup="true" onClick={handleAccountMenuOpen} className="btn">
-                  <Avatar loggedUser={user} user={user} size="small" readonly />
+                  <Avatar loggedUser={currentUser} user={currentUser} size="small" readonly />
                 </IconButton>
               )}
             </div>
             <div className="header-mobile">
-              {!isSignedIn && !loading && (
-                <Button variant="contained" startIcon={<LanguageIcon />} onClick={handleLangMenuOpen} disableElevation fullWidth className="btn">
-                  {lang?.label}
-                </Button>
-              )}
+              <Button variant="contained" onClick={handleCurrencyMenuOpen} disableElevation fullWidth className="btn bold">
+                {PaymentService.getCurrency()}
+              </Button>
+              <Button variant="contained" onClick={handleLangMenuOpen} disableElevation fullWidth className="btn">
+                <div className="language">
+                  <CircleFlag countryCode={lang?.countryCode as string} height={flagHeight} className="flag" title={lang?.label} />
+                  {/* <span>{lang?.label}</span> */}
+                </div>
+              </Button>
               {isSignedIn && (
                 <IconButton onClick={handleNotificationsClick} className="btn">
-                  <Badge badgeContent={notificationCount > 0 ? notificationCount : null} color="info">
+                  <Badge badgeContent={notificationCount > 0 ? notificationCount : null} color="error">
                     <NotificationsIcon />
                   </Badge>
                 </IconButton>
@@ -387,9 +537,10 @@ const Header = ({
         {renderMobileMenu}
         {renderMenu}
         {renderLanguageMenu}
+        {renderCurrencyMenu}
       </div>
     )) || <></>
   )
 }
 
-export default Header
+export default memo(Header)

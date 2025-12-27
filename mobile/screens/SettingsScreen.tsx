@@ -10,15 +10,16 @@ import { intervalToDuration } from 'date-fns'
 import * as bookcarsTypes from ':bookcars-types'
 import * as bookcarsHelper from ':bookcars-helper'
 
-import Layout from '../components/Layout'
-import i18n from '../lang/i18n'
-import * as UserService from '../services/UserService'
-import TextInput from '../components/TextInput'
-import DateTimePicker from '../components/DateTimePicker'
-import Switch from '../components/Switch'
-import Button from '../components/Button'
-import * as helper from '../common/helper'
-import * as env from '../config/env.config'
+import Layout from '@/components/Layout'
+import i18n from '@/lang/i18n'
+import * as UserService from '@/services/UserService'
+import TextInput from '@/components/TextInput'
+import DateTimePicker from '@/components/DateTimePicker'
+import Switch from '@/components/Switch'
+import Button from '@/components/Button'
+import * as helper from '@/utils/helper'
+import * as env from '@/config/env.config'
+import DriverLicense from '@/components/DriverLicense'
 
 const SettingsScreen = ({ navigation, route }: NativeStackScreenProps<StackParams, 'Settings'>) => {
   const isFocused = useIsFocused()
@@ -63,7 +64,7 @@ const SettingsScreen = ({ navigation, route }: NativeStackScreenProps<StackParam
 
       setUser(_user)
       if (_user.avatar) {
-        setAvatar(bookcarsHelper.joinURL(env.CDN_USERS, _user.avatar))
+        setAvatar(_user.avatar.startsWith('https://') ? _user.avatar : bookcarsHelper.joinURL(env.CDN_USERS, _user.avatar))
       } else {
         setAvatar(null)
       }
@@ -94,7 +95,7 @@ const SettingsScreen = ({ navigation, route }: NativeStackScreenProps<StackParam
       setBirthDateValid(true)
 
       setVisible(true)
-    } catch (err) {
+    } catch {
       await UserService.signout(navigation, false, true)
     }
   }
@@ -134,10 +135,10 @@ const SettingsScreen = ({ navigation, route }: NativeStackScreenProps<StackParam
 
       return _phoneValid
     }
-      setPhoneRequired(true)
-      setPhoneValid(true)
+    setPhoneRequired(true)
+    setPhoneValid(true)
 
-      return false
+    return false
   }
 
   const onChangePhone = (text: string) => {
@@ -159,10 +160,10 @@ const SettingsScreen = ({ navigation, route }: NativeStackScreenProps<StackParam
       setBirthDateValid(_birthDateValid)
       return _birthDateValid
     }
-      setBirthDateRequired(true)
-      setBirthDateValid(true)
+    setBirthDateRequired(true)
+    setBirthDateValid(true)
 
-      return false
+    return false
   }
 
   const onChangeBirthDate = (date: Date | undefined) => {
@@ -185,8 +186,7 @@ const SettingsScreen = ({ navigation, route }: NativeStackScreenProps<StackParam
 
   const onPressSave = async () => {
     try {
-      if (!user || !user._id || !birthDate) {
-        helper.error()
+      if (!user || !user._id) {
         return
       }
 
@@ -231,11 +231,53 @@ const SettingsScreen = ({ navigation, route }: NativeStackScreenProps<StackParam
     navigation.navigate('ChangePassword', {})
   }
 
+  const handleUpdateAvatar = async () => {
+    try {
+      if (!user || !user._id) {
+        helper.error()
+        return
+      }
+
+      const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync()
+
+      if (permissionResult.granted === false) {
+        alert(i18n.t('CAMERA_PERMISSION'))
+        return
+      }
+
+      const pickerResult = await ImagePicker.launchImageLibraryAsync()
+
+      if (pickerResult.canceled === true) {
+        return
+      }
+
+      const { uri } = pickerResult.assets[0]
+      const name = helper.getFileName(uri)
+      const type = helper.getMimeType(name)
+      const image: BlobInfo = { uri, name, type }
+      const status = await UserService.updateAvatar(user._id, image)
+
+      if (status === 200) {
+        const _user = await UserService.getUser(user._id)
+        setUser(_user)
+        const _avatar = bookcarsHelper.joinURL(env.CDN_USERS, _user.avatar)
+        setAvatar(_avatar)
+      } else {
+        helper.error()
+      }
+    } catch (err) {
+      helper.error(err)
+    }
+  }
+
   return (
     <Layout style={styles.master} navigation={navigation} route={route} onLoad={onLoad} reload={reload} avatar={avatar} strict>
       {visible && language && (
         <>
-          <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled" nestedScrollEnabled>
+          <ScrollView
+            contentContainerStyle={styles.container}
+            keyboardShouldPersistTaps={helper.android() ? 'handled' : 'always'}
+          >
             <View style={styles.contentContainer}>
               <View style={styles.avatar}>
                 {
@@ -262,44 +304,7 @@ const SettingsScreen = ({ navigation, route }: NativeStackScreenProps<StackParam
                   <Pressable
                     style={styles.updateAvatar}
                     hitSlop={15}
-                    onPress={async () => {
-                      try {
-                        if (!user || !user._id) {
-                          helper.error()
-                          return
-                        }
-
-                        const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync()
-
-                        if (permissionResult.granted === false) {
-                          alert(i18n.t('CAMERA_PERMISSION'))
-                          return
-                        }
-
-                        const pickerResult = await ImagePicker.launchImageLibraryAsync()
-
-                        if (pickerResult.canceled === true) {
-                          return
-                        }
-
-                        const { uri } = pickerResult.assets[0]
-                        const name = helper.getFileName(uri)
-                        const type = helper.getMimeType(name)
-                        const image: BlobInfo = { uri, name, type }
-                        const status = await UserService.updateAvatar(user._id, image)
-
-                        if (status === 200) {
-                          const _user = await UserService.getUser(user._id)
-                          setUser(_user)
-                          const _avatar = bookcarsHelper.joinURL(env.CDN_USERS, _user.avatar)
-                          setAvatar(_avatar)
-                        } else {
-                          helper.error()
-                        }
-                      } catch (err) {
-                        helper.error(err)
-                      }
-                    }}
+                    onPress={handleUpdateAvatar}
                   >
                     {/* <Badge style={styles.badge} size={36}> */}
                     <View style={styles.badge}>
@@ -344,6 +349,8 @@ const SettingsScreen = ({ navigation, route }: NativeStackScreenProps<StackParam
               <TextInput style={styles.component} label={i18n.t('LOCATION')} value={location} onChangeText={onChangeLocation} />
 
               <TextInput style={styles.component} label={i18n.t('BIO')} value={bio} onChangeText={onChangeBio} />
+
+              <DriverLicense user={user} />
 
               <Switch
                 style={styles.component}

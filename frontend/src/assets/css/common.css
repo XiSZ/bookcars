@@ -1,3 +1,21 @@
+:root {
+  --toastify-color-progress-info: #fff !important;
+  --toastify-color-progress-bgo: .6 !important;
+  --toastify-icon-color-info: #fff !important;
+}
+
+.grecaptcha-badge {
+  visibility: hidden !important;
+}
+
+.leaflet-control-attribution {
+  display: none !important;
+}
+
+#nprogress .bar {
+  background: #1a1a1a !important;
+}
+
 .buttons button {
   margin-right: 15px;
   margin-left: 0 !important;
@@ -8,10 +26,14 @@
   color: #fff !important;
 }
 
-.btn-secondary {
+.hidden {
+  display: none !important;
+}
+
+/* .btn-secondary {
   background-color: #999 !important;
   color: #fff !important;
-}
+} */
 
 .btn-primary:hover,
 .btn-secondary:hover,
@@ -27,9 +49,25 @@
   margin-bottom: 10px !important;
 }
 
+.btn-lnk {
+  background-color: transparent !important;
+  color: #1a1a1a !important;
+  font-weight: 400 !important;
+  text-decoration: underline !important;
+  font-size: 16px !important;
+  text-transform: none !important;
+  padding: 0 !important;
+}
+
+.btn-lnk:hover {
+  opacity: 0.8;
+}
+
+.bold {
+  font-weight: 500 !important;
+}
+
 .validate-email {
-  position: absolute;
-  top: 65px;
   margin: 15px;
 }
 
@@ -54,10 +92,16 @@
 
 .msg h2 {
   color: #232323;
+  margin: 0;
 }
 
 .msg p {
   color: #333;
+}
+
+.msg .msg-link {
+  margin-top: 16px;
+  display: block;
 }
 
 /* Avatar */
@@ -198,9 +242,25 @@ div.content {
   flex: 1 0 auto;
   margin: 0;
   padding: 0;
+  background-color: #FAFAFA;
+}
+
+@media only screen and (width <=550px) {
+  .search-dialog-content {
+    width: auto;
+    max-width: 480px;
+  }
+}
+
+@media only screen and (width <=960px) and (width >550px) {
+  .search-dialog-content {
+    width: 480px;
+    overflow-x: hidden;
+  }
 }
 
 @media only screen and (width <=960px) {
+
   .buttons {
     margin-top: 15px;
     margin-bottom: 5px;

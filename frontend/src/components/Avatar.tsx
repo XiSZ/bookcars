@@ -16,10 +16,10 @@ import {
 } from '@mui/icons-material'
 import * as bookcarsTypes from ':bookcars-types'
 import * as bookcarsHelper from ':bookcars-helper'
-import env from '../config/env.config'
-import * as helper from '../common/helper'
-import { strings as commonStrings } from '../lang/common'
-import * as UserService from '../services/UserService'
+import env from '@/config/env.config'
+import * as helper from '@/utils/helper'
+import { strings as commonStrings } from '@/lang/common'
+import * as UserService from '@/services/UserService'
 
 interface AvatarProps {
   loggedUser?: bookcarsTypes.User
@@ -166,6 +166,10 @@ const Avatar = ({
     }
   }, [avatarUser])
 
+  const avatarUrl = user?.avatar
+    ? (user.avatar?.startsWith('http') ? user.avatar : bookcarsHelper.joinURL(env.CDN_USERS, user.avatar))
+    : ''
+
   return !error && loggedUser && user ? (
     <div className={className}>
       {loggedUser._id === user._id && !readonly ? (
@@ -179,7 +183,13 @@ const Avatar = ({
                 horizontal: 'right',
               }}
               badgeContent={(
-                <Box borderRadius="50%" className="avatar-action-box" onClick={handleDeleteAvatar}>
+                <Box
+                  className="avatar-action-box"
+                  onClick={handleDeleteAvatar}
+                  sx={{
+                    borderRadius: '50%'
+                  }}
+                >
                   <DeleteIcon className="avatar-action-icon" />
                 </Box>
               )}
@@ -191,12 +201,18 @@ const Avatar = ({
                   horizontal: 'right',
                 }}
                 badgeContent={(
-                  <Box borderRadius="50%" className="avatar-action-box" onClick={handleUpload}>
+                  <Box
+                    className="avatar-action-box"
+                    onClick={handleUpload}
+                    sx={{
+                      borderRadius: '50%'
+                    }}
+                  >
                     <PhotoCameraIcon className="avatar-action-icon" />
                   </Box>
                 )}
               >
-                <MaterialAvatar src={bookcarsHelper.joinURL(env.CDN_USERS, user.avatar)} className="avatar" />
+                <MaterialAvatar src={avatarUrl} className="avatar" />
               </Badge>
             </Badge>
           ) : (
@@ -208,7 +224,13 @@ const Avatar = ({
               }}
               badgeContent={(
                 <div>
-                  <Box borderRadius="50%" className="avatar-action-box" onClick={handleUpload}>
+                  <Box
+                    className="avatar-action-box"
+                    onClick={handleUpload}
+                    sx={{
+                      borderRadius: '50%'
+                    }}
+                  >
                     <PhotoCameraIcon className={user.language === 'ar' ? 'avatar-action-icon-rtl' : 'avatar-action-icon'} />
                   </Box>
                 </div>
@@ -220,8 +242,10 @@ const Avatar = ({
             </Badge>
           )}
         </div>
-      ) : user.avatar ? (
-        <MaterialAvatar src={bookcarsHelper.joinURL(env.CDN_USERS, user.avatar)} className={size ? `avatar-${size}` : 'avatar'} />
+      ) : avatarUrl ? (
+        <>
+          <MaterialAvatar src={avatarUrl} className={size ? `avatar-${size}` : 'avatar'} />
+        </>
       ) : (
         <AccountCircle className={size ? `avatar-${size}` : 'avatar'} color={color || 'inherit'} />
       )}
@@ -229,7 +253,7 @@ const Avatar = ({
         <DialogTitle className="dialog-header">{commonStrings.CONFIRM_TITLE}</DialogTitle>
         <DialogContent>{commonStrings.DELETE_AVATAR_CONFIRM}</DialogContent>
         <DialogActions className="dialog-actions">
-          <Button onClick={handleCancelDelete} className="btn-secondary">
+          <Button onClick={handleCancelDelete} className="btn-secondary" variant="outlined" color="primary">
             {commonStrings.CANCEL}
           </Button>
           <Button onClick={handleDelete} className="btn-primary">

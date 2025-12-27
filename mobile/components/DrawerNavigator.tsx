@@ -7,30 +7,28 @@ import {
 import { MaterialIcons } from '@expo/vector-icons'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import HomeScreen from '../screens/HomeScreen'
-import BookingsScreen from '../screens/BookingsScreen'
-import BookingScreen from '../screens/BookingScreen'
-import AboutScreen from '../screens/AboutScreen'
-import ToSScreen from '../screens/ToSScreen'
-import ContactScreen from '../screens/ContactScreen'
-import SignInScreen from '../screens/SignInScreen'
-import SignUpScreen from '../screens/SignUpScreen'
-import ForgotPasswordScreen from '../screens/ForgotPasswordScreen'
-import CarsScreen from '../screens/CarsScreen'
-import * as UserService from '../services/UserService'
-import i18n from '../lang/i18n'
-import * as env from '../config/env.config'
-import SettingsScreen from '../screens/SettingsScreen'
-import ChangePasswordScreen from '../screens/ChangePasswordScreen'
+import HomeScreen from '@/screens/HomeScreen'
+import BookingsScreen from '@/screens/BookingsScreen'
+import BookingScreen from '@/screens/BookingScreen'
+import AboutScreen from '@/screens/AboutScreen'
+import ToSScreen from '@/screens/ToSScreen'
+import ContactScreen from '@/screens/ContactScreen'
+import SignInScreen from '@/screens/SignInScreen'
+import SignUpScreen from '@/screens/SignUpScreen'
+import ForgotPasswordScreen from '@/screens/ForgotPasswordScreen'
+import SearchScreen from '@/screens/SearchScreen'
+import * as UserService from '@/services/UserService'
+import i18n from '@/lang/i18n'
+import * as env from '@/config/env.config'
+import SettingsScreen from '@/screens/SettingsScreen'
+import ChangePasswordScreen from '@/screens/ChangePasswordScreen'
 import DrawerContent from './DrawerContent'
-import CheckoutScreen from '../screens/Checkout'
-import NotificationsScreen from '../screens/NotificationsScreen'
+import CheckoutScreen from '@/screens/CheckoutScreen'
+import NotificationsScreen from '@/screens/NotificationsScreen'
+import { useAuth } from '@/context/AuthContext'
 
 const DrawerNavigator = () => {
-  const routes = useNavigationState((state) => state && state.routes)
-  const index = useNavigationState((state) => state && state.index)
-  const [loggedIn, setLoggedIn] = useState(false)
-  const [language, setLanguage] = useState(env.DEFAULT_LANGUAGE)
+  const { loggedIn, language } = useAuth()
 
   const Drawer = createDrawerNavigator<StackParams>()
   const insets = useSafeAreaInsets()
@@ -122,21 +120,11 @@ const DrawerNavigator = () => {
     },
   ]
 
-  useEffect(() => {
-    const init = async () => {
-      const _loggedIn = await UserService.loggedIn()
-      setLoggedIn(_loggedIn)
-      const _language = await UserService.getLanguage()
-      setLanguage(_language)
-    }
-
-    init()
-  }, [routes])
-
   const styles = StyleSheet.create({
     container: {
       flex: 1,
       marginTop: insets.top,
+      marginBottom: insets.bottom,
     },
   })
 
@@ -147,10 +135,11 @@ const DrawerNavigator = () => {
         backBehavior="history"
         screenOptions={{
           drawerActiveTintColor: '#f37022',
+          // unmountOnBlur: true,
         }}
         drawerContent={(props) => (
           <DrawerContent
-            index={index}
+            index={props.state.index}
             drawerItems={drawerItems}
             loggedIn={loggedIn}
             language={language}
@@ -189,7 +178,7 @@ const DrawerNavigator = () => {
                 <Drawer.Screen
                   key={drawer.name}
                   name={drawer.name}
-                  component={CarsScreen}
+                  component={SearchScreen}
                   options={{
                     title: drawer.title,
                     drawerItemStyle: {
